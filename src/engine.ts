@@ -1,5 +1,5 @@
 /**
- * Blindstop — the contract every game in this codebase implements.
+ * Playai — the contract every game in this codebase implements.
  *
  * Read `docs/ARCHITECTURE.md` first. This file is the shape, not an
  * implementation; Blindstop itself is one game that fills it in.

@@ -1,13 +1,15 @@
-# SPEC — Blindstop
+# SPEC — Playai
 
 ## What this is
 
-A browser-based party game for people in the same room. One person creates a room,
-everyone else joins from their own phone with a five-character code or by scanning a
-QR code from the host's screen. No download, no accounts, no install.
+**Playai** — browser party games for people in the same room. One person creates a
+room, everyone else joins from their own phone with a five-character code or by
+scanning a QR code from the host's screen. No download, no accounts, no install.
 
 **The product is a room that games are loaded into, not a single game.** Blindstop is
-the first game. Everything below is written so the second one is a folder and a
+the first game. "Playai" is the platform's name in these documents and on the
+repository; what the landing screen says to a player is an open decision — see
+`README.md`. Everything below is written so the second one is a folder and a
 registry entry, not a rewrite — but only Blindstop is built in v1, and the game picker
 is not built until there is more than one game to pick.
 

@@ -1,4 +1,4 @@
-# DESIGN — Blindstop
+# DESIGN — Playai
 
 The visual language is a working document, not a party poster. Black ink drawings on
 white paper, hairline rules, one warm near-black, colour only as pale tint or

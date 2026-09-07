@@ -1,4 +1,4 @@
-# ARCHITECTURE — Blindstop
+# ARCHITECTURE — Playai
 
 ## Five decisions that are fixed
 

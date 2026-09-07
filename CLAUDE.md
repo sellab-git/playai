@@ -1,4 +1,4 @@
-# Project rules — Blindstop
+# Project rules — Playai
 
 Read `README.md`, then `docs/ARCHITECTURE.md`, then `docs/ROADMAP.md` before writing
 code. Build the current stage from the roadmap and stop at its gate.

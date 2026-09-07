@@ -6,14 +6,19 @@ actually being asked for.
 
 ## The product in five lines
 
-A party game played in a room of people who are physically together. One person
-creates a room on their phone, everyone else joins from their own phone with a
-five-character code or by scanning a QR code. It runs in the browser — no app store,
-no accounts, nothing installed.
+**Playai** — party games played in a room of people who are physically together. One
+person creates a room on their phone, everyone else joins from their own phone with a
+five-character code or by scanning a QR code. It runs in the browser — no app store, no
+accounts, nothing installed.
 
 The room is a container that games are loaded into one at a time, with a running score
 across the evening. Blindstop, the first game, gives everyone the same target time —
 say 7.00 seconds — shows no clock, and asks them to tap when they think it has passed.
+
+One caution before you draw anything: **the product's public name is not settled.**
+"Playai" is the platform name in these documents; the landing screen currently says
+"Blindstop", which is one game's name. Design screen 1 so the title is a word that can
+change — do not build a wordmark or a lockup around either name.
 
 ## Read in this order
 

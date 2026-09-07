@@ -1,20 +1,30 @@
-# Blindstop — build kit
+# Playai — build kit
 
-A design and architecture package for a browser-based party game. Everything an agent
-(Claude Code, Codex) needs to start building, without re-deriving decisions that have
-already been made.
+A design and architecture package for browser party games played by people who are in
+the same room. Everything an agent (Claude Code, Codex) needs to start building,
+without re-deriving decisions that have already been made.
 
-**Blindstop**: everyone gets the same target time, say 7.00 s. The screen shows no
-clock. You count in your head and tap. Smallest error wins the round; smallest average
-error over 10 rounds wins the game. One person creates a room, the rest join with a
-five-character code or by scanning a QR code from the host's screen. No accounts, no
-install — it runs in the phone's browser.
+**Playai is a room that games are loaded into.** One person creates a room on their
+phone, everyone else joins with a five-character code or by scanning a QR code from the
+host's screen — once, for the whole evening. The room holds the players, the host and a
+running score across every game played in it. Games are loaded one at a time; between
+them everyone stays put and nobody enters the code twice.
 
-**The product is a room that games are loaded into.** Blindstop is the first game. The
-room holds the players, the host and a running score for the whole evening; games are
-loaded into it one at a time, and between games everyone stays put — nobody enters the
-code twice. Only Blindstop is built in v1, and the game picker is not built until
-there is a second game to pick, but the seam it needs exists from the first commit.
+No accounts, no install, no app store. It runs in the phone's browser.
+
+**Blindstop is the first game.** Everyone gets the same target time, say 7.00 s. The
+screen shows no clock. You count in your head and tap. Smallest error wins the round;
+smallest average error over 10 rounds wins the game.
+
+Only Blindstop is built in v1, and the game picker is not built until there is a second
+game to pick — but the seam both need exists from the first commit, because that is the
+part that cannot be added later. `docs/ARCHITECTURE.md` is where that seam is written
+down, and it is fixed decision 5.
+
+**The product's public name is not settled.** "Playai" names the repository and the
+platform in these documents; the landing screen in `mockup.html` still says
+"Blindstop", which is right while there is one game and wrong the moment there are two.
+Decide it before stage 3 paints that screen.
 
 ## What's in here
 

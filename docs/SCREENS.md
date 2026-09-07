@@ -1,4 +1,4 @@
-# SCREENS — Blindstop
+# SCREENS — Playai
 
 Fourteen screens. Six are the game loop, two are entry, two are the room, four are
 edges. Open `mockup.html` alongside this file.
@@ -23,8 +23,10 @@ highlighter. Two buttons at the bottom: **Create room** (primary), **Join with c
 
 The top third is deliberately given to the drawing. Do not fill it with feature bullets.
 
-With a second game this screen becomes the product's landing rather than one game's,
-and the drawing and the two lines change. Nothing structural does.
+With a second game this screen becomes the platform's landing rather than one game's,
+and the title, the drawing and the two lines all change — the name on it today is a
+game's, not the product's, and the product's is not decided. Nothing structural
+changes. Do not build a wordmark around either name.
 
 ## 2. Join form
 
