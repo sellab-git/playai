@@ -1,0 +1,84 @@
+/* Blindstop design tokens.
+   Every colour, radius and type size in the app comes from here.
+   If you are about to write a hex value in a component, stop.
+
+   Names match mockup.html, docs/DESIGN.md and docs/SCREENS.md exactly. They were
+   spelled differently here once and it is the kind of drift that costs an afternoon:
+   three artefacts agreed, this file did not. */
+
+:root {
+  /* Surfaces */
+  --pg: #ffffff;           /* page */
+  --bg2: #f7f6f3;          /* inset areas, disabled tiles, progress track */
+
+  /* Ink — warm near-black, never #000 */
+  --ink: #37352f;          /* primary text, primary button fill, drawn strokes */
+  --ink2: #787774;         /* secondary text */
+  --ink3: #9b9a97;         /* captions, disabled */
+  --on-ink: #ffffff;       /* text on an ink fill */
+
+  /* Rules */
+  --ln: #edece9;           /* hairline dividers, 1px, horizontal only */
+  --ln2: #dfdeda;          /* dashed placeholders, dead-state outlines */
+  --border: 1.5px solid var(--ink); /* interactive borders */
+
+  /* Colour appears in exactly two places: an avatar tile, and a highlighter.
+     Eight tiles because a room holds eight players and the tile is the player's
+     identity — it has to stay distinct in a list of eight. */
+  --mark: #fbf3db;         /* highlighter behind text */
+  --tYel: #fbf3db;         /* avatar tiles — assign per player, keep stable */
+  --tRed: #fbe4e4;
+  --tBlu: #ddebf1;
+  --tGrn: #ddedea;
+  --tPur: #eae4f2;
+  --tOrg: #faebdd;
+  --tPnk: #f4dfeb;
+  --tGry: #f1f0ee;
+
+  /* Radius — nothing above 6px */
+  --r-control: 4px;
+  --r-tile: 6px;
+
+  /* Type */
+  --font: "Inter", system-ui, -apple-system, sans-serif;
+  --fs-hero: 46px;
+  --fs-title: 26px;
+  --fs-display: 84px;      /* target time */
+  --fs-count: 110px;       /* countdown digit */
+  --fs-body: 16px;
+  --fs-row: 15px;
+  --fs-caption: 12px;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  /* Spacing */
+  --pad-screen: 24px;
+  --pad-top: 46px;         /* plus safe-area inset */
+  --pad-bottom: 30px;
+  --row-gap: 7px;
+}
+
+/* Every number in this app lives in a column. Without this, results jitter. */
+.num,
+[data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dark mode is not built. When it is, it is these eight values and nothing else.
+   Do not add a second set of components.
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pg: #191918;
+    --bg2: #222220;
+    --ink: #f0efec;
+    --ink2: #a5a29b;
+    --ink3: #7b7872;
+    --on-ink: #191918;
+    --ln: #2a2a28;
+    --ln2: #3a3a37;
+  }
+}
+*/

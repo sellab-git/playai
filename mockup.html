@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Blindstop — screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pg:#fff;--bg2:#F7F6F3;--ink:#37352F;--ink2:#787774;--ink3:#9B9A97;
+  --ln:#EDECE9;--ln2:#DFDEDA;--mark:#FBF3DB;
+  --tYel:#FBF3DB;--tRed:#FBE4E4;--tBlu:#DDEBF1;--tGrn:#DDEDEA;--tPur:#EAE4F2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#E9E7E2;height:100%}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#app{position:relative;width:100%;max-width:420px;height:100dvh;margin:0 auto;background:var(--pg);overflow:hidden}
+.q{position:absolute;inset:0;background:var(--pg);display:none;flex-direction:column;
+   padding:calc(30px + env(safe-area-inset-top)) 24px calc(78px + env(safe-area-inset-bottom))}
+.q.on{display:flex}
+.hd{display:flex;justify-content:space-between;align-items:baseline}
+.h1{font-size:34px;font-weight:600;letter-spacing:-1px;margin:0;line-height:1.15}
+.sub{font-size:16px;color:var(--ink2);margin:0;line-height:1.5}
+.cap{font-size:12px;color:var(--ink3);font-weight:500}
+.rw{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln)}
+.tl{width:34px;height:34px;border-radius:6px;flex:none;display:block}
+.ch{width:22px;height:22px;border-radius:4px;flex:none;display:block}
+.sp{flex:1}
+.num{font-variant-numeric:tabular-nums}
+.ink{background:var(--ink);color:#fff;border-radius:4px;padding:15px;text-align:center;font-size:16px;font-weight:500}
+.out{border:1.5px solid var(--ink);border-radius:4px;padding:13.5px;text-align:center;font-size:16px;font-weight:500}
+.hl{background:var(--mark);padding:1px 4px}
+.bar{position:relative;height:7px;background:var(--bg2);border-radius:4px}
+.zr{position:absolute;left:50%;top:-4px;width:1px;height:15px;background:var(--ln2)}
+#nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));
+  z-index:9;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);
+  border:1px solid var(--ln2);border-radius:999px;padding:5px 6px;backdrop-filter:blur(8px)}
+#nav button{border:0;background:none;font:inherit;font-size:15px;color:var(--ink);
+  padding:7px 13px;border-radius:999px;cursor:pointer}
+#nav button:active{background:var(--bg2)}
+#nav button:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+#lbl{font-size:12px;color:var(--ink2);min-width:132px;text-align:center;font-weight:500}
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0" aria-hidden="true"><defs>
+<symbol id="t" viewBox="0 0 24 24"><path d="M3.5 12.5q3 1.5 4.8 5.4Q12 8.4 20.5 3.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="x" viewBox="0 0 24 24"><path d="M5.5 5q6 6.5 13 14M18.5 5.4Q12 12 5.2 18.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="sw" viewBox="0 0 100 100"><path d="M42 12q8-2 16 0" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M46 13q4-1 8 0l1 8q-5-1-10 0z" fill="currentColor"/><path d="M50 21q30 0 35 30t-25 39Q28 96 17 68 7 40 30 26q9-5 20-5" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M50 34v5M69 55h-5M50 76v-5M31 55h5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M50 55 66 39" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="55" r="4" fill="currentColor"/><path d="M76 24q6-4 11-2M82 40q7 0 11 3" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="ring" viewBox="0 0 200 200"><path d="M104 20q64 2 76 46t-40 88q-52 44-92 12T30 68Q52 24 104 20" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></symbol>
+<symbol id="door" viewBox="0 0 100 100"><path d="M24 14q27-3 53 0 3 36 0 72-27 3-53 0Q21 50 24 14" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M27 19 47 25q2 25 0 50l-20 6Q24 50 27 19" fill="currentColor"/><circle cx="42" cy="52" r="2.6" fill="#fff"/><path d="M60 88q10 2 20 0M14 88q8 2 16 0" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="f1" viewBox="130 130 800 800"><g><g fill="#fff"><path fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M532 379c133 0 240 107 240 240 0 23 21 47 15 70-13 55-15 230-179 230-159 0-235-103-288-200h-8a80 80 0 0 1-13-159 240 240 0 0 1 233-181M296 625l8 30"/></g><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="m630 570 35 89q3 10-2 21"/><g stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"><path d="M557 770s28 1 43-1c14-1 30-7 36-8l14 3q1-2 13-3c7 1 22 9 22 9s-17 5-44 5c-50 1-84-5-84-5" clip-rule="evenodd"/><path d="m682 771-10 8q-6 7-21 7c-8 0-27-5-38-7l-50-8"/></g><path fill="#000" fill-rule="evenodd" d="M570 516a24 24 0 1 1 0 48 24 24 0 0 1 0-48m138 0a24 24 0 1 1 0 48 24 24 0 0 1 0-48"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M525 508q20-16 45-16 26 0 45 16m48 0q20-16 45-16 26 0 45 16"/><g fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path d="M518 483c19 4 54 18 96 31l24 6v17l-9 7c-14 28-42 46-83 36-56-12-75-80-77-91q-2-16 49-6m291 6c-2 11-21 79-77 91-41 10-69-8-83-36l-9-7v-17l1-1q15-2 23-5l3-1c40-13 75-26 93-30h2q48-10 47 6m-306 17c-17 20 15 63 47 71 32 7 74-17 66-40-7-23-88-49-113-31m272 0c-25-18-106 8-113 31-8 23 34 47 66 40 32-8 64-51 47-71"/><path d="m488 509-195 32-4 9 199-20z"/></g><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M639 277c28 9 57 21 65 59 7 32 7 42-15 110q-10-23-99-26c-29-1-62-16-95-14q-37 3-116 40l1 3q12 51 12 68 1 16-23 124l-3 14-38-90h-41q-23-85-11-117 12-33 36-46c19-35 158-74 182-78h5l1-1 20-13q-42 5-121 39a254 254 0 0 1 137-48l7-3q9-4 21-6-40-3-132 24 76-38 136-32l27 5q37 0 70 13-11-10-26-16-39-13-139-6 83-21 139-3" clip-rule="evenodd"/></g></symbol>
+<symbol id="f2" viewBox="130 130 800 800"><g><g fill="#fff"><path fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M532 379c133 0 240 107 240 240 0 23 21 47 15 70-13 55-18 262-179 230a473 473 0 0 1-288-200h-8a80 80 0 0 1-13-159 240 240 0 0 1 233-181M296 625l8 30"/></g><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M649 600q30 10 30 40t-30 40"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M532 760q56-5 84-10t73-19l-22 49q-34 12-51 13-16 1-48-5z"/><path fill="#000" fill-rule="evenodd" d="M570 507q9 1 15 10l-7 14h11l1 8c0 18-9 32-20 32s-20-14-20-32 9-32 20-32m138 0q9 1 15 10l-7 14h11l1 8c0 18-9 32-20 32s-20-14-20-32 9-32 20-32"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M768 498a74 74 0 0 0-44-14q-15 3-42 14l-18 6m-152-6q24-15 44-14 15 3 42 14l18 6"/><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M629 542c-17 43-35 64-73 64-40 0-58-16-60-70q0-3-8-6v-21q60-9 86-7 19 1 43 10l23 2 22-2q25-9 43-10 27-2 86 7v21q-7 3-7 6c-3 54-20 70-60 70-39 0-57-21-73-64q-4-9-11-9-8 0-11 9m-141-33-195 32-4 9 199-20z"/><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M227 151c64-8 117 10 141 62q63-28 147-27c114 0 189 51 232 118q48 75 39 200l-4-1c-59-14-83-19-121-43q-38-24-100-73-55 75-87 99c-32 24-117 61-170 79s-72 33-72 83q0 50 80 71 21 40 45 70t60 51q-122 23-220 0T40 739q83-6 99-74c30-122-46-146-46-286s55-218 134-228"/></g></symbol>
+<symbol id="f3" viewBox="130 130 800 800"><g><g fill="#fff"><path fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M532 379c133 0 240 107 240 240s-7 300-200 300c-157 0-220-117-258-200h-2a80 80 0 0 1-13-159 240 240 0 0 1 233-181M296 625l8 30"/></g><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="m638 596 23 86"/><g fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"><path d="M518 769q17-4 24-8l21-12q26-17 34-18 8-2 21 6 18-13 33-4t7 30q8 10-2 21-16 17-59 14-18-2-45-14z"/><path d="M530 772q63-10 86-11t39 5"/></g><g fill-rule="evenodd" transform="translate(518 519)"><circle cx="48" cy="20" r="20" fill="#000"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M0 22Q24 2 48 2t48 20"/><circle cx="194" cy="20" r="20" fill="#000" transform="matrix(-1 0 0 1 388 0)"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M242 22a75 75 0 0 0-48-20q-24 0-48 20"/></g><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" d="M683 491s46-2 59 4 11 16 11 16-7-7-16-12c-9-4-54-8-54-8m-88 0s-46-2-59 4-11 16-11 16 7-7 16-12c9-4 54-8 54-8" clip-rule="evenodd"/><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M574 502q19 1 43 10l23 2 22-2q25-9 43-10 27-2 85 7h1v21q-7 3-7 6c-3 54-20 70-60 70-39 0-57-21-73-64q-4-9-11-9-8 0-11 9c-17 43-35 64-73 64-40 0-58-16-60-70q0-3-8-6l-199 20 4-9 195-32q60-9 86-7m-9 7c-32-2-46 4-53 12-6 8-18 74 40 77 57 4 63-64 60-72-4-7-16-15-47-17m150 0c-32 2-44 10-47 17-4 8 2 76 60 72 57-3 45-69 39-77-7-8-21-14-52-12"/><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M445 265c156-49 278 59 282 59 3 0 2-10 5-14 0 0 32 42 28 86s-8 50-23 74c-19-36-81-64-167-64-40 0-73 3-126 16l-19 16c-10 10-13 18-17 23 0 0 0-23 2-30l-32 10c1 9 1 42 9 58l-16 123-3-3q-33-29-43-41v-1q-9-13-38-18l-1-3c-8-32-16-54-19-75l-37 15c39-137 111-198 215-231" clip-rule="evenodd"/></g></symbol>
+<symbol id="f4" viewBox="130 130 800 800"><g><g fill="#fff"><path fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M532 379c133 0 240 107 240 240s-67 240-240 240c-126 0-196-57-225-140a80 80 0 0 1-8-159 240 240 0 0 1 233-181M296 625l8 30"/></g><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M649 600q30 10 30 40t-30 40"/><g fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"><path d="M518 769q17-4 24-8l21-12q26-17 34-18 8-2 21 6 18-13 33-4t7 30q8 10-2 21-16 17-59 14-18-2-45-14z"/><path d="M530 772q63-10 86-11t39 5"/></g><path fill="#000" fill-rule="evenodd" d="M570 516c9 0 16 11 16 24s-7 24-16 24-16-11-16-24 7-24 16-24m138 0c9 0 16 11 16 24s-7 24-16 24-16-11-16-24 7-24 16-24"/><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" d="M620 495q-45-4-74 0-28 5-46 21 26-28 46-31 20-4 74 10m38 0q54-14 74-10 20 3 46 31a90 90 0 0 0-46-21q-29-4-74 0"/><g fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><path d="M796 499c6 8 8 53-20 79-18 15-58 19-84 10-17-6-25-24-28-28v-1q-10-18-24-26-13 7-24 26c-3 4-11 23-28 29-26 9-66 5-84-10-28-26-26-71-20-79s49-14 84-7c34 6 49 22 57 25q6 3 14 2h2q8 1 14-2c8-3 23-19 57-25 35-7 78-1 84 7m-298 5c-20 14-2 60 17 74 19 13 63 10 74 3s35-38 27-58c-8-19-89-33-118-19m284 0c-29-14-110 0-118 19-8 20 16 51 27 58s55 10 74-3c19-14 37-60 17-74"/><path d="m488 509-195 32-4 9 199-20z"/></g><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M487 191h3c25 0 109 2 183 50 78 51 125 182 125 320s-27 197-77 312c0 0 43-210 43-234 0-71-11-132-56-178q-20-20-59-44-33 68-75 94c-74 45-123 15-157 50q-34 35-58 79v-29l-1-2q-23-43-47-43c-25 0-79 7-79 73q0 66 80 80 21 42 47 69c12 13-127-50-145-149s-12-167 18-240c31-73 65-122 126-162 45-29 91-46 129-46" clip-rule="evenodd"/></g></symbol>
+<symbol id="f5" viewBox="130 130 800 800"><g><g fill="#fff"><path fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M532 379c133 0 240 107 240 240 0 23 11 37 5 60-13 55-18 262-179 230-58-12-137-29-165-51s-91-99-113-139h-8a80 80 0 0 1-13-159 240 240 0 0 1 233-181M296 625l8 30"/></g><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M673 568q-15 34-16 68c0 33 29 21 26 47q-3 25-58 25"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M572 769q21 8 40 8t40-8"/><path fill="#000" fill-rule="evenodd" d="M570 516a24 24 0 1 1 0 48 24 24 0 0 1 0-48m138 0a24 24 0 1 1 0 48 24 24 0 0 1 0-48m-146 10a6 6 0 1 0 0 12 6 6 0 0 0 0-12m138 0a6 6 0 1 0 0 12 6 6 0 0 0 0-12"/><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M525 508q20-16 45-16 26 0 45 16m48 0q20-16 45-16 26 0 45 16"/><g fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round"><path fill="#0c0c0c" stroke-width="8" d="M621 524c6-24-1-49-76-49s-79 30-82 49-13 91 58 94c70 3 95-71 100-94m37 0c-6-24 1-49 76-49s79 30 82 49 13 91-58 94c-70 3-95-71-100-94"/><path stroke-width="8" d="M595 483h89m-89 28a551 551 0 0 1 89 0"/><path stroke-width="16" d="m510 518-216 37"/></g><path fill="#000" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M287 565h41l38 90q27-121 26-138c0-18-36-41-13-71 24-31 58-35 97-28 49 9 67 13 107 11q41-1 108-27-73-91-202-84c-129 7-201 98-213 130q-12 32 11 117"/></g></symbol>
+</defs></svg>
+
+<div id="app">
+
+<section class="q on" aria-label="Landing">
+<div class="sp"></div>
+<svg viewBox="0 0 100 100" width="118" height="118" style="color:var(--ink);margin-bottom:30px"><use href="#sw"/></svg>
+<p class="h1" style="font-size:46px">Blindstop</p>
+<p class="sub" style="margin-top:14px;font-size:17px">Seven seconds, <span class="hl">no clock</span>.<br>Closest guess wins.</p>
+<div class="sp"></div>
+<div class="ink" style="margin-bottom:10px">Create room</div>
+<div class="out">Join with code</div>
+<p class="cap" style="margin:18px 0 0;text-align:center">2–8 players · a round takes 20 seconds</p>
+</section>
+
+<section class="q" aria-label="Join form">
+<div style="display:flex;border-bottom:1.5px solid var(--ln);margin-bottom:28px">
+<div style="flex:1;text-align:center;font-size:15px;color:var(--ink3);padding:10px">Create</div>
+<div style="flex:1;text-align:center;font-size:15px;padding:10px;font-weight:500;border-bottom:2px solid var(--ink);margin-bottom:-1.5px">Join</div>
+</div>
+<p class="cap" style="margin:0 0 8px">Room code</p>
+<div style="display:flex;gap:7px;margin-bottom:26px">
+<div class="num" style="flex:1;border:1.5px solid var(--ink);border-radius:4px;padding:14px 0;text-align:center;font-size:24px;font-weight:500">K</div>
+<div class="num" style="flex:1;border:1.5px solid var(--ink);border-radius:4px;padding:14px 0;text-align:center;font-size:24px;font-weight:500">7</div>
+<div class="num" style="flex:1;border:1.5px solid var(--ink);border-radius:4px;padding:14px 0;text-align:center;font-size:24px;font-weight:500">Q</div>
+<div class="num" style="flex:1;border:1.5px solid var(--ink);border-radius:4px;padding:14px 0;text-align:center;font-size:24px;font-weight:500">M</div>
+<div class="num" style="flex:1;border:1.5px solid var(--ln2);border-radius:4px;padding:14px 0;text-align:center;font-size:24px;color:var(--ink3)">·</div>
+</div>
+<p class="cap" style="margin:0 0 8px">Your name</p>
+<div style="border-bottom:1.5px solid var(--ink);padding:0 0 8px;font-size:19px;margin-bottom:26px">Artur</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><span class="cap">Pick a face</span><span style="font-size:13px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px">Shuffle</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+<div style="aspect-ratio:1;border-radius:6px;background:var(--tYel);outline:2px solid var(--ink);outline-offset:2px"><svg viewBox="130 130 800 800" width="100%"><use href="#f1"/></svg></div>
+<div style="aspect-ratio:1;border-radius:6px;background:var(--tRed)"><svg viewBox="130 130 800 800" width="100%"><use href="#f2"/></svg></div>
+<div style="aspect-ratio:1;border-radius:6px;background:var(--tBlu)"><svg viewBox="130 130 800 800" width="100%"><use href="#f3"/></svg></div>
+<div style="aspect-ratio:1;border-radius:6px;background:var(--tPur)"><svg viewBox="130 130 800 800" width="100%"><use href="#f4"/></svg></div>
+</div>
+<div class="sp"></div>
+<div class="ink">Join room</div>
+</section>
+
+<section class="q" aria-label="Lobby, host">
+<p class="cap" style="margin:0 0 4px">Room code</p>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+<p class="h1 num" style="font-size:44px;letter-spacing:4px">K7QM</p>
+<div style="width:44px;height:44px;border:1.5px solid var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink2)">QR</div>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="cap">Players</span><span class="cap">5 of 8</span></div>
+<div style="border-top:1px solid var(--ln)">
+<div class="rw"><span class="tl" style="background:var(--tYel)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f1"/></svg></span><span style="font-size:16px;font-weight:500">Artur</span><span class="hl" style="margin-left:auto;font-size:12px;font-weight:500">you · host</span></div>
+<div class="rw"><span class="tl" style="background:var(--tRed)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f2"/></svg></span><span style="font-size:16px;font-weight:500">Mila</span><svg viewBox="0 0 24 24" width="17" height="17" style="margin-left:auto;color:var(--ink3)"><use href="#x"/></svg></div>
+<div class="rw"><span class="tl" style="background:var(--tBlu)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f3"/></svg></span><span style="font-size:16px;font-weight:500">Tom</span><svg viewBox="0 0 24 24" width="17" height="17" style="margin-left:auto;color:var(--ink3)"><use href="#x"/></svg></div>
+<div class="rw"><span class="tl" style="background:var(--tPur)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f4"/></svg></span><span style="font-size:16px;font-weight:500">Ola</span><svg viewBox="0 0 24 24" width="17" height="17" style="margin-left:auto;color:var(--ink3)"><use href="#x"/></svg></div>
+<div class="rw"><span class="tl" style="background:var(--tGrn)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f5"/></svg></span><span style="font-size:16px;font-weight:500">Kate</span><svg viewBox="0 0 24 24" width="17" height="17" style="margin-left:auto;color:var(--ink3)"><use href="#x"/></svg></div>
+<div class="rw" style="color:var(--ink3)"><span class="tl" style="border:1px dashed var(--ln2);border-radius:6px"></span><span style="font-size:16px">Free seat</span></div>
+</div>
+<div class="sp"></div>
+<div class="ink">Start · 10 rounds</div>
+</section>
+
+<section class="q" aria-label="Lobby, player">
+<p class="cap" style="margin:0 0 4px">Room code</p>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+<p class="h1 num" style="font-size:44px;letter-spacing:4px">K7QM</p>
+<div style="width:44px;height:44px;border:1.5px solid var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink2)">QR</div>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="cap">Players</span><span class="cap">5 of 8</span></div>
+<div style="border-top:1px solid var(--ln)">
+<div class="rw"><span class="tl" style="background:var(--tYel)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f1"/></svg></span><span style="font-size:16px;font-weight:500">Artur</span><span class="cap" style="margin-left:auto">host</span></div>
+<div class="rw"><span class="tl" style="background:var(--tRed)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f2"/></svg></span><span style="font-size:16px;font-weight:500">Mila</span><span class="hl" style="margin-left:auto;font-size:12px;font-weight:500">you</span></div>
+<div class="rw"><span class="tl" style="background:var(--tBlu)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f3"/></svg></span><span style="font-size:16px;font-weight:500">Tom</span></div>
+<div class="rw"><span class="tl" style="background:var(--tPur)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f4"/></svg></span><span style="font-size:16px;font-weight:500">Ola</span></div>
+<div class="rw"><span class="tl" style="background:var(--tGrn)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f5"/></svg></span><span style="font-size:16px;font-weight:500">Kate</span></div>
+<div class="rw" style="color:var(--ink3)"><span class="tl" style="border:1px dashed var(--ln2);border-radius:6px"></span><span style="font-size:16px">Free seat</span></div>
+</div>
+<div class="sp"></div>
+<div style="border:1.5px dashed var(--ln2);border-radius:4px;padding:14px;text-align:center;color:var(--ink3);font-size:16px">Waiting for Artur to start</div>
+</section>
+
+<section class="q" aria-label="Countdown">
+<div class="hd"><span class="cap num">K7QM</span><span class="cap">Round 1 of 10</span></div>
+<div class="sp"></div>
+<p class="sub" style="text-align:center;margin-bottom:10px">Everyone ready</p>
+<div style="position:relative;height:200px;display:flex;align-items:center;justify-content:center">
+<svg viewBox="0 0 200 200" width="190" height="190" style="position:absolute;color:var(--ink3)"><use href="#ring"/></svg>
+<p class="h1 num" style="font-size:110px;line-height:1;position:relative">3</p>
+</div>
+<div class="sp"></div>
+</section>
+
+<section class="q" aria-label="Round">
+<div class="hd"><span class="cap num">K7QM</span><span class="cap">Round 4 of 10</span></div>
+<div style="height:20px"></div>
+<div style="flex:1;background:var(--ink);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff">
+<p style="font-size:15px;margin:0 0 6px;opacity:.6">Stop at</p>
+<p class="num" style="font-size:84px;font-weight:600;margin:0;line-height:1">7.00</p>
+<div style="height:90px"></div>
+<p style="font-size:30px;font-weight:500;margin:0;letter-spacing:3px">Tap</p>
+</div>
+</section>
+
+<section class="q" aria-label="Waiting">
+<div class="hd"><span class="cap num">K7QM</span><span class="cap">Round 4 of 10</span></div>
+<div style="height:30px"></div>
+<div style="text-align:center">
+<svg viewBox="0 0 24 24" width="46" height="46" style="color:var(--ink)"><use href="#t"/></svg>
+<p class="h1" style="font-size:26px;margin:12px 0 6px">Locked in</p>
+<p class="sub" style="font-size:15px">Waiting for 2 more</p>
+</div>
+<div style="height:24px"></div>
+<div style="border-top:1px solid var(--ln)">
+<div class="rw"><span class="tl" style="background:var(--tYel)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f1"/></svg></span><span style="font-size:16px;font-weight:500">Artur</span><svg viewBox="0 0 24 24" width="19" height="19" style="margin-left:auto;color:var(--ink)"><use href="#t"/></svg></div>
+<div class="rw"><span class="tl" style="background:var(--tRed)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f2"/></svg></span><span style="font-size:16px;font-weight:500">Mila</span><svg viewBox="0 0 24 24" width="19" height="19" style="margin-left:auto;color:var(--ink)"><use href="#t"/></svg></div>
+<div class="rw"><span class="tl" style="background:var(--tPur)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f4"/></svg></span><span style="font-size:16px;font-weight:500">Ola</span><svg viewBox="0 0 24 24" width="19" height="19" style="margin-left:auto;color:var(--ink)"><use href="#t"/></svg></div>
+<div class="rw" style="color:var(--ink3)"><span class="tl" style="background:var(--bg2)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f3"/></svg></span><span style="font-size:16px">Tom</span><span class="cap" style="margin-left:auto">counting</span></div>
+<div class="rw" style="color:var(--ink3)"><span class="tl" style="background:var(--bg2)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f5"/></svg></span><span style="font-size:16px">Kate</span><span class="cap" style="margin-left:auto">counting</span></div>
+</div>
+<div class="sp"></div>
+</section>
+
+<section class="q" aria-label="Round result">
+<div class="hd"><span class="cap num">K7QM</span><span class="cap">Round 4 of 10</span></div>
+<div style="height:18px"></div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+<div style="width:56px;height:56px;border-radius:6px;background:var(--tRed);flex:none"><svg viewBox="130 130 800 800" width="56" height="56"><use href="#f2"/></svg></div>
+<div><p class="h1" style="font-size:24px"><span class="hl">Mila</span> nails it</p><p class="sub num" style="font-size:14px;margin-top:5px">0.04 s off · target 7.00</p></div>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span class="cap">early</span><span class="cap">late</span></div>
+<div style="display:flex;flex-direction:column;gap:13px">
+<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ch" style="background:var(--tRed)"><svg viewBox="130 130 800 800" width="22" height="22"><use href="#f2"/></svg></span><span style="font-size:15px;font-weight:500">Mila</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">+0.04</span></div><div class="bar"><div class="zr"></div><div style="position:absolute;left:50%;top:0;height:7px;width:2%;background:var(--ink);border-radius:4px"></div></div></div>
+<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ch" style="background:var(--tPur)"><svg viewBox="130 130 800 800" width="22" height="22"><use href="#f4"/></svg></span><span style="font-size:15px;font-weight:500">Ola</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">−0.11</span></div><div class="bar"><div class="zr"></div><div style="position:absolute;right:50%;top:0;height:7px;width:4%;background:var(--ink);border-radius:4px"></div></div></div>
+<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ch" style="background:var(--tYel)"><svg viewBox="130 130 800 800" width="22" height="22"><use href="#f1"/></svg></span><span style="font-size:15px;font-weight:500">Artur</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">−0.21</span></div><div class="bar"><div class="zr"></div><div style="position:absolute;right:50%;top:0;height:7px;width:7%;background:var(--ink);border-radius:4px"></div></div></div>
+<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ch" style="background:var(--tBlu)"><svg viewBox="130 130 800 800" width="22" height="22"><use href="#f3"/></svg></span><span style="font-size:15px;font-weight:500">Tom</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">+0.88</span></div><div class="bar"><div class="zr"></div><div style="position:absolute;left:50%;top:0;height:7px;width:29%;background:var(--ink);border-radius:4px"></div></div></div>
+<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="ch" style="background:var(--tGrn)"><svg viewBox="130 130 800 800" width="22" height="22"><use href="#f5"/></svg></span><span style="font-size:15px;font-weight:500">Kate</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">−1.40</span></div><div class="bar"><div class="zr"></div><div style="position:absolute;right:50%;top:0;height:7px;width:47%;background:var(--ink);border-radius:4px"></div></div></div>
+</div>
+<div class="sp"></div>
+<div style="height:3px;background:var(--bg2);border-radius:2px"><div style="width:40%;height:3px;background:var(--ink3);border-radius:2px"></div></div>
+<p class="cap" style="margin:10px 0 0;text-align:center">Next round in 3s</p>
+</section>
+
+<section class="q" aria-label="Final standings">
+<div class="hd"><span class="cap num">K7QM</span><span class="cap">Final</span></div>
+<div style="height:20px"></div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+<div style="width:64px;height:64px;border-radius:6px;background:var(--tRed);flex:none"><svg viewBox="130 130 800 800" width="64" height="64"><use href="#f2"/></svg></div>
+<div><p class="h1" style="font-size:26px"><span class="hl">Mila</span> wins</p><p class="sub num" style="font-size:14px;margin-top:5px">0.19 s average error</p></div>
+</div>
+<div style="border-top:1px solid var(--ln)">
+<div class="rw" style="background:var(--bg2);margin:0 -8px;padding-left:8px;padding-right:8px"><span class="cap num" style="width:14px">1</span><span class="tl" style="background:var(--tRed)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f2"/></svg></span><span style="font-size:16px;font-weight:500">Mila</span><span class="num" style="margin-left:auto;font-size:15px;font-weight:500">0.19</span></div>
+<div class="rw"><span class="cap num" style="width:14px">2</span><span class="tl" style="background:var(--tPur)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f4"/></svg></span><span style="font-size:16px">Ola</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">0.28</span></div>
+<div class="rw"><span class="cap num" style="width:14px">3</span><span class="tl" style="background:var(--tYel)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f1"/></svg></span><span style="font-size:16px">Artur</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">0.34</span></div>
+<div class="rw"><span class="cap num" style="width:14px">4</span><span class="tl" style="background:var(--tBlu)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f3"/></svg></span><span style="font-size:16px">Tom</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">0.61</span></div>
+<div class="rw"><span class="cap num" style="width:14px">5</span><span class="tl" style="background:var(--tGrn)"><svg viewBox="130 130 800 800" width="34" height="34"><use href="#f5"/></svg></span><span style="font-size:16px">Kate</span><span class="num" style="margin-left:auto;font-size:15px;color:var(--ink2)">0.97</span></div>
+</div>
+<div style="border-left:2px solid var(--ink);padding:2px 0 2px 12px;margin-top:16px">
+<span style="font-size:14px;color:var(--ink2)">You go early in 7 of 10 rounds</span>
+</div>
+<div class="sp"></div>
+<div style="display:flex;gap:10px">
+<div class="ink" style="flex:2">Play again</div>
+<div class="out" style="flex:1">Lobby</div>
+</div>
+</section>
+
+<section class="q" aria-label="Return to room">
+<div class="sp"></div>
+<svg viewBox="0 0 100 100" width="90" height="90" style="color:var(--ink);margin-bottom:24px"><use href="#sw"/></svg>
+<p class="h1" style="font-size:40px">Blindstop</p>
+<p class="sub" style="margin-top:12px">Seven seconds, no clock.</p>
+<div class="sp"></div>
+<div style="border:1.5px solid var(--ink);border-radius:4px;padding:16px;margin-bottom:12px">
+<p class="cap" style="margin:0 0 10px">You're still in a room</p>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span class="num" style="font-size:28px;font-weight:600;letter-spacing:4px">K7QM</span>
+<span style="font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:3px">Rejoin</span>
+</div>
+</div>
+<div class="out">Start something new</div>
+</section>
+
+<section class="q" aria-label="Room gone">
+<div class="sp"></div>
+<div style="text-align:center">
+<svg viewBox="0 0 100 100" width="96" height="96" style="color:var(--ink)"><use href="#door"/></svg>
+<p class="h1" style="font-size:26px;margin:22px 0 10px">That room is gone</p>
+<p class="sub" style="font-size:15px">Wrong code, or everyone left.<br>Rooms close when the last player goes.</p>
+</div>
+<div class="sp"></div>
+<div class="ink">Back to start</div>
+</section>
+
+<section class="q" aria-label="Offline" style="padding:0">
+<div style="background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;padding:14px 12px;padding-top:calc(30px + env(safe-area-inset-top))">No connection — reconnecting</div>
+<div style="flex:1;display:flex;flex-direction:column;padding:20px 24px calc(78px + env(safe-area-inset-bottom))">
+<div class="hd"><span class="cap num">K7QM</span><span class="cap">Round 4 of 10</span></div>
+<div style="height:20px"></div>
+<div style="flex:1;border:1.5px solid var(--ln2);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink3)">
+<p style="font-size:15px;margin:0 0 6px">Stop at</p>
+<p class="num" style="font-size:84px;font-weight:600;margin:0;line-height:1">7.00</p>
+<div style="height:90px"></div>
+<p style="font-size:30px;font-weight:500;margin:0;letter-spacing:3px">Tap</p>
+</div>
+</div>
+</section>
+
+</div>
+
+<nav id="nav">
+<button id="prev" aria-label="Previous screen">‹</button>
+<span id="lbl">1 · Landing</span>
+<button id="next" aria-label="Next screen">›</button>
+</nav>
+
+<script>
+(function(){
+var L=["Landing","Join form","Lobby — host","Lobby — player","Countdown","Round",
+       "Waiting","Round result","Final standings","Return to room","Room gone","Offline"];
+var s=document.querySelectorAll(".q"), lbl=document.getElementById("lbl"), i=0;
+function show(n){
+  i=(n+s.length)%s.length;
+  s.forEach(function(e,j){e.classList.toggle("on", j===i);});
+  lbl.textContent=(i+1)+" · "+L[i];
+}
+document.getElementById("prev").addEventListener("click",function(){show(i-1);});
+document.getElementById("next").addEventListener("click",function(){show(i+1);});
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft")show(i-1);
+  if(e.key==="ArrowRight")show(i+1);
+});
+var x0=null;
+document.getElementById("app").addEventListener("touchstart",function(e){x0=e.touches[0].clientX;},{passive:true});
+document.getElementById("app").addEventListener("touchend",function(e){
+  if(x0===null)return;
+  var dx=e.changedTouches[0].clientX-x0;
+  if(Math.abs(dx)>60)show(dx<0?i+1:i-1);
+  x0=null;
+},{passive:true});
+show(0);
+})();
+</script>
+</body>
+</html>
