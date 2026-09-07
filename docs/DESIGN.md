@@ -90,11 +90,16 @@ font. It appears on the game picker card and nowhere else during play.
 
 ## Avatars
 
-`assets/avatars/face-NN.svg`, SVGO-optimised from ~7 kB to ~2 kB each with no visual
-change. Do this to every avatar you add.
+`assets/avatars/face-NN.svg`, twenty-five of them, SVGO-optimised with no visual
+change — the set averages 4 kB against 8.9 kB raw. Do this to every avatar you add.
 
-- Crop with `viewBox="130 130 800 800"` — the source files are `0 0 1080 1080` with a
-  lot of air, and uncropped the head looks small in a tile.
+- Crop with `viewBox="90 90 900 900"` — the source files are `0 0 1080 1080` with a
+  lot of air, and uncropped the head looks small and lost in a tile.
+- **The crop was `130 130 800 800` and it was wrong across a set this size.** It fills
+  the tile better on a short haircut and clips the top of the hair on about a third of
+  the faces, which reads as a rendering fault rather than a crop. One viewBox has to
+  work for every face in the sprite; this is the tightest one that does. Checked in a
+  browser at 44px and 64px over all twenty-five before changing it.
 - The generator wraps the drawing in an `feMorphology` filter that paints a white
   outline. Strip it. On a coloured tile it separates the hair from the background and
   weakens the drawing.
@@ -106,10 +111,15 @@ change. Do this to every avatar you add.
   player's identity** — the same colour must appear in the lobby, the waiting list,
   the results and the evening summary.
 
-**Five faces are shipped and a room holds eight players.** Eight tile colours cover
-it, so two players sharing a face are still distinguishable, but the join screen's
-`Shuffle` link promises more choice than exists. Draw or commission at least three
-more before stage 3.
+**Twenty-five faces are shipped and a room holds eight players**, so the join screen's
+`Shuffle` link now has something to shuffle through and no two people in a room need
+share a face.
+
+At 44px a good half of them read as the same dark silhouette — this is a set of
+line drawings in one hand, not a set of distinct characters, and it does not get
+better by picking harder. **The tile colour is what tells players apart in a list**;
+the face is what a person picks because they like it. Assign the colour first and make
+sure eight in one room are eight different colours.
 
 ### Licensing
 

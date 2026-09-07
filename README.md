@@ -39,7 +39,7 @@ Decide it before stage 3 paints that screen.
 | `src/tokens.css` | The design tokens as CSS custom properties |
 | `src/engine.ts` | The room and game contracts as TypeScript — start here |
 | `mockup.html` | Standalone clickable mockup of 12 of the screens. Open on a phone. |
-| `assets/avatars/*.svg` | 5 avatars, SVGO-optimised, ready to ship |
+| `assets/avatars/*.svg` | 25 avatars, SVGO-optimised and cropped, ready to ship |
 | `CLAUDE.md` | Project rules for Claude Code |
 | `AGENTS.md` | Same rules for Codex |
 

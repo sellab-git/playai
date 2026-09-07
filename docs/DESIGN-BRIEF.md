@@ -110,9 +110,11 @@ or throwaway** — each one gets written down and translated eventually.
 
 ## Known gaps, so they are not rediscovered
 
-- Five avatar faces are shipped; a room holds eight players. Eight tile colours cover
-  it, but the join screen's `Shuffle` link promises more faces than exist. At least
-  three more are needed.
+- Twenty-five avatar faces are shipped, which covers a room of eight with room to
+  choose. At 44px around half read as the same dark silhouette — that is inherent to a
+  set drawn in one hand, and the tile colour is what actually tells players apart in a
+  list. Design the lists on that assumption rather than expecting the faces to carry
+  it.
 - The avatars came from a Notion-style generator whose licence does not clearly cover
   the artwork. Fine privately, not fine publicly — see `docs/DESIGN.md` § Licensing.
 - Screens 13 and 14 are not in `mockup.html`. Everything else is.
