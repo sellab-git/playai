@@ -2,6 +2,8 @@
 
 ## Android emulator review — 2026-09-08
 
+After the user dismissed Chrome onboarding, a focused follow-up verified the create-room form in landscape: its body scrolled to the avatar control and validation message, while Create room remained visible. Returning to portrait preserved the form; Back returned to fresh entry. Empty-name validation was observed. The handwriting toolbar and floating keyboard could be opened, but a normal docked keyboard was not obtained, so keyboard occlusion remains unverified. Focus-only activation still occurred and Enter opened the form. No gameplay regression suite was repeated and no application code changed.
+
 Focused follow-up: the emulator stopped during the first menu attempt and was restarted. The same click-without-activation behavior then occurred on the Android launcher's Chrome icon; Enter opened Chrome. This reproduces outside the mockup and points to emulator/input delivery rather than proving an application-handler defect. Chrome's privacy onboarding screen blocked further inspection. Keyboard/landscape checks remain unexecuted; no previously passed gameplay tests were repeated and no app code was changed.
 
 Reviewed commit 3932541 in Medium_Phone_API_36.1, portrait, Chrome inside Android, using localhost reverse mapping. No desktop browser app tests or app code changes were made during this review.
