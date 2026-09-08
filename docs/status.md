@@ -28,4 +28,10 @@ The full-flow clarity review simplified the shared navigation and fixed final-re
 
 Maintained knowledge now lives in the `docs` Obsidian vault; former prototype documentation paths redirect here. Historical handoff and HTML snapshots remain unchanged. Start at [the index](index.md).
 
-The agreed Linear target is Sellab workspace / Sellab team / `Playai — Blindstop Prototype`. Project and issues are not yet created. The Diggai task reported migration and shared configuration complete on 2026-09-08; Playai setup may now proceed. Preserve the shared settings and use the documented Blocked fallback. See [working agreement](working-agreement.md).
+Created and verified on 2026-09-08: [Playai — Blindstop Prototype](https://linear.app/sellab/project/playai-blindstop-prototype-a5d29f2f1dfa/overview), in Sellab team, with Product: Playai label. Initial project status is In Progress. Milestone: Complete flow ready for playtest.
+
+Initial issue import (live status now belongs to Linear):
+- [SEL-15: Review and accept the room-to-game mockup flow](https://linear.app/sellab/issue/SEL-15/review-and-accept-the-room-to-game-mockup-flow), created In Review.
+- [SEL-16: Verify mobile interaction and 20-player layout](https://linear.app/sellab/issue/SEL-16/verify-mobile-interaction-and-20-player-layout), created Todo.
+
+Both issues belong to the milestone and are assigned to Artur Pawlowski for product/device acceptance; the implementation agent records evidence and fixes confirmed defects. No future proposal was imported as implemented. Preserve the shared settings and use the documented Blocked fallback. See [working agreement](working-agreement.md).
