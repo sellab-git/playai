@@ -12,6 +12,7 @@ Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sel
 - [Known issues](validation/known-issues.md), [validation evidence](validation/results.md), and [regression scenarios](validation/scenarios.md)
 - [Backlog proposal record](planning/backlog-notes.md)
 - [Delegation pilot](planning/delegation-pilot.md)
+- [Independent agent review](review-process.md)
 
 ## Vault and source ownership
 

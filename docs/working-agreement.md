@@ -13,7 +13,7 @@ English for all durable work. User conversation may be Polish. Keep root AGENTS.
 
 Read index, status, relevant specification and the issue. Keep one primary issue in progress. Define problem, scope and acceptance criteria. For a significant UX change, review one representative screen and its transitions before expanding the design. Check the full screen map when navigation changes.
 
-Implement a bounded change, run relevant checks, review results, update affected knowledge, commit/push and link evidence in Linear. Use portable GitHub links and issue URLs, not machine-specific paths in Linear.
+Implement a bounded change, run relevant checks, update affected knowledge, and obtain independent agent review for significant changes under [the review protocol](review-process.md). Resolve confirmed findings and obtain focused re-review where required before handing work to the user for acceptance. Commit/push and link verification and review evidence in Linear. Draft commits and PRs may precede review; they are not acceptance. Use portable GitHub links and issue URLs, not machine-specific paths in Linear.
 
 Use native Backlog -> Todo -> In Progress -> In Review -> Done. No duplicate Ready/Review statuses. A blocked issue records the external action and next owner. User-facing changes awaiting playtest remain In Review; passing tests is not UX acceptance. Done requires acceptance criteria, verification, committed/pushed changes and accurate documentation.
 
