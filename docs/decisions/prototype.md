@@ -37,6 +37,8 @@ Original v8 decisions are preserved in `prototypes/blindstop/docs/handoff/DECISI
 
 ## Approved extension: one-round Impostor mockup
 
+Subsequent direction: the user finds Impostor logical at this stage and approved Categories as the third mockup, with Bluff next. Games should be point-based; drawing games are deferred. Categories starts with individual round points; common evening conversion and Impostor scoring remain to be decided. See [Categories scope](../games/categories/prototype.md). Bluff is sequenced, not implemented.
+
 The user subsequently approved a distinct spoken-clue stage before discussion and discreet access to the assigned role during those stages, following the [Doplay comparison](../research/doplay-impostor.md). No post-elimination guessing, hint variants or additional settings are approved in this update.
 
 The user approved trying Impostor to validate private roles and voting within the existing room. This supersedes the mockup's earlier single-game catalogue restriction only. See [scope](../games/impostor/prototype.md). Preserve Blindstop and room identity. Do not add Impostor points to evening totals in this experiment. Bluff remains proposed; no production stage is started.

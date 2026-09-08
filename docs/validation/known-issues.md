@@ -26,3 +26,7 @@
 - Rule copy failing to mention early completion when everyone has tapped.
 
 See [LOCAL-REVIEW.md](handoff-review.md) for reproduction, fixes, and exact validation scope. Original handoff risks are preserved in `prototypes/blindstop/docs/handoff/KNOWN-ISSUES.md`.
+
+## Categories keyboard follow-up
+
+Android handwriting input partially covers the Stop button while editing. The visible top edge completed the round, but this is not satisfactory full-keyboard verification. Track with SEL-16 and Categories acceptance in SEL-17; see [evidence](categories-review.md). Categories has local round points only; shared evening scoring remains undecided.

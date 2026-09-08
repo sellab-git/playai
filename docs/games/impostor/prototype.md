@@ -24,7 +24,7 @@ Room code, host, membership, identities and existing evening totals survive this
 
 This is local simulation with embedded state, not secure role delivery or synchronized voting across phones. Preview controls must distinguish simulated actions from actions of real participants. Production secrecy needs server-owned private views; hiding text in HTML is not security.
 
-Bluff remains a proposed next experiment. Full game balancing, content packs, multiple-round options and production implementation are outside this iteration.
+The user subsequently approved Categories next, followed by Bluff. Neither is part of this Impostor iteration. Full game balancing, content packs, multiple-round options and production implementation are outside this iteration.
 
 ## Clarity follow-up
 

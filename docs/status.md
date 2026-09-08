@@ -8,7 +8,9 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
-Current mockup commit: `8341447` (published in PR #1). Linear SEL-15 has been synchronized with this version and its verification evidence.
+Categories is implemented as the third standalone mockup: one fixed-letter round, four fields, frozen answers, per-answer host review and 10/5/0 round points. Thirteen VM groups pass; independent logic and UX re-reviews confirmed corrections. Android emulator host flow reached the result. Handwriting input partially obscures Stop; guest, docked-keyboard and physical-device gaps remain. See [Categories evidence](validation/categories-review.md) and [SEL-17](https://linear.app/sellab/issue/SEL-17/build-and-review-the-categories-mockup).
+
+The user considers Impostor logical at this stage. Bluff is next in the approved sequence, not implemented. Drawing is deferred. Shared evening conversion and Impostor points remain unresolved; Categories does not silently add raw points to the existing evening totals.
 
 Impostor clarity follow-up: private role-specific instructions, submitted-vote count, explicit winner and revealed word in results. Twelve VM groups and independent Sol/Terra reviews passed. Android emulator host flow verified the updated waiting and result screens, including explicit remaining-vote simulation. Guest and keyboard gaps remain; see the latest review section.
 

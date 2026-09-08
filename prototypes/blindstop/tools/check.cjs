@@ -150,3 +150,27 @@ run("while(S.screen==='impostorClues') action('previewSpeaker',{})");assert.equa
 run("action('previewVoting',{})");assert.equal(run('S.screen'),'impostorVote');
 run("S.me=S.host;screen('impostorPrepare');action('chooseGame',{});action('selectGame',{dataset:{id:'blindstop'}})");assert.equal(run('S.screen'),'lobby');
 console.log('PASS: Impostor Games return, concealed rejoin, explicit guest simulation and switching back to Blindstop.');
+
+// Categories keeps drafts locally, reviews in stable category order, and never changes evening totals.
+run("resetRoom();S.me=0;people.forEach((p,i)=>{p.active=i<3;p.seen=i<3});self().total=11;S.games=2;S.screen='catalogue';action('selectGame',{dataset:{id:'categories'}})");
+assert.equal(run('S.screen'),'categoriesPrepare');assert(elements.get('app').innerHTML.includes('One round · letter B'));
+run("action('categoriesStart',{});S.categories.draft=[' Brazil ','Berlin','Bear','Bread'];action('categoriesStop',{})");
+assert.equal(run('S.screen'),'categoriesWaiting');
+const categorySaved=run('JSON.stringify(S.categories)');run("action('confirmLeave',{});action('rejoin',{})");
+assert.equal(run('S.screen'),'categoriesWaiting');assert.equal(run('JSON.stringify(S.categories)'),categorySaved);
+run("action('categoriesPreviewCommit',{});S.categories.answers[1]=['brazil','Boston','Bear','Bagel'];S.categories.answers[2]=['France','Bristol','Badger','Brownie'];S.categories.judgments['3:2']=false");
+assert.equal(run('S.screen'),'categoriesReview');assert.equal(run('S.categories.reviewIndex'),0);
+for(let i=0;i<4;i++)run("action('categoriesConfirm',{})");
+assert.equal(run('S.screen'),'categoriesResult');
+assert.deepEqual(JSON.parse(run('JSON.stringify(S.categories.scores)')),{0:30,1:30,2:20});
+assert.equal(run('self().total'),11);assert.equal(run('S.games'),2);
+run("action('replayCategories',{})");assert.equal(run('S.screen'),'categoriesPrepare');
+run("S.me=1;S.host=0;S.categories=null;action('categoriesStart',{})");assert.equal(run('S.screen'),'categoriesPrepare');
+console.log('PASS: Categories draft/rejoin, host review, normalized duplicates, rejection and wrong-letter scoring, replay, guards and unchanged evening totals.');
+
+// Categories cannot enter Blindstop timing or bypass completion guards.
+run("S.me=0;screen('categoriesPrepare');startCategories();action('categoriesStop',{})");assert.equal(run('S.screen'),'categoriesWrite');
+run("S.me=1;action('categoriesFinishConfirm',{})");assert.equal(run('S.screen'),'categoriesWrite');
+run("S.me=0;S.categories.draft[0]='Brazil'");doc.hidden=true;listeners.visibilitychange();doc.hidden=false;assert.equal(run('S.screen'),'categoriesWrite');assert.equal(run('S.categories.draft[0]'),'Brazil');
+run("action('categoriesFinishConfirm',{})");assert.equal(run('S.screen'),'categoriesWaiting');assert.equal(run('Object.keys(S.categories.answers).length'),3);assert.equal(run('S.categories.answers[0][1]'),'');
+const frozenSheets=run('JSON.stringify(S.categories.answers)');run("action('categoriesPreviewCommit',{})");assert.equal(run('JSON.stringify(S.categories.answers)'),frozenSheets);
