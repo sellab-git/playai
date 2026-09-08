@@ -1,5 +1,10 @@
 # Playai — build kit
 
+> Current work continues in [the Blindstop prototype](prototypes/blindstop/README.md).
+> The later prototype decisions and [current state](prototypes/blindstop/docs/STATE.md)
+> govern mockup iterations. The build kit below remains the historical production
+> baseline; this does not start the application roadmap.
+
 A design and architecture package for browser party games played by people who are in
 the same room. Everything an agent (Claude Code, Codex) needs to start building,
 without re-deriving decisions that have already been made.
