@@ -1,5 +1,15 @@
 # Validation
 
+## Android emulator review — 2026-09-08
+
+Reviewed commit 3932541 in Medium_Phone_API_36.1, portrait, Chrome inside Android, using localhost reverse mapping. No desktop browser app tests or app code changes were made during this review.
+
+Observed: host catalogue -> preparation; preview membership increased from 8 to 20; preparation and final standings scrolled to the last participant while bottom actions remained visible; invalid 51-round input displayed validation and corrected 1-round setting saved; first-game practice offer appeared; a one-round manual game reached final standings; rules Back restored the game menu; leaving and rejoining restored the completed game; Play again returned to preparation; a two-round automatic game advanced from round-1 results to round 2 and final. Round-result avatars retained roster order; final standings used ranking order. The emulator was refreshed to fresh entry afterward.
+
+Some automated clicks focused Start/menu without activation. A repeated Start click and Enter on the focused menu activated them. Sol independently traced source guards and found no deterministic failure; the cause remains unconfirmed. The keyboard-only explanation is insufficient because this also occurred on the final menu. Do not classify this as a resolved app defect or certify reliable touch input yet. Android's floating/stylus keyboard mode was observed; a normal docked keyboard was not verified.
+
+Nine VM check groups passed using `node tools/check.cjs`. Remaining emulator coverage: fresh create/join identity entry, landscape and docked keyboard, manual intermediate results held beyond the automatic interval, automatic pause/resume through nested menus, and active-round leave/rejoin. Physical-device, Safari, accessibility and real multiplayer checks remain unverified. Earlier desktop evidence below is historical, not emulator coverage.
+
 Run `node tools/check.cjs` from the prototype directory. Node.js 18 or newer is required; no package installation is needed. The suite reads JavaScript from the current HTML, not archived extracts.
 
 The suite covers 2/8/12/16/20-player screens, full 1/5/20-round games, target generation, settings bounds, scroll state, final sorting, automatic progression, practice, completion-first ranking, ties, zero-tap games, pause/resume, host simulation, and menu details. Additional regressions cover leave/rejoin across countdown, counting, waiting, results, paused play, and an idle lobby.

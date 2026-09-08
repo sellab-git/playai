@@ -10,6 +10,8 @@
 
 ## Open checks
 
+- Android emulator input: some automated clicks focus Start/menu without activation; repeated Start or Enter on the focused menu works. Root cause is unconfirmed; investigate input delivery before changing application handlers. See the emulator record in [validation](results.md).
+
 - Physical phone touch, on-screen keyboard, safe areas, Safari, and screen reader behavior.
 - Remaining membership and host edge cases. The preview is not a full room lifecycle implementation.
 - Avatar artwork rights before product publication; the handoff does not resolve licensing.
