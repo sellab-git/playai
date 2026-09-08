@@ -14,8 +14,11 @@ Record model, bounded scope, timestamps, checks, corrections and outcome. Compar
 | 06: emulator checklist | gpt-5.6-luna | Unavailable | Unavailable | Read-only prioritized scenarios; used to guide lead emulator testing | Checklist is not execution evidence | Unavailable |
 | 07: investigate Start activation | gpt-5.6-sol | Unavailable | Unavailable | Source trace found no deterministic guard failure; VM checks passed | Rejected speculative code changes; retap worked, but menu input issue also reproduced, so keyboard-only explanation remains unproven | Unavailable |
 | 08: focus/click event-order audit | gpt-5.6-sol | Unavailable | Unavailable | No focus-triggered render or interception affecting Start/menu found; no source fix justified | Lead reproduced focus-only input on Android launcher, outside app | Unavailable |
+| 09: Impostor implementation | gpt-5.6-sol | Unavailable | Unavailable | Functional draft and tests; required lead integration | Fixed navigation/privacy and explicit simulation after review | Unavailable |
+| 10: Impostor logic review | gpt-5.6-sol | Unavailable | Unavailable | Three accepted findings; focused re-review passed | One correction cycle | Unavailable |
+| 11: Impostor UX/copy review | gpt-5.6-terra | Unavailable | Unavailable | Two accepted findings; pass-the-device requirement rejected; focused re-review passed | Clarified read-only tool permission and product model | Unavailable |
 
-Current pilot count: 8/10 completed assignments. See [mockup review evidence](../validation/agent-review-2026-09-08.md) and [emulator evidence](../validation/results.md). Worker and lead durations were not fully measured; no cost-saving conclusion is supported.
+Pilot checkpoint: 11 completed assignments against the initial target of 10. Continue bounded delegation with lead verification; no cost-saving conclusion is supported. The Impostor integration was too broad for a single unchecked worker handoff and required substantial lead correction. Reviews were useful. See [Impostor evidence](../validation/impostor-review.md). Worker and lead durations were not fully measured.
 
 Parent review used a full document read and comparison with source actions; it required one correction pass. Parent review time was not isolated from concurrent Linear setup and documentation migration, so no numerical parent-time or cost-saving claim is made.
 

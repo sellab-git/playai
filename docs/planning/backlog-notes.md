@@ -2,6 +2,8 @@
 
 ## Approved immediate direction
 
+- Add a minimal one-round Impostor mockup to test private roles and voting in the shared room. See [bounded scope](../games/impostor/prototype.md). This later user approval extends the earlier Blindstop-only mockup, not the production roadmap. Bluff is still proposed.
+
 1. Handoff and reviewed fixes are published on `codex/blindstop-prototype-handoff` in PR #1. Keep subsequent refinements reviewable.
 2. Keep current state, accepted decisions, implemented rules, and unresolved proposals distinct in documentation.
 3. Continue focused mockup refinements from user feedback; validate relevant behavior and keep English app copy.

@@ -113,3 +113,33 @@ assert.equal(run('JSON.stringify({me:S.me,host:S.host,people})'),guestRoom);
 run('prepareGame()');
 assert.equal(run('S.screen'),'catalogue');
 console.log('PASS: guest can return to catalogue without gaining host selection permissions.');
+
+// Impostor is a bounded local prototype: one concealed role, discussion, confirmed vote, result.
+run("resetRoom();S.me=0;people.forEach((p,i)=>{p.active=i<3;p.seen=i<3});self().total=9;S.games=2;S.screen='catalogue'");
+run("action('selectGame',{dataset:{id:'impostor'}})");
+assert.equal(run('S.screen'),'impostorPrepare');assert.equal(run('S.gameId'),'impostor');
+assert(elements.get('app').innerHTML.includes('One round · no evening points'));
+run("action('impostorStart',{})");assert.equal(run('S.screen'),'impostorRole');
+assert.equal(run('S.impostor.impostorId'),1);assert(!elements.get('app').innerHTML.includes('Lantern'));
+run("action('revealRole',{})");assert(elements.get('app').innerHTML.includes('Lantern'));
+doc.hidden=true;listeners.visibilitychange();assert.equal(run('S.impostor.revealed'),false);assert(!elements.get('app').innerHTML.includes('Lantern'));doc.hidden=false;
+run("action('revealRole',{});action('hideRole',{})");assert.equal(run('S.screen'),'impostorDiscussion');
+run("action('openVote',{})");assert.equal(run('S.screen'),'impostorVote');assert(!elements.get('app').innerHTML.includes('data-id="0"'));
+run("action('chooseSuspect',{dataset:{id:'1'}});action('confirmVote',{})");assert(doc.getElementById('dialog').innerHTML.includes('cannot be changed'));
+run("action('castImpostorVote',{})");assert.equal(run('S.screen'),'impostorWaiting');
+run("action('previewVotes',{})");assert.equal(run('S.screen'),'impostorResult');assert(elements.get('app').innerHTML.includes('The impostor was caught.'));
+assert.equal(run('self().total'),9);assert.equal(run('S.games'),2);
+run("S.impostor.votes=[{voter:0,target:1},{voter:1,target:2},{voter:2,target:0}];render()");
+assert(elements.get('app').innerHTML.includes('The vote was tied'));assert(elements.get('app').innerHTML.includes('Nobody is eliminated.'));
+run("action('replayImpostor',{})");assert.equal(run('S.screen'),'impostorPrepare');
+console.log('PASS: Impostor preparation, private reveal/background concealment, no-self confirmed vote, caught/tied results, replay and unchanged evening totals.');
+
+run("S.me=1;S.host=0;S.gameId='impostor';S.screen='impostorPrepare';S.impostor=null;render();action('impostorStart',{})");
+assert.equal(run('S.screen'),'impostorPrepare');assert(elements.get('app').innerHTML.includes('Waiting for Artur'));
+console.log('PASS: Impostor start and phase progression remain host-only for guests.');
+run("action('chooseGame',{});action('previewSelectImpostor',{});action('previewDeal',{});action('revealRole',{});action('confirmLeave',{});action('rejoin',{})");
+assert.equal(run('S.screen'),'impostorRole');assert.equal(run('S.impostor.revealed'),false);
+run("action('revealRole',{});action('hideRole',{});action('openVote',{})");assert.equal(run('S.screen'),'impostorDiscussion');
+run("action('previewVoting',{})");assert.equal(run('S.screen'),'impostorVote');
+run("S.me=S.host;screen('impostorPrepare');action('chooseGame',{});action('selectGame',{dataset:{id:'blindstop'}})");assert.equal(run('S.screen'),'lobby');
+console.log('PASS: Impostor Games return, concealed rejoin, explicit guest simulation and switching back to Blindstop.');

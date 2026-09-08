@@ -35,6 +35,10 @@ Updated 2026-09-08 after the user approved the room-level UX proposal.
 
 Original v8 decisions are preserved in `prototypes/blindstop/docs/handoff/DECISIONS.md`. The separate proposals in [NEXT.md](../planning/backlog-notes.md) remain proposals unless explicitly listed here.
 
+## Approved extension: one-round Impostor mockup
+
+The user approved trying Impostor to validate private roles and voting within the existing room. This supersedes the mockup's earlier single-game catalogue restriction only. See [scope](../games/impostor/prototype.md). Preserve Blindstop and room identity. Do not add Impostor points to evening totals in this experiment. Bluff remains proposed; no production stage is started.
+
 - Settings open in a named dialog from a summary such as **5 rounds · Manual**. Valid changes save immediately; Done returns focus to the summary.
 - Leaving/rejoining completed results restores the final screen. Participant management is restricted to catalogue/preparation.
 - Room recovery/error screens use Playai context; active-game pause retains Blindstop context. Explicit Preview controls can simulate host selection/start for guests.
