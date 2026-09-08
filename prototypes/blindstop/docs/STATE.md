@@ -10,7 +10,7 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 The local review fixed short-viewport action reachability, leave/rejoin preservation through the existing local pause mechanism, and round-deadline copy. Logic tests pass; desktop browser viewport checks are recorded in `LOCAL-REVIEW.md`. A follow-up in visible Chrome also fixed and verified automatic-result menu focus and Pause/Resume focus; see `VALIDATION.md`. Physical-phone approval remains pending.
 
-The latest iteration separates the room catalogue from Blindstop preparation. The catalogue contains only game selection and compact room context; preparation contains inline settings, participants and Start. Replay returns to preparation; Choose another game returns to the catalogue. Room identity, points and nested Back/Close navigation are preserved. See `DECISIONS.md` for the accepted scope.
+The latest iteration separates the room catalogue from Blindstop preparation. The catalogue contains only game selection and compact room context; preparation contains a settings summary/editor, participants and Start. Replay returns to preparation; Choose another game returns to the catalogue. Room identity, points and nested Back/Close navigation are preserved. See `DECISIONS.md` for the accepted scope.
 
 ## Repository and workflow
 
@@ -21,3 +21,5 @@ GitHub CLI authentication works with the system credential store, and the linked
 Use focused branches, reviewable commits, tests, and pull requests. Record accepted decisions separately from proposals. The root instructions and immutable mockup history remain unchanged. A successful push or PR must be verified before reporting it as published.
 
 The original handoff state is preserved in `handoff/STATE.md`.
+
+The full-flow clarity review simplified the shared navigation and fixed final-result return, final-screen participant management, and keyboard destination focus. See FLOW-REVIEW.md.

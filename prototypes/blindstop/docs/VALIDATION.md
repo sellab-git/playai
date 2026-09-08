@@ -32,3 +32,10 @@ Visible Chrome checks through Playwright MCP passed with 20 preview participants
 Visible Chrome via Playwright MCP: created a room, changed preview membership to 20, selected Blindstop, edited inline rounds, completed one manual game, returned through replay preparation and then the catalogue. Identity, game count and evening points were unchanged by those navigation actions. Manual results had no countdown control. Guest catalogue/preparation were inspected using explicit local state simulation: no select/start or editable settings controls, with host-waiting copy. Room participants -> Back -> Escape restored the menu then focused its invoker.
 
 Preparation viewport checks: 360x640, 393x780, 430x900, 640x360. Document height matched each viewport; Start bottom edges were 630, 771, 888 and 350 pixels. All 20 rows existed and the roster scrolled. In short landscape the preparation body also scrolls so settings remain reachable. Screenshots inspected at phone and short landscape sizes. VM regressions additionally cover host-only transitions, catalogue leave/rejoin, and replay preserving identity/points. Tests do not prove real multiplayer or physical-device behavior.
+
+
+## Full-flow clarity review — 2026-09-08
+
+See FLOW-REVIEW.md for coverage and simulated-state limits. The navigation regression suite passes, including final leave/rejoin and explicit guest host-simulation. Preparation now uses a settings summary/editor; earlier inline-settings descriptions above are historical validation records.
+
+Final browser confirmation also passed for QR-link identity entry and guest waiting, automatic results pausing for rules and resuming to final, nested Escape navigation, dialog accessible naming, and settings dismissal restoring focus to its summary. Chrome is left on preparation with 5 manual rounds.

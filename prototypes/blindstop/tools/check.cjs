@@ -80,7 +80,7 @@ run("resetRoom();S.me=0;screen('catalogue')");
 assert(elements.get('app').innerHTML.includes('Choose a game'));
 for(const control of ['prepare-rounds','roster-scroll','data-action="start"']) assert(!elements.get('app').innerHTML.includes(control));
 run("action('selectGame',{})");assert.equal(run('S.screen'),'lobby');assert.equal(run('S.live'),false);
-assert(elements.get('app').innerHTML.includes('prepare-rounds'));
+assert(elements.get('app').innerHTML.includes('data-action="setup"'));
 assert(!elements.get('app').innerHTML.includes('Ready'));
 run("self().total=7;S.games=1;self().name='Arthur';self().face=25;S.screen='final';action('selectGame',{})");
 assert.equal(run('S.screen'),'lobby');assert.equal(run('S.live'),false);assert.equal(run('self().total'),7);
@@ -93,3 +93,9 @@ run("screen('lobby')");assert(!elements.get('app').innerHTML.includes('prepare-r
 assert(!elements.get('app').innerHTML.includes('data-action="start"'));
 run("screen('final');action('lobby',{})");assert.equal(run('S.screen'),'final');
 console.log('PASS: separate selection/preparation, host-only transitions, guest waiting, replay preparation and room preservation.');
+
+// Completed results survive local leave/rejoin; room management cannot rewrite them.
+run("resetRoom();S.me=0;S.screen='final';action('confirmLeave',{});action('rejoin',{})");
+assert.equal(run('S.screen'),'final');run('menu()');assert(!doc.getElementById('dialog').innerHTML.includes('data-action="manage"'));run('dismiss()');
+run("S.me=1;screen('catalogue');action('demoSelect',{})");assert.equal(run('S.screen'),'lobby');run("action('demoStart',{})");assert.equal(run('S.screen'),'countdown');run('stopTimers()');
+console.log('PASS: final-result return and explicit guest host-simulation controls.');

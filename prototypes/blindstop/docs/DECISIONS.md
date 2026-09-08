@@ -6,11 +6,11 @@ Updated 2026-09-08 after the user approved the room-level UX proposal.
 
 - The platform entry leads to creating or joining a room. Playai remains the working platform name, not a newly finalized brand decision.
 - The room owns participants, names, avatars, host, invitation code, and evening points. A game runs inside that room. Finals offer **Play again** (return to preparation) and **Choose another game** (return to the catalogue), controlled by the host.
-- Room entry opens **Choose a game**, with compact room context and invitation access. Clicking Blindstop opens a separate preparation screen with inline settings, rules, participants and Start game. No full roster, settings or Start action competes with the catalogue. Only Blindstop is listed.
+- Room entry opens **Choose a game**, with compact room context and invitation access. Clicking Blindstop opens a separate preparation screen with one settings-summary action, participants and Start game. No full roster, settings or Start action competes with the catalogue. Only Blindstop is listed.
 - Names and avatars are chosen on room entry and can be edited from the room menu. They persist through games and rematches in the current local room. No account or cross-refresh persistence is added.
 
 - Guests see explicit host-waiting states and read-only preparation. The previous timed simulated start after joining has been removed. Browser review can select guest states directly; this is not synchronized multiplayer.
-- Participant rows say **In room**, not Ready; no readiness action is introduced. Evening points stay in room standings and finals.
+- Preparation participant rows show identity only. Repeated In room/Ready statuses and evening-point columns are omitted; no readiness action is introduced.
 
 ## Game progression
 
@@ -22,9 +22,9 @@ Updated 2026-09-08 after the user approved the room-level UX proposal.
 
 ## Navigation and help
 
-- Room and game have distinct menu titles and actions.
+- One preparation header contains Games, Blindstop and the menu. The menu stays at the right on catalogue, preparation and game screens. Rules and invitations are secondary menu actions; the catalogue also has a labeled invitation link.
 - A nested menu view has Back and Close: Back returns one level; Close exits the whole panel. Escape returns one level, then closes the root menu. Preserve focus and parent scroll position.
-- Rules appear on the preparation screen, and in Game menu while playing. Do not duplicate them with a separate question-mark button on the same screen.
+- Rules are available through the menu during preparation and play. Do not duplicate them with a separate question-mark button on the same screen.
 
 ## Existing visual direction retained
 
@@ -34,3 +34,7 @@ Updated 2026-09-08 after the user approved the room-level UX proposal.
 - All 25 faces remain available. English interface copy; conversation in Polish. New durable project content is English.
 
 Original v8 decisions are preserved in `handoff/DECISIONS.md`. The separate proposals in `NEXT.md` remain proposals unless explicitly listed here.
+
+- Settings open in a named dialog from a summary such as **5 rounds · Manual**. Valid changes save immediately; Done returns focus to the summary.
+- Leaving/rejoining completed results restores the final screen. Participant management is restricted to catalogue/preparation.
+- Room recovery/error screens use Playai context; active-game pause retains Blindstop context. Explicit Preview controls can simulate host selection/start for guests.
