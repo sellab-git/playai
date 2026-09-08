@@ -22,7 +22,10 @@ Record model, bounded scope, timestamps, checks, corrections and outcome. Compar
 | 13: clue/reminder logic review | gpt-5.6-sol | Unavailable | Unavailable | No confirmed defects | No behavior corrections | Unavailable |
 | 14: clue/reminder UX review | gpt-5.6-terra | Unavailable | Unavailable | One accepted copy inconsistency | Clarified one spoken word in rules and scope | Unavailable |
 
-Pilot checkpoint: 14 concluded assignments against the initial target of 10, including one stopped implementation assignment with no edits. Continue bounded delegation with lead verification; no cost-saving conclusion is supported. The Impostor integration was too broad for a single unchecked worker handoff and required substantial lead correction. Reviews were useful. See [Impostor evidence](../validation/impostor-review.md). Worker and lead durations were not fully measured.
+| 15: role/vote/result logic review | gpt-5.6-sol | Unavailable | Unavailable | No confirmed defects | None | Unavailable |
+| 16: role/vote/result UX review | gpt-5.6-terra | Unavailable | Unavailable | No confirmed defects | None | Unavailable |
+
+Pilot checkpoint: 16 concluded assignments against the initial target of 10, including one stopped implementation assignment with no edits. Continue bounded delegation with lead verification; no cost-saving conclusion is supported. The Impostor integration was too broad for a single unchecked worker handoff and required substantial lead correction. Reviews were useful. See [Impostor evidence](../validation/impostor-review.md). Worker and lead durations were not fully measured.
 
 Parent review used a full document read and comparison with source actions; it required one correction pass. Parent review time was not isolated from concurrent Linear setup and documentation migration, so no numerical parent-time or cost-saving claim is made.
 

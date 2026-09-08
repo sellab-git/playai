@@ -132,11 +132,11 @@ run("S.me=1;S.impostor.previewRole='ordinary';action('roleReminder',{});action('
 run("S.me=0;action('nextClue',{});S.me=1;action('nextClue',{});S.me=0;action('nextClue',{})");assert.equal(run('S.screen'),'impostorDiscussion');
 run("action('openVote',{})");assert.equal(run('S.screen'),'impostorVote');assert(!elements.get('app').innerHTML.includes('data-id="0"'));
 run("action('chooseSuspect',{dataset:{id:'1'}});action('confirmVote',{})");assert(doc.getElementById('dialog').innerHTML.includes('cannot be changed'));
-run("action('castImpostorVote',{})");assert.equal(run('S.screen'),'impostorWaiting');
-run("action('previewVotes',{})");assert.equal(run('S.screen'),'impostorResult');assert(elements.get('app').innerHTML.includes('The impostor was caught.'));
+run("action('castImpostorVote',{})");assert.equal(run('S.screen'),'impostorWaiting');assert(elements.get('app').innerHTML.includes('1 of 3 votes received'));assert(!elements.get('app').innerHTML.includes('Lantern'));
+run("action('previewVotes',{})");assert.equal(run('S.screen'),'impostorResult');assert(elements.get('app').innerHTML.includes('The impostor was caught.'));assert(elements.get('app').innerHTML.includes('Ordinary players win'));assert(elements.get('app').innerHTML.includes('Lantern'));
 assert.equal(run('self().total'),9);assert.equal(run('S.games'),2);
 run("S.impostor.votes=[{voter:0,target:1},{voter:1,target:2},{voter:2,target:0}];render()");
-assert(elements.get('app').innerHTML.includes('The vote was tied'));assert(elements.get('app').innerHTML.includes('Nobody is eliminated.'));
+assert(elements.get('app').innerHTML.includes('The vote was tied'));assert(elements.get('app').innerHTML.includes('Nobody is eliminated.'));assert(elements.get('app').innerHTML.includes('Impostor wins'));
 run("action('replayImpostor',{})");assert.equal(run('S.screen'),'impostorPrepare');
 console.log('PASS: Impostor preparation, private reveal/background concealment, no-self confirmed vote, caught/tied results, replay and unchanged evening totals.');
 

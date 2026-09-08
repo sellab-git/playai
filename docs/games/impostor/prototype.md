@@ -25,3 +25,7 @@ Room code, host, membership, identities and existing evening totals survive this
 This is local simulation with embedded state, not secure role delivery or synchronized voting across phones. Preview controls must distinguish simulated actions from actions of real participants. Production secrecy needs server-owned private views; hiding text in HTML is not security.
 
 Bluff remains a proposed next experiment. Full game balancing, content packs, multiple-round options and production implementation are outside this iteration.
+
+## Clarity follow-up
+
+Approved: private guidance differs by role and covers the impostor speaking first. Public clue instructions remain role-neutral. Waiting shows the actual number of submitted ballots, without selections; the local preview advances remaining ballots explicitly. Results identify the winning side, explain elimination or a tie, reveal the word and retain vote distribution. Play again remains primary for the host; another game remains secondary. No word pool or additional settings were added.

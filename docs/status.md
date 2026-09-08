@@ -8,6 +8,8 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
+Impostor clarity follow-up: private role-specific instructions, submitted-vote count, explicit winner and revealed word in results. Twelve VM groups and independent Sol/Terra reviews passed. Android emulator host flow verified the updated waiting and result screens, including explicit remaining-vote simulation. Guest and keyboard gaps remain; see the latest review section.
+
 The approved Impostor follow-up now inserts an ordered one-word spoken clue from each participant before discussion. The current speaker or host advances the queue. A concealed My role reminder is available during clues and discussion without losing progress. Independent logic and UX reviews completed; one copy inconsistency was corrected. Focused emulator inspection confirmed reminder reveal/hide and the next speaker. See [review evidence](validation/impostor-review.md).
 
 The one-round Impostor mockup is implemented alongside Blindstop. It preserves the room and does not award evening points. Logic/state and UX/copy review corrections are complete; twelve VM groups pass. See [review and exact emulator coverage](validation/impostor-review.md). Final waiting/preview screens still need user visual evaluation; no production readiness is claimed.
