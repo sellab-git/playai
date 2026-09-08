@@ -11,6 +11,14 @@ English for all durable work. User conversation may be Polish. Keep root AGENTS.
 
 ## Delivery
 
+### Required app testing environment
+
+User preference accepted on 2026-09-08: use the Android Emulator for all Playai/Blindstop UI inspection, interaction testing and user previews. Do not use desktop Chrome, desktop viewport resizing or desktop mobile emulation to test the app. Chrome inside Android is the intended mobile browser. This restriction concerns the app preview; Linear and other project services may still use their existing browser tools.
+
+Current device: `Medium_Phone_API_36.1`. Open `http://127.0.0.1:8000/mockups/blindstop.html` inside the emulator with ADB reverse mapping `tcp:8000` to `tcp:8000` and the local prototype server running. Restore the mapping after emulator restarts if needed. Leave the user preview at the fresh start screen so the user can create a room as host; do not leave synthetic guest states behind.
+
+If the emulator is unavailable, report the blocker instead of silently falling back to desktop Chrome. Logic/VM checks remain valid complementary checks. Emulator checks do not constitute physical-phone, Safari or real multiplayer verification. Historical desktop browser evidence remains historical and must not be presented as current emulator coverage.
+
 Read index, status, relevant specification and the issue. Keep one primary issue in progress. Define problem, scope and acceptance criteria. For a significant UX change, review one representative screen and its transitions before expanding the design. Check the full screen map when navigation changes.
 
 Implement a bounded change, run relevant checks, update affected knowledge, and obtain independent agent review for significant changes under [the review protocol](review-process.md). Resolve confirmed findings and obtain focused re-review where required before handing work to the user for acceptance. Commit/push and link verification and review evidence in Linear. Draft commits and PRs may precede review; they are not acceptance. Use portable GitHub links and issue URLs, not machine-specific paths in Linear.

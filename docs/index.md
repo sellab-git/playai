@@ -2,6 +2,8 @@
 
 Read [Current status](status.md), [Working agreement](working-agreement.md), and the relevant current specification before work.
 
+App UI testing and previews: Android Emulator only, per user instruction. Do not use desktop Chrome for the app. See [testing environment](working-agreement.md#required-app-testing-environment).
+
 Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sellab/project/playai-blindstop-prototype-a5d29f2f1dfa/overview).
 
 - [Product vision and scope](product/vision.md)
