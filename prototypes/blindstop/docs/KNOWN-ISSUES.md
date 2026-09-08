@@ -11,11 +11,12 @@
 ## Open checks
 
 - Physical phone touch, on-screen keyboard, safe areas, Safari, and screen reader behavior.
-- Focus restoration after opening menus on automatically advancing results; VM tests confirm the pause but do not validate browser focus.
 - Remaining membership and host edge cases. The preview is not a full room lifecycle implementation.
 - Avatar artwork rights before product publication; the handoff does not resolve licensing.
 
 ## Resolved in the local review
+
+- Focus loss after automatic-result menu rerenders and Pause/Resume. Verified in visible Chrome through Playwright MCP; see `VALIDATION.md`.
 
 - Bottom actions outside the viewport at 640×360.
 - Leave/Rejoin abandoning an unfinished game instead of resuming the local preview.

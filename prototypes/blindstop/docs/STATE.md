@@ -8,7 +8,7 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
-The local review fixed short-viewport action reachability, leave/rejoin preservation through the existing local pause mechanism, and round-deadline copy. Logic tests pass; desktop browser viewport checks are recorded in `LOCAL-REVIEW.md`. Physical-phone approval remains pending.
+The local review fixed short-viewport action reachability, leave/rejoin preservation through the existing local pause mechanism, and round-deadline copy. Logic tests pass; desktop browser viewport checks are recorded in `LOCAL-REVIEW.md`. A follow-up in visible Chrome also fixed and verified automatic-result menu focus and Pause/Resume focus; see `VALIDATION.md`. Physical-phone approval remains pending.
 
 ## Repository and workflow
 
