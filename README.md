@@ -1,3 +1,5 @@
+> [Project knowledge base / Obsidian vault](docs/index.md) - current scope, decisions and workflow.
+
 # Playai — build kit
 
 > Current work continues in [the Blindstop prototype](prototypes/blindstop/README.md).

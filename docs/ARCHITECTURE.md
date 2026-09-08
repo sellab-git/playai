@@ -1,3 +1,5 @@
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # ARCHITECTURE — Playai
 
 ## Five decisions that are fixed

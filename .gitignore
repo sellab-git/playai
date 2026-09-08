@@ -10,3 +10,6 @@ Thumbs.db
 
 # tool output
 .playwright-mcp/
+
+# Local Obsidian workspace state
+**/.obsidian/

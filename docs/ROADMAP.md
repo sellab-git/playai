@@ -1,3 +1,5 @@
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # ROADMAP — Playai
 
 Stages are sequential. Each has a gate. Do not start the next stage until the gate

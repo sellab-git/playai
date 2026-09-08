@@ -1,3 +1,5 @@
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # DESIGN — Playai
 
 The visual language is a working document, not a party poster. Black ink drawings on

@@ -1,3 +1,5 @@
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # SCREENS — Playai
 
 Fourteen screens. Six are the game loop, two are entry, two are the room, four are
