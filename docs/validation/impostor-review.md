@@ -1,5 +1,7 @@
 # Impostor mockup review
 
+Latest implementation: `8341447`. Sections record successive checks; the final clarity follow-up supersedes the earlier host waiting/preview visual gap. Other limits remain as stated.
+
 ## Clue stage and role reminder follow-up
 
 Based on 39149cd. Lead implemented the approved ordered clue stage and concealed role reminder; no final word guess or additional settings were added. Sol independently reviewed logic/state with no confirmed defects. Terra reviewed UX/copy and found one inconsistency: rules allowed a spoken clue while the screen requested one word. Accepted and clarified both rules and scope as one spoken word per participant.

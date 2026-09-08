@@ -8,11 +8,13 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
+Current mockup commit: `8341447` (published in PR #1). Linear SEL-15 has been synchronized with this version and its verification evidence.
+
 Impostor clarity follow-up: private role-specific instructions, submitted-vote count, explicit winner and revealed word in results. Twelve VM groups and independent Sol/Terra reviews passed. Android emulator host flow verified the updated waiting and result screens, including explicit remaining-vote simulation. Guest and keyboard gaps remain; see the latest review section.
 
 The approved Impostor follow-up now inserts an ordered one-word spoken clue from each participant before discussion. The current speaker or host advances the queue. A concealed My role reminder is available during clues and discussion without losing progress. Independent logic and UX reviews completed; one copy inconsistency was corrected. Focused emulator inspection confirmed reminder reveal/hide and the next speaker. See [review evidence](validation/impostor-review.md).
 
-The one-round Impostor mockup is implemented alongside Blindstop. It preserves the room and does not award evening points. Logic/state and UX/copy review corrections are complete; twelve VM groups pass. See [review and exact emulator coverage](validation/impostor-review.md). Final waiting/preview screens still need user visual evaluation; no production readiness is claimed.
+The one-round Impostor mockup is implemented alongside Blindstop. It preserves the room and does not award evening points. Logic/state and UX/copy review corrections are complete; twelve VM groups pass. See [review and exact emulator coverage](validation/impostor-review.md). The host waiting/preview screens have now been inspected in the Android emulator. User gameplay acceptance and guest/device gaps remain open; no production readiness is claimed.
 
 The user considers the current Blindstop flow satisfactory for this stage and approved trying a minimal Impostor mockup before production implementation. The purpose is to validate private roles, voting and the persistent room across different mechanics. See [Impostor scope](games/impostor/prototype.md). This is not approval of full multiplayer, resolution of device-test gaps, or implementation of Bluff.
 
@@ -22,7 +24,7 @@ Independent Sol/Terra review resolved two navigation defects: returning through 
 
 The local review fixed short-viewport action reachability, leave/rejoin preservation through the existing local pause mechanism, and round-deadline copy. Logic tests pass; desktop browser viewport checks are recorded in [LOCAL-REVIEW.md](validation/handoff-review.md). A follow-up in visible Chrome also fixed and verified automatic-result menu focus and Pause/Resume focus; see [VALIDATION.md](validation/results.md). Physical-phone approval remains pending.
 
-The latest iteration separates the room catalogue from Blindstop preparation. The catalogue contains only game selection and compact room context; preparation contains a settings summary/editor, participants and Start. Replay returns to preparation; Choose another game returns to the catalogue. Room identity, points and nested Back/Close navigation are preserved. See [DECISIONS.md](decisions/prototype.md) for the accepted scope.
+The earlier room-flow iteration separates the room catalogue from Blindstop preparation. The catalogue contains only game selection and compact room context; preparation contains a settings summary/editor, participants and Start. Replay returns to preparation; Choose another game returns to the catalogue. Room identity, points and nested Back/Close navigation are preserved. See [DECISIONS.md](decisions/prototype.md) for the accepted scope.
 
 ## Repository and workflow
 
