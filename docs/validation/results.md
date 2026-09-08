@@ -2,6 +2,8 @@
 
 ## Android emulator review — 2026-09-08
 
+Focused follow-up: the emulator stopped during the first menu attempt and was restarted. The same click-without-activation behavior then occurred on the Android launcher's Chrome icon; Enter opened Chrome. This reproduces outside the mockup and points to emulator/input delivery rather than proving an application-handler defect. Chrome's privacy onboarding screen blocked further inspection. Keyboard/landscape checks remain unexecuted; no previously passed gameplay tests were repeated and no app code was changed.
+
 Reviewed commit 3932541 in Medium_Phone_API_36.1, portrait, Chrome inside Android, using localhost reverse mapping. No desktop browser app tests or app code changes were made during this review.
 
 Observed: host catalogue -> preparation; preview membership increased from 8 to 20; preparation and final standings scrolled to the last participant while bottom actions remained visible; invalid 51-round input displayed validation and corrected 1-round setting saved; first-game practice offer appeared; a one-round manual game reached final standings; rules Back restored the game menu; leaving and rejoining restored the completed game; Play again returned to preparation; a two-round automatic game advanced from round-1 results to round 2 and final. Round-result avatars retained roster order; final standings used ranking order. The emulator was refreshed to fresh entry afterward.

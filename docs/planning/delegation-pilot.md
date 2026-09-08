@@ -13,8 +13,9 @@ Record model, bounded scope, timestamps, checks, corrections and outcome. Compar
 | 05: isolated surface detector assessment | inherited lead model | Unavailable | Unavailable | Regex fallback; one rejected decorative-border warning; two AT verification concerns deferred to SEL-16 | No code fix from detector; no computed contrast certification | Unavailable |
 | 06: emulator checklist | gpt-5.6-luna | Unavailable | Unavailable | Read-only prioritized scenarios; used to guide lead emulator testing | Checklist is not execution evidence | Unavailable |
 | 07: investigate Start activation | gpt-5.6-sol | Unavailable | Unavailable | Source trace found no deterministic guard failure; VM checks passed | Rejected speculative code changes; retap worked, but menu input issue also reproduced, so keyboard-only explanation remains unproven | Unavailable |
+| 08: focus/click event-order audit | gpt-5.6-sol | Unavailable | Unavailable | No focus-triggered render or interception affecting Start/menu found; no source fix justified | Lead reproduced focus-only input on Android launcher, outside app | Unavailable |
 
-Current pilot count: 7/10 completed assignments. See [mockup review evidence](../validation/agent-review-2026-09-08.md) and [emulator evidence](../validation/results.md). Worker and lead durations were not fully measured; no cost-saving conclusion is supported.
+Current pilot count: 8/10 completed assignments. See [mockup review evidence](../validation/agent-review-2026-09-08.md) and [emulator evidence](../validation/results.md). Worker and lead durations were not fully measured; no cost-saving conclusion is supported.
 
 Parent review used a full document read and comparison with source actions; it required one correction pass. Parent review time was not isolated from concurrent Linear setup and documentation migration, so no numerical parent-time or cost-saving claim is made.
 
