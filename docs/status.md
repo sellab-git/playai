@@ -28,4 +28,4 @@ The full-flow clarity review simplified the shared navigation and fixed final-re
 
 Maintained knowledge now lives in the `docs` Obsidian vault; former prototype documentation paths redirect here. Historical handoff and HTML snapshots remain unchanged. Start at [the index](index.md).
 
-The agreed Linear target is Sellab workspace / Sellab team / `Playai — Blindstop Prototype`. Project and issues are not yet created. The Diggai task owns migration and shared settings; Playai must wait for its completion report before changing shared configuration. See [working agreement](working-agreement.md).
+The agreed Linear target is Sellab workspace / Sellab team / `Playai — Blindstop Prototype`. Project and issues are not yet created. The Diggai task reported migration and shared configuration complete on 2026-09-08; Playai setup may now proceed. Preserve the shared settings and use the documented Blocked fallback. See [working agreement](working-agreement.md).

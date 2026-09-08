@@ -21,7 +21,9 @@ Use native Backlog -> Todo -> In Progress -> In Review -> Done. No duplicate Rea
 
 Use Sellab workspace and the existing Sellab team. Name projects `Product — Deliverable/Stage`; the current target is `Playai — Blindstop Prototype`, with project label Product: Playai. Keep projects bounded so completed work can archive. Do not create a separate Playai team.
 
-The Diggai task owns the current migration and shared configuration: one-month auto-archive, no inactivity-based auto-cancellation, and PR merge to In Review rather than automatic acceptance. These are agreed targets, not verified completed settings. Avoid concurrent changes; consume the migration completion report before configuring Playai against them.
+The Diggai task reported migration completion on 2026-09-08 and verified [Sellab workflow settings](https://linear.app/sellab/settings/teams/SEL/workflow): one-month auto-archive, inactivity-based auto-cancellation disabled, PR merge to In Review, and parent/sub-issue auto-close disabled. Product project labels Diggai and Playai exist. The Free plan remains active. These checks were performed by the migration task, not independently repeated here.
+
+Blocked status has a reported UI inconsistency: creation reports it already exists, but neither settings nor the issue picker exposes it. Do not retry creation. Keep blocked work in its current non-completed status, use native blocking relations for issue dependencies, and prominently record `Blocked`, the reason, and next-action owner in the description for external blockers.
 
 The Free plan counts 250 non-archived issues across the workspace; completed issues still count until archived. Verified in Linear's plan screen on 2026-09-08. Review capacity around 180–200; never delete history merely to recover capacity.
 
