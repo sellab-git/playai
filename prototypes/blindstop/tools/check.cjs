@@ -32,6 +32,10 @@ for (const phase of ['countdown', 'round', 'waiting', 'roundResult', 'paused']) 
   const before = run('JSON.stringify({results:S.results,history:self().history,round:S.round})');
   run("action('confirmLeave',{});");
   assert.equal(run('S.screen'), 'return');
+  const returningPlayer = run('S.me');
+  run("action('back',{});action('join',{})");
+  assert.equal(run('S.screen'), 'return');
+  assert.equal(run('S.me'), returningPlayer);
   advance(20000);
   assert.equal(run('JSON.stringify({results:S.results,history:self().history,round:S.round})'), before);
   run("action('rejoin',{});");
@@ -99,3 +103,13 @@ run("resetRoom();S.me=0;S.screen='final';action('confirmLeave',{});action('rejoi
 assert.equal(run('S.screen'),'final');run('menu()');assert(!doc.getElementById('dialog').innerHTML.includes('data-action="manage"'));run('dismiss()');
 run("S.me=1;screen('catalogue');action('demoSelect',{})");assert.equal(run('S.screen'),'lobby');run("action('demoStart',{})");assert.equal(run('S.screen'),'countdown');run('stopTimers()');
 console.log('PASS: final-result return and explicit guest host-simulation controls.');
+
+run("resetRoom();S.me=1;S.screen='lobby';render()");
+assert(elements.get('app').innerHTML.includes('data-action="chooseGame"'));
+const guestRoom = run('JSON.stringify({me:S.me,host:S.host,people})');
+run('chooseGame()');
+assert.equal(run('S.screen'),'catalogue');
+assert.equal(run('JSON.stringify({me:S.me,host:S.host,people})'),guestRoom);
+run('prepareGame()');
+assert.equal(run('S.screen'),'catalogue');
+console.log('PASS: guest can return to catalogue without gaining host selection permissions.');

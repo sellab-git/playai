@@ -8,6 +8,8 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
+Independent Sol/Terra review resolved two navigation defects: returning through Home -> Join now preserves the local player/game, and guests can return from preparation to catalogue without host permissions. Focused re-review and nine VM groups passed; [review evidence](validation/agent-review-2026-09-08.md) records exact browser coverage and open device/accessibility gaps. SEL-15 remains for user acceptance.
+
 The local review fixed short-viewport action reachability, leave/rejoin preservation through the existing local pause mechanism, and round-deadline copy. Logic tests pass; desktop browser viewport checks are recorded in [LOCAL-REVIEW.md](validation/handoff-review.md). A follow-up in visible Chrome also fixed and verified automatic-result menu focus and Pause/Resume focus; see [VALIDATION.md](validation/results.md). Physical-phone approval remains pending.
 
 The latest iteration separates the room catalogue from Blindstop preparation. The catalogue contains only game selection and compact room context; preparation contains a settings summary/editor, participants and Start. Replay returns to preparation; Choose another game returns to the catalogue. Room identity, points and nested Back/Close navigation are preserved. See [DECISIONS.md](decisions/prototype.md) for the accepted scope.
