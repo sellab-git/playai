@@ -1,25 +1,33 @@
-# Ustalenia UX/UI
+# Accepted prototype decisions
 
-## Wymagania użytkownika
-- Przeklikiwalny mockup ma wyglądać jak prawdziwa aplikacja na telefonie, bez ramek urządzenia, panelu recenzenta i opisów dookoła.
-- Zegar/cel i główny tekst wyśrodkowane względem ekranu.
-- Elementy klikalne jako przyciski; bez podkreślonych linków udających akcje.
-- Stałe miejsca avatarów podczas meczu. Zmieniają się wartości i statusy; nie zmienia się kolejność graczy. Kolejność według wyniku dopiero na finale. Podsumowanie wieczoru również jest rankingiem.
-- Dedykowany Tap, nie tapowanie całego ekranu.
-- Spójne położenie dolnych akcji, równe wysokości; jeden rząd. Górne akcje jako lekkie przyciski ikonowe z dostępnymi nazwami.
-- Użyć oryginalnych wyśrodkowanych twarzy. Osadzone jest 25, pełen wybór w modalnym oknie. ViewBox 90 90 900 900; identyfikatory wewnętrznych SVG rozdzielone, aby się nie nadpisywały.
-- Do 20 graczy; nie zmniejszać tekstu i avatarów w nieskończoność. Przewijać listę.
-- 1–20 rund; aktualnie domyślnie 5 (wcześniej było 10). Skróty wyboru: 1, 3, 5, 10, 20.
-- Cele z częścią ułamkową i dwa miejsca po przecinku.
-- Domyślnie host uruchamia następną rundę. Opcjonalnie automat 8 sekund z pauzą.
+Updated 2026-09-08 after the user approved the room-level UX proposal.
 
-## Ostatnia korekta: v8
-v7 była zbyt gęsta. W v8 ukryto pionowy pasek przewijania listy, pozostawiając natywne przewijanie i klawiaturę. Usunięto zapas miejsca/obliczenia szerokości paska z v6–v7.
+## Platform, room, and game
 
-Na wyniku rundy: błąd użytkownika, zwycięzca, tabela, dolna akcja. Nie ma przełącznika This round / Overall na głównym ekranie. Dokładny cel, własny czas i miejsce są w Menu → Round details; ranking meczu w Menu → Overall standings. Na finale osobiste szczegóły są w Menu → Your game.
+- The platform entry leads to creating or joining a room. Playai remains the working platform name, not a newly finalized brand decision.
+- The room owns participants, names, avatars, host, invitation code, and evening points. A game runs inside that room. Returning from a final uses **Back to room**.
+- The room offers game selection, rules, game settings, and starting the selected game. The approved prototype selection view contains only Blindstop; no second game or placeholder catalogue is invented.
+- Names and avatars are chosen on room entry and can be edited from the room menu. They persist through games and rematches in the current local room. No account or cross-refresh persistence is added.
 
-Otwarcie menu przez hosta podczas automatycznych wyników zatrzymuje automat. Po zamknięciu trzeba świadomie nacisnąć Resume. To celowa ochrona czasu na czytanie.
+## Game progression
 
-Styl: białe tło, ciepły ciemny tekst, delikatne kolorowe pola avatarów, mało dekoracji. Copy po angielsku, rozmowa z użytkownikiem po polsku.
+- 2–20 active participants; 1–20 rounds, default 5. Keep fractional targets with two decimal places.
+- **Auto-start next round** is off by default in every new room. Setup changes save immediately. Rematches retain settings; a game's pacing is captured at start.
+- Manual results have **Next round**, or **See final results** after the last round. They never show countdown pause/resume controls.
+- Automatic results wait 8 seconds. **Pause countdown** and **Resume countdown** name precisely what they control. Opening the host's results menu pauses the countdown until an explicit resume or next action.
+- The active-round header is **Round N of M**. Results use **Round N results**, and the next button has no competing round number.
 
-Nie traktuj ostatnich propozycji dalszych zmian jako zaakceptowanych decyzji. Są w NEXT.md.
+## Navigation and help
+
+- Room and game have distinct menu titles and actions.
+- A nested menu view has Back and Close: Back returns one level; Close exits the whole panel. Escape returns one level, then closes the root menu. Preserve focus and parent scroll position.
+- Rules appear alongside the selected game in the room, and in Game menu while playing. Do not duplicate them with a separate question-mark button on the same screen.
+
+## Existing visual direction retained
+
+- Standalone HTML with embedded original faces, white background, warm ink, pale avatar tiles, restrained decoration, no device frame or reviewer panel.
+- Fixed participant order during the game and round results; sorted final and evening standings. Lists scroll without visible scrollbars or indefinitely shrinking rows.
+- Dedicated Tap button, a single row of equal-height bottom actions, accessible light navigation buttons, and centered timing content.
+- All 25 faces remain available. English interface copy; conversation in Polish. New durable project content is English.
+
+Original v8 decisions are preserved in `handoff/DECISIONS.md`. The separate proposals in `NEXT.md` remain proposals unless explicitly listed here.

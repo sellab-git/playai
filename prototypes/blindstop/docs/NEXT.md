@@ -2,11 +2,11 @@
 
 ## Approved immediate direction
 
-1. Preserve the handoff and reviewed fixes in GitHub with a reviewable commit and pull request.
+1. Handoff and reviewed fixes are published on `codex/blindstop-prototype-handoff` in PR #1. Keep subsequent refinements reviewable.
 2. Keep current state, accepted decisions, implemented rules, and unresolved proposals distinct in documentation.
 3. Continue focused mockup refinements from user feedback; validate relevant behavior and keep English app copy.
 
-The first desktop viewport review is complete. See `LOCAL-REVIEW.md`. Automatic-result menu focus is now fixed and browser-verified. Next validation should cover physical-phone behavior and user feedback on a complete game. Continue the mockup; do not start production architecture work.
+The room-level UX proposal is accepted and implemented in the mockup; see `DECISIONS.md`. The first desktop viewport review is complete. See `LOCAL-REVIEW.md`. Automatic-result menu focus is now fixed and browser-verified. Next validation should cover physical-phone behavior and user feedback on a complete game. Continue the mockup; do not start production architecture work.
 
 ## Proposed only — not separately approved or implemented
 

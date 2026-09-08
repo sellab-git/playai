@@ -11,7 +11,7 @@ python -m http.server 8000 --bind 127.0.0.1
 node tools/check.cjs
 ```
 
-Open http://127.0.0.1:8000/mockups/blindstop.html. The title still identifies the v8 design lineage; the working file includes the local fixes described in `docs/LOCAL-REVIEW.md`.
+Open http://127.0.0.1:8000/mockups/blindstop.html. The current title is Playai · Blindstop. The room-level UX decisions are in `docs/DECISIONS.md`; validation evidence is in `docs/VALIDATION.md`.
 
 ## Sources of truth
 

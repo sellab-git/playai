@@ -24,3 +24,10 @@
 
 ## Symulacja, nie multiplayer
 Boty tapują według deterministycznej funkcji czasu. Join używa kodu K7QMX i udaje hosta rozpoczynającego grę po 4 sekundach. Menu ma osobny zestaw Preview controls. Pauza zamraża lokalny czas; wznowienie zachowuje już zapisane tapnięcia. To nie jest docelowa reguła pauzowania całej gry po utracie połączenia przez jedną osobę.
+
+
+## Accepted room UX update — 2026-09-08
+
+Game scoring and target generation are unchanged. Pacing is now captured as `gamePace` when a game starts. Room setup saves immediately; a new room resets to manual pacing and 5 rounds, while rematches retain room settings. Manual results never show countdown controls. Automatic progression and its final transition still wait 8 seconds and support explicit pause/resume.
+
+Names, avatars, and evening points belong to the local room and survive game selection, finals, returning to the room, and rematches. Editing identity is available only from the room. The game-selection mockup lists Blindstop only and does not implement another game or network membership.
