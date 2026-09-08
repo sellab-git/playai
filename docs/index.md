@@ -12,6 +12,7 @@ Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sel
 - [Impostor exploratory mockup](games/impostor/prototype.md)
 - [Accepted prototype decisions](decisions/prototype.md)
 - [Doplay research and room-flow rationale](research/doplay-room-flow.md)
+- [Doplay Impostor mechanics comparison](research/doplay-impostor.md)
 - [Known issues](validation/known-issues.md), [validation evidence](validation/results.md), and [regression scenarios](validation/scenarios.md)
 - [Backlog proposal record](planning/backlog-notes.md)
 - [Delegation pilot](planning/delegation-pilot.md)

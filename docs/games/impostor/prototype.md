@@ -8,7 +8,9 @@ Check whether the existing room supports private information, conversation away 
 
 ## Bounded flow
 
-Catalogue -> preparation -> private role/word -> discussion -> vote -> reveal/result -> preparation or catalogue.
+Catalogue -> preparation -> private role/word -> one spoken word as a clue per participant -> discussion -> vote -> reveal/result -> preparation or catalogue.
+
+Approved follow-up after the Doplay comparison: introduce a distinct clue stage and a concealed reminder of the assigned role during clues/discussion. Each participant gives one spoken word as a clue without saying the word. The interface identifies the current speaker; the speaker or host advances the queue. Keep participant order stable. After the last clue, move to discussion. Voting remains a separate host action. The reminder must not reset progress or expose a role through Back, dismissal, backgrounding or rejoin.
 
 One participant is the impostor and does not know the shared word. Other participants receive the word privately. Participants discuss without revealing the word directly, then vote for a suspect. The interface must make revealing and hiding private information explicit, distinguish selecting a vote from submitting it, and explain the outcome.
 

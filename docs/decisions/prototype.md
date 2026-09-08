@@ -37,6 +37,8 @@ Original v8 decisions are preserved in `prototypes/blindstop/docs/handoff/DECISI
 
 ## Approved extension: one-round Impostor mockup
 
+The user subsequently approved a distinct spoken-clue stage before discussion and discreet access to the assigned role during those stages, following the [Doplay comparison](../research/doplay-impostor.md). No post-elimination guessing, hint variants or additional settings are approved in this update.
+
 The user approved trying Impostor to validate private roles and voting within the existing room. This supersedes the mockup's earlier single-game catalogue restriction only. See [scope](../games/impostor/prototype.md). Preserve Blindstop and room identity. Do not add Impostor points to evening totals in this experiment. Bluff remains proposed; no production stage is started.
 
 - Settings open in a named dialog from a summary such as **5 rounds · Manual**. Valid changes save immediately; Done returns focus to the summary.
