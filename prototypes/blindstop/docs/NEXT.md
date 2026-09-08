@@ -6,7 +6,7 @@
 2. Keep current state, accepted decisions, implemented rules, and unresolved proposals distinct in documentation.
 3. Continue focused mockup refinements from user feedback; validate relevant behavior and keep English app copy.
 
-The room-level UX proposal is accepted and implemented in the mockup; see `DECISIONS.md`. The first desktop viewport review is complete. See `LOCAL-REVIEW.md`. Automatic-result menu focus is now fixed and browser-verified. Next validation should cover physical-phone behavior and user feedback on a complete game. Continue the mockup; do not start production architecture work.
+The revised separate catalogue/preparation flow is accepted and implemented in the mockup; see `DECISIONS.md`. The first desktop viewport review is complete. See `LOCAL-REVIEW.md`. Automatic-result menu focus is now fixed and browser-verified. Next validation should cover physical-phone behavior and user feedback on a complete game. Continue the mockup; do not start production architecture work.
 
 ## Proposed only — not separately approved or implemented
 

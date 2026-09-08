@@ -25,3 +25,10 @@ The user-approved mockup now separates platform entry, room identity, game selec
 Visible Chrome checks through Playwright MCP passed with 20 preview participants at 360×640, 393×780, 430×900, and 640×360. The room roster scrolls and bottom actions fit within the viewport. A manual round remained on its results after 9 seconds with no pause/countdown controls. Automatic results stayed paused after reading a nested menu and resumed only on explicit Resume countdown. Back restored the parent menu; Escape moved back one level and then closed, restoring menu-button focus. Editing a name/avatar and returning after a completed game preserved identity and evening points. Only one rules entry appears on the room screen.
 
 `node tools/check.cjs` and `git diff --check` pass. The design detector used its regex fallback because optional parser dependencies were unavailable; its only finding was the existing ink error border. Physical-device and assistive-technology checks remain open.
+
+
+## Separate catalogue and preparation — 2026-09-08
+
+Visible Chrome via Playwright MCP: created a room, changed preview membership to 20, selected Blindstop, edited inline rounds, completed one manual game, returned through replay preparation and then the catalogue. Identity, game count and evening points were unchanged by those navigation actions. Manual results had no countdown control. Guest catalogue/preparation were inspected using explicit local state simulation: no select/start or editable settings controls, with host-waiting copy. Room participants -> Back -> Escape restored the menu then focused its invoker.
+
+Preparation viewport checks: 360x640, 393x780, 430x900, 640x360. Document height matched each viewport; Start bottom edges were 630, 771, 888 and 350 pixels. All 20 rows existed and the roster scrolled. In short landscape the preparation body also scrolls so settings remain reachable. Screenshots inspected at phone and short landscape sizes. VM regressions additionally cover host-only transitions, catalogue leave/rejoin, and replay preserving identity/points. Tests do not prove real multiplayer or physical-device behavior.

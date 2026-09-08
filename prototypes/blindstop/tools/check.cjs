@@ -74,3 +74,22 @@ assert(doc.getElementById('dialog').innerHTML.includes('data-action="dialogBack"
 run('dialogBack()');assert.equal(doc.getElementById('dialog').innerHTML,parentMenu);
 run('dismiss()');assert.equal(run('dialogTrail.length'),0);
 console.log('PASS: nested dialogs return to the room menu and Close clears navigation history.');
+
+// Selection is navigation, not a game start; room membership survives both routes.
+run("resetRoom();S.me=0;screen('catalogue')");
+assert(elements.get('app').innerHTML.includes('Choose a game'));
+for(const control of ['prepare-rounds','roster-scroll','data-action="start"']) assert(!elements.get('app').innerHTML.includes(control));
+run("action('selectGame',{})");assert.equal(run('S.screen'),'lobby');assert.equal(run('S.live'),false);
+assert(elements.get('app').innerHTML.includes('prepare-rounds'));
+assert(!elements.get('app').innerHTML.includes('Ready'));
+run("self().total=7;S.games=1;self().name='Arthur';self().face=25;S.screen='final';action('selectGame',{})");
+assert.equal(run('S.screen'),'lobby');assert.equal(run('S.live'),false);assert.equal(run('self().total'),7);
+run("chooseGame();action('confirmLeave',{});action('rejoin',{})");assert.equal(run('S.screen'),'catalogue');
+assert.equal(run('self().name'),'Arthur');assert.equal(run('self().face'),25);
+run("S.me=1;screen('catalogue');action('selectGame',{})");assert.equal(run('S.screen'),'catalogue');
+assert(elements.get('app').innerHTML.includes('Waiting for Arthur to choose a game'));
+assert(!elements.get('app').innerHTML.includes('data-action="selectGame"'));
+run("screen('lobby')");assert(!elements.get('app').innerHTML.includes('prepare-rounds'));
+assert(!elements.get('app').innerHTML.includes('data-action="start"'));
+run("screen('final');action('lobby',{})");assert.equal(run('S.screen'),'final');
+console.log('PASS: separate selection/preparation, host-only transitions, guest waiting, replay preparation and room preservation.');

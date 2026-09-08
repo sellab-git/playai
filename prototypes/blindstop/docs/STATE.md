@@ -10,7 +10,7 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 The local review fixed short-viewport action reachability, leave/rejoin preservation through the existing local pause mechanism, and round-deadline copy. Logic tests pass; desktop browser viewport checks are recorded in `LOCAL-REVIEW.md`. A follow-up in visible Chrome also fixed and verified automatic-result menu focus and Pause/Resume focus; see `VALIDATION.md`. Physical-phone approval remains pending.
 
-The latest iteration separates platform entry, room, and game; adds a single-game selection view and room identity editing; saves pacing immediately; and gives nested menus Back/Close navigation. See `DECISIONS.md` for the accepted scope.
+The latest iteration separates the room catalogue from Blindstop preparation. The catalogue contains only game selection and compact room context; preparation contains inline settings, participants and Start. Replay returns to preparation; Choose another game returns to the catalogue. Room identity, points and nested Back/Close navigation are preserved. See `DECISIONS.md` for the accepted scope.
 
 ## Repository and workflow
 
