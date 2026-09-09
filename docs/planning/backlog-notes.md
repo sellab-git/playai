@@ -2,6 +2,8 @@
 
 ## Approved immediate direction
 
+2026-09-09 update: the user authorized the complete pre-production readiness sequence. See [execution gates](readiness-execution.md) and [production decisions](../decisions/production-readiness.md). They supersede the earlier pending-production wording for preparation only; human playtest and real production gates remain unpassed. The future evening-scoring baseline is now specified, not implemented in the mockup.
+
 - The user considers Impostor logical and Categories acceptable for the current stage. Bluff's false-answer/voting mockup is now approved; see [scope](../games/bluff/prototype.md). Drawing games are deferred. This does not start the production roadmap.
 - Establish comparable evening scoring across games, including Impostor. Categories round scoring does not settle that conversion.
 

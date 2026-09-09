@@ -6,6 +6,11 @@ App UI testing and previews: Android Emulator only, per user instruction. Do not
 
 Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sellab/project/playai-blindstop-prototype-a5d29f2f1dfa/overview).
 
+- [Production readiness decisions](decisions/production-readiness.md)
+- [Execution gates and baseline reconciliation](planning/readiness-execution.md)
+- [Shared game UI contract](design/shared-game-ui.md)
+- [Human playtest packet](validation/pre-production-playtest.md)
+- [Runner acceptance scenarios](production/runner-acceptance.md)
 - [Product vision and scope](product/vision.md)
 - [Blindstop screen map](games/blindstop/screens.md)
 - [Blindstop rules](games/blindstop/rules.md)

@@ -1,3 +1,5 @@
+> Current implementation preparation: [production readiness](decisions/production-readiness.md) and [gate/reconciliation table](planning/readiness-execution.md) supersede conflicting historical limits and behavior below. The fixed architecture and visual language remain binding.
+
 > Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
 
 # SPEC — Playai

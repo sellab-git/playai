@@ -54,3 +54,8 @@ The user approved provisional per-answer points/reasons, descending standings wi
 ## Bluff scope accepted — 2026-09-09
 
 The user provisionally accepted Categories for this stage and requested Bluff next, explicitly confirming false answers and anonymous voting. Implement a bounded local one-round mockup in the existing room, with 2 truth points and 1 point per person fooled. See [Bluff scope and edge cases](../games/bluff/prototype.md). This supersedes earlier statements that Bluff is only a future proposal; production work and evening-score conversion remain unapproved. The first question is a fixed interaction fixture, not a finished question bank.
+
+
+## Pre-production readiness authorized — 2026-09-09
+
+The user authorized completing the recommendations sequentially and using cheaper models for bounded assignments. [Production readiness](production-readiness.md) now specifies future room/recovery/deadline/scoring behavior and [execution gates](../planning/readiness-execution.md) reconcile it with the older build kit. This authorization does not turn the fixed local preview into multiplayer or count unperformed human/device tests as passed. Current mockup behavior remains as documented until separately implemented.

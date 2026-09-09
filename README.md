@@ -1,3 +1,5 @@
+> Current production preparation: [readiness decisions](docs/decisions/production-readiness.md) and [execution gates](docs/planning/readiness-execution.md) supersede conflicting historical values below. The prototype remains local simulation; no production gate is passed.
+
 > [Project knowledge base / Obsidian vault](docs/index.md) - current scope, decisions and workflow.
 
 # Playai — build kit
