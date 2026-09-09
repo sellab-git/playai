@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');let now=0,serial=0,tasks=new Map();const elements=new Map(),listeners={};let scrollNode=null;
-function element(){return {innerHTML:'',textContent:'',value:'',style:{},scrollTop:0,hidden:false,open:false,classList:{add(){},remove(){}},addEventListener(){},querySelector(s){return s==='#roster-scroll'?scrollNode:null},querySelectorAll(){return []},focus(){},close(){this.open=false},showModal(){this.open=true}}}
+function element(){return {innerHTML:'',textContent:'',value:'',style:{},scrollTop:0,hidden:false,open:false,classList:{add(){},remove(){}},listeners:{},addEventListener(k,f){this.listeners[k]=f},querySelector(s){return s==='#roster-scroll'?scrollNode:null},querySelectorAll(){return []},focus(){},close(){this.open=false},showModal(){this.open=true}}}
 const doc={getElementById(id){if(!elements.has(id))elements.set(id,element());return elements.get(id)},querySelector(){return null},addEventListener(k,f){listeners[k]=f},hidden:false,activeElement:null};const ctx={document:doc,window:{addEventListener(){}},navigator:{},location:{hash:''},URLSearchParams,FormData,performance:{now:()=>now},setTimeout(fn,ms){let id=++serial;tasks.set(id,{fn,at:now+ms,ms,repeat:false});return id},setInterval(fn,ms){let id=++serial;tasks.set(id,{fn,at:now+ms,ms,repeat:true});return id},clearTimeout(id){tasks.delete(id)},clearInterval(id){tasks.delete(id)},console};vm.createContext(ctx);vm.runInContext(fs.readFileSync(require('path').join(__dirname,'../mockups/blindstop.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1],ctx);const run=s=>vm.runInContext(s,ctx);
 function advance(ms){let end=now+ms,guard=10000;while(guard--){let next=[...tasks].filter(([k,v])=>v.at<=end).sort((a,b)=>a[1].at-b[1].at)[0];if(!next)break;let [id,v]=next;now=v.at;if(v.repeat)v.at+=v.ms;else tasks.delete(id);v.fn()}assert(guard>0);now=end}
 for(const n of [2,8,12,16,20]){run(`people.forEach((p,i)=>{p.active=i<${n};p.seen=i<${n};p.history=Array(5).fill({error:.95-p.id*.02})});S.gameRounds=5;S.results=active().map(p=>({id:p.id,error:.95-p.id*.02}));`);for(const screen of ['lobby','countdown','round','waiting','roundResult','final','summary']){run(`S.screen='${screen}';render()`);let html=elements.get('app').innerHTML;assert(!html.includes('undefined'));let ids=[...html.matchAll(/data-player-slot="(\d+)"/g)].map(m=>+m[1]);if(['lobby','waiting','roundResult'].includes(screen))assert.deepEqual(ids,Array.from({length:n},(_,i)=>i));if(screen==='final')assert.deepEqual(ids,Array.from({length:n},(_,i)=>n-i-1));}}
@@ -174,3 +174,44 @@ run("S.me=1;action('categoriesFinishConfirm',{})");assert.equal(run('S.screen'),
 run("S.me=0;S.categories.draft[0]='Brazil'");doc.hidden=true;listeners.visibilitychange();doc.hidden=false;assert.equal(run('S.screen'),'categoriesWrite');assert.equal(run('S.categories.draft[0]'),'Brazil');
 run("action('categoriesFinishConfirm',{})");assert.equal(run('S.screen'),'categoriesWaiting');assert.equal(run('Object.keys(S.categories.answers).length'),3);assert.equal(run('S.categories.answers[0][1]'),'');
 const frozenSheets=run('JSON.stringify(S.categories.answers)');run("action('categoriesPreviewCommit',{})");assert.equal(run('JSON.stringify(S.categories.answers)'),frozenSheets);
+
+// Review previews and final totals share a calculation; Back preserves judgments.
+run("resetRoom();S.me=0;people.forEach((p,i)=>{p.active=i<3;p.seen=i<3});S.gameId='categories';S.screen='categoriesPrepare';startCategories()");
+assert.equal(run('categoryWritingHint()'),'0 of 4 filled');
+const unchangedForm=elements.get('app').innerHTML;
+const stopButton={disabled:true};const oldQuery=elements.get('app').querySelector;
+elements.get('app').querySelector=s=>s==='[data-action="categoriesStop"]'?stopButton:null;
+for(const [i,value] of ['Brazil','Berlin','Bear','Bread'].entries())elements.get('app').listeners.input({target:{id:`category-${i}`,dataset:{categoryIndex:String(i)},value}});
+assert.equal(elements.get('app').innerHTML,unchangedForm,'typing must not replace the form');
+assert.equal(doc.getElementById('footer-meta').textContent,'Stops writing for everyone');assert.equal(stopButton.disabled,false);
+elements.get('app').listeners.input({target:{id:'category-3',dataset:{categoryIndex:'3'},value:'  '}});
+assert.equal(doc.getElementById('footer-meta').textContent,'3 of 4 filled');assert.equal(stopButton.disabled,true);
+elements.get('app').querySelector=oldQuery;
+run("S.categories.draft[3]='Bread';lockCategoryAnswers();previewCategoryAnswers();S.categories.answers={0:['Brazil','Berlin','Bear','Bread'],1:[' brazil ','Boston','Bear','Bread'],2:['France','','Badger','Banana']};render()");
+assert.deepEqual(JSON.parse(run('JSON.stringify(categoryBreakdown(0).map(e=>[e.points,e.reason]))')),[[5,'categoryDuplicate'],[5,'categoryDuplicate'],[0,'categoryWrongLetter']]);
+run("action('categoriesJudge',{dataset:{id:'1'}})");
+assert.deepEqual(JSON.parse(run('JSON.stringify(categoryBreakdown(0).map(e=>[e.points,e.reason]))')),[[10,'categoryUnique'],[0,'categoryRejected'],[0,'categoryWrongLetter']]);
+run("action('categoriesPrevious',{})");assert.equal(run('S.categories.reviewIndex'),0);
+run("action('categoriesConfirm',{});action('categoriesPrevious',{})");assert.equal(run('S.categories.reviewIndex'),0);assert.equal(run("S.categories.judgments['0:1']"),false);
+run("S.me=1;action('categoriesPrevious',{});action('categoriesConfirm',{})");assert.equal(run('S.categories.reviewIndex'),0);
+run("S.me=0;action('categoriesJudge',{dataset:{id:'1'}});action('categoriesConfirm',{});action('categoriesConfirm',{});action('categoriesConfirm',{})");
+assert(elements.get('app').innerHTML.includes('Show results'));assert.equal(run('S.categories.scores'),null);
+run("action('categoriesPrevious',{});action('confirmLeave',{});action('rejoin',{})");assert.equal(run('S.categories.reviewIndex'),2);
+run("action('categoriesConfirm',{});action('categoriesConfirm',{})");assert.equal(run('S.screen'),'categoriesResult');
+assert.deepEqual(JSON.parse(run('JSON.stringify(categoryStandings().map(e=>[e.player.id,e.points,e.rank,e.tied]))')),[[0,25,1,true],[1,25,1,true],[2,20,3,false]]);
+const completed=run('JSON.stringify(S.categories)');run("action('categoriesPrevious',{});action('categoriesConfirm',{})");assert.equal(run('JSON.stringify(S.categories)'),completed);
+run("S.categories.scores={0:5,1:30,2:10}");assert.equal(run('categoryStandings().map(e=>e.player.id).join()'),'1,2,0');
+console.log('PASS: Categories live input hints without render, score reasons and duplicate recalculation, guarded correction/rejoin, finalization and ranked ties.');
+
+// Judging a scrolled row retains that row's position and keyboard focus.
+run("S.screen='categoriesReview';S.categories.reviewIndex=0;S.me=S.host");
+let focusedReviewId=null;const reviewBody={scrollTop:420};
+const restoreQuery=elements.get('app').querySelector;
+elements.get('app').querySelector=selector=>{
+  if(selector==='.category-review-shell .body')return reviewBody;
+  if(selector==='[data-action="categoriesJudge"][data-id="2"]')return {focus(options){focusedReviewId=2;assert.equal(options.preventScroll,true)}};
+  return null;
+};
+run("action('categoriesJudge',{dataset:{id:'2'}})");
+assert.equal(focusedReviewId,2);assert.equal(reviewBody.scrollTop,420);
+elements.get('app').querySelector=restoreQuery;

@@ -8,6 +8,8 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
+Categories clarity refinement adds provisional points/reasons, ranked ties, Previous correction and input progress/global-stop help. Fourteen VM groups pass; independent Sol/Terra reviews and focused re-reviews pass after correcting row scroll/focus. Android emulator eight-player host flow verified the changes through ranked results; floating-keyboard overlay and the existing device gaps remain. See [current evidence](validation/categories-review.md).
+
 Categories is implemented as the third standalone mockup: one fixed-letter round, four fields, frozen answers, per-answer host review and 10/5/0 round points. Thirteen VM groups pass; independent logic and UX re-reviews confirmed corrections. Android emulator host flow reached the result. A targeted visual-viewport fix keeps Stop visible above Android handwriting input, verified in the emulator and independently reviewed by Terra; guest, docked-keyboard and physical-device gaps remain. See [Categories evidence](validation/categories-review.md) and [SEL-17](https://linear.app/sellab/issue/SEL-17/build-and-review-the-categories-mockup).
 
 The user considers Impostor logical at this stage. Bluff is next in the approved sequence, not implemented. Drawing is deferred. Shared evening conversion and Impostor points remain unresolved; Categories does not silently add raw points to the existing evening totals.

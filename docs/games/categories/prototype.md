@@ -21,3 +21,7 @@ Round points are shown separately. Cross-game conversion into evening totals is 
 ## Recovery and limits
 
 Preserve room identity, participants and drafts/review state across local leave/rejoin. Keep host-only decisions guarded; guest preview actions must be explicitly identified as simulation. No extra settings, word database, drawing, production backend or Bluff implementation in this iteration.
+
+## Approved clarity refinement — 2026-09-09
+
+Show provisional points and their reason beside each reviewed answer (unique, duplicate, blank, wrong letter, rejected), using the same calculation as final totals. Rejections immediately recalculate duplicate groups. The host can return to earlier categories and change judgments before Show results finalizes the round. Preserve judgments across navigation and local leave/rejoin. Final results sort by descending points with shared competition ranks (1, 1, 3), retaining room order within ties. Show a filled-field count near Stop until complete, then explain that Stop ends writing for everyone; update without rerendering inputs. This refinement does not add rounds, random letters, grace time, voting, settings or evening conversion.

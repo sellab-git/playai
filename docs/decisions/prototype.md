@@ -46,3 +46,7 @@ The user approved trying Impostor to validate private roles and voting within th
 - Settings open in a named dialog from a summary such as **5 rounds · Manual**. Valid changes save immediately; Done returns focus to the summary.
 - Leaving/rejoining completed results restores the final screen. Participant management is restricted to catalogue/preparation.
 - Room recovery/error screens use Playai context; active-game pause retains Blindstop context. Explicit Preview controls can simulate host selection/start for guests.
+
+## Approved Categories clarity refinement — 2026-09-09
+
+The user approved provisional per-answer points/reasons, descending standings with ties, correction of earlier categories before finalization, and filled-field/global-stop helper text. See [Categories scope](../games/categories/prototype.md). Doplay informed the comparison; its settings, grace period and dispute voting were not adopted.
