@@ -11,6 +11,8 @@ Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sel
 - [Blindstop rules](games/blindstop/rules.md)
 - [Impostor exploratory mockup](games/impostor/prototype.md)
 - [Categories exploratory mockup](games/categories/prototype.md)
+- [Bluff exploratory mockup](games/bluff/prototype.md)
+- [Cross-game consistency review](validation/game-consistency.md)
 - [Accepted prototype decisions](decisions/prototype.md)
 - [Doplay research and room-flow rationale](research/doplay-room-flow.md)
 - [Doplay Impostor mechanics comparison](research/doplay-impostor.md)

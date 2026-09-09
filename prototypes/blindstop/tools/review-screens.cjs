@@ -1,0 +1,43 @@
+// Generate isolated visual fixtures in a temporary directory, never in the app.
+// Serve the printed directory locally. n/p move to the next/previous fixture.
+const fs=require('fs'),path=require('path'),os=require('os');
+const source=fs.readFileSync(path.join(__dirname,'../mockups/blindstop.html'),'utf8');
+const output=fs.mkdtempSync(path.join(os.tmpdir(),'playai-review-'));
+const room="resetRoom();S.me=0;S.host=0;S.screen='catalogue';";
+const blind=room+"prepareGame('blindstop');S.rounds=1;startGame();stopTimers();S.countdown=3;S.results=active().map(p=>({id:p.id,error:(p.id+1)/10}));people.forEach(p=>{p.history=[{error:(p.id+1)/10}];p.allHistory=[...p.history]});";
+const imp=room+"prepareGame('impostor');startImpostor();";
+const cat=room+"prepareGame('categories');startCategories();S.categories.draft=['Brazil','Berlin','Bear','Bread'];";
+const bluff=room+"prepareGame('bluff');startBluff();S.bluff.draft='Five';";
+const fixtures=[];
+const add=(name,setup)=>fixtures.push({name,setup});
+add('catalogue',room);
+add('blindstop-prepare',room+"prepareGame('blindstop')");
+for(const phase of ['countdown','round','waiting','roundResult','final'])add('blindstop-'+phase,blind+(phase==='waiting'?'S.results=S.results.slice(0,1);':'')+`S.screen='${phase}';`);
+add('impostor-prepare',room+"prepareGame('impostor')");
+for(const phase of ['impostorRole','impostorClues','impostorDiscussion','impostorVote','impostorWaiting'])add(phase,imp+"S.impostor.vote=1;S.impostor.votes=[{voter:0,target:1}];"+`S.screen='${phase}';`);
+add('impostor-role-revealed',imp+"S.impostor.revealed=true;");
+add('impostor-result',imp+"S.impostor.vote=1;S.screen='impostorWaiting';finishImpostorPreview();");
+add('categories-prepare',room+"prepareGame('categories')");
+add('categories-write',cat);
+add('categories-waiting',cat+"lockCategoryAnswers();");
+add('categories-review',cat+"lockCategoryAnswers();previewCategoryAnswers();");
+add('categories-result',cat+"lockCategoryAnswers();previewCategoryAnswers();for(let i=0;i<4;i++)confirmCategory();");
+add('bluff-prepare',room+"prepareGame('bluff')");
+add('bluff-write',bluff);
+add('bluff-submitted',bluff+"submitBluffAnswer();");
+add('bluff-vote',bluff+"submitBluffAnswer();simulateBluffAnswers();");
+const voted=bluff+"submitBluffAnswer();simulateBluffAnswers();selectBluffOption(bluffOptions().find(o=>o.truth).id);castBluffVote();";
+add('bluff-vote-waiting',voted);
+add('bluff-result',voted+"simulateBluffVotes();");
+add('bluff-details',voted+"simulateBluffVotes();bluffDetails();");
+const big=room+"people.forEach(p=>{p.active=true;p.seen=true});prepareGame('impostor');startImpostor();";
+add('impostor-vote-20',big+"S.screen='impostorVote';");
+add('impostor-result-20',big+"S.impostor.vote=1;S.screen='impostorWaiting';finishImpostorPreview();");
+const filenames=fixtures.map((f,i)=>`${String(i).padStart(2,'0')}-${f.name}.html`);
+fixtures.forEach((fixture,i)=>{
+  const init=`${fixture.setup};stopTimers();render();document.addEventListener('keydown',event=>{if(event.key==='n'||event.key==='p'){event.preventDefault();location.href=event.key==='n'?${JSON.stringify(filenames[(i+1)%fixtures.length])}:${JSON.stringify(filenames[(i+fixtures.length-1)%fixtures.length])}}});`;
+  const html=source.replace(/const initial=new URLSearchParams[\s\S]*?render\(\);\s*<\/script>/,init+'</script>');
+  new (require('vm').Script)(html.match(/<script>([\s\S]*?)<\/script>/)[1]);
+  fs.writeFileSync(path.join(output,filenames[i]),html);
+});
+console.log(JSON.stringify({directory:output,first:filenames[0],count:fixtures.length}));

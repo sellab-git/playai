@@ -1,4 +1,4 @@
-# Current state — 2026-09-08
+# Current state — 2026-09-09
 
 ## Scope
 
@@ -8,11 +8,13 @@ The prototype supports 2–20 simulated players, 1–20 rounds (default 5), opti
 
 ## Current work
 
+Bluff is implemented as the fourth one-round mockup: false answers, anonymous voting, truth reveal and 2/1 round scoring. The user-requested consistency pass unifies all four games' preparation, waiting, scrolling, voting and results patterns. Eighteen VM groups and two independent final reviews pass; 29 synthetic screen states were inspected in Android Emulator, including targeted lower-row selection and compact Bluff results. User acceptance and existing physical-device gaps remain open. See [Bluff evidence](validation/bluff-review.md), [consistency findings](validation/game-consistency.md) and [SEL-23](https://linear.app/sellab/issue/SEL-23/build-and-review-the-bluff-mockup).
+
 Categories clarity refinement adds provisional points/reasons, ranked ties, Previous correction and input progress/global-stop help. Fourteen VM groups pass; independent Sol/Terra reviews and focused re-reviews pass after correcting row scroll/focus. Android emulator eight-player host flow verified the changes through ranked results; floating-keyboard overlay and the existing device gaps remain. See [current evidence](validation/categories-review.md).
 
 Categories is implemented as the third standalone mockup: one fixed-letter round, four fields, frozen answers, per-answer host review and 10/5/0 round points. Thirteen VM groups pass; independent logic and UX re-reviews confirmed corrections. Android emulator host flow reached the result. A targeted visual-viewport fix keeps Stop visible above Android handwriting input, verified in the emulator and independently reviewed by Terra; guest, docked-keyboard and physical-device gaps remain. See [Categories evidence](validation/categories-review.md) and [SEL-17](https://linear.app/sellab/issue/SEL-17/build-and-review-the-categories-mockup).
 
-The user considers Impostor logical at this stage. Bluff is next in the approved sequence, not implemented. Drawing is deferred. Shared evening conversion and Impostor points remain unresolved; Categories does not silently add raw points to the existing evening totals.
+The user provisionally accepted Categories for this stage and explicitly approved the Bluff false-answer/voting variant. See [Bluff scope](games/bluff/prototype.md) and [SEL-23](https://linear.app/sellab/issue/SEL-23/build-and-review-the-bluff-mockup). Drawing is deferred. Shared evening conversion and Impostor points remain unresolved; new games do not silently add raw points to the existing evening totals.
 
 Impostor clarity follow-up: private role-specific instructions, submitted-vote count, explicit winner and revealed word in results. Twelve VM groups and independent Sol/Terra reviews passed. Android emulator host flow verified the updated waiting and result screens, including explicit remaining-vote simulation. Guest and keyboard gaps remain; see the latest review section.
 
@@ -20,7 +22,7 @@ The approved Impostor follow-up now inserts an ordered one-word spoken clue from
 
 The one-round Impostor mockup is implemented alongside Blindstop. It preserves the room and does not award evening points. Logic/state and UX/copy review corrections are complete; twelve VM groups pass. See [review and exact emulator coverage](validation/impostor-review.md). The host waiting/preview screens have now been inspected in the Android emulator. User gameplay acceptance and guest/device gaps remain open; no production readiness is claimed.
 
-The user considers the current Blindstop flow satisfactory for this stage and approved trying a minimal Impostor mockup before production implementation. The purpose is to validate private roles, voting and the persistent room across different mechanics. See [Impostor scope](games/impostor/prototype.md). This is not approval of full multiplayer, resolution of device-test gaps, or implementation of Bluff.
+The user considers the current Blindstop flow satisfactory for this stage and approved trying a minimal Impostor mockup before production implementation. The purpose is to validate private roles, voting and the persistent room across different mechanics. See [Impostor scope](games/impostor/prototype.md). This is not approval of full multiplayer, resolution of device-test gaps, or production implementation of Bluff.
 
 Android emulator review covers 20-player scrolling, settings validation, manual one-round completion, automatic progression, nested rules Back, and final leave/rejoin. Some automated clicks only focus controls; root cause remains open. No app-code fix was justified. See [exact coverage and remaining checks](validation/results.md). The emulator is left at fresh entry; SEL-15 acceptance and SEL-16 device verification remain open.
 

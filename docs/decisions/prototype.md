@@ -50,3 +50,7 @@ The user approved trying Impostor to validate private roles and voting within th
 ## Approved Categories clarity refinement — 2026-09-09
 
 The user approved provisional per-answer points/reasons, descending standings with ties, correction of earlier categories before finalization, and filled-field/global-stop helper text. See [Categories scope](../games/categories/prototype.md). Doplay informed the comparison; its settings, grace period and dispute voting were not adopted.
+
+## Bluff scope accepted — 2026-09-09
+
+The user provisionally accepted Categories for this stage and requested Bluff next, explicitly confirming false answers and anonymous voting. Implement a bounded local one-round mockup in the existing room, with 2 truth points and 1 point per person fooled. See [Bluff scope and edge cases](../games/bluff/prototype.md). This supersedes earlier statements that Bluff is only a future proposal; production work and evening-score conversion remain unapproved. The first question is a fixed interaction fixture, not a finished question bank.

@@ -215,3 +215,84 @@ elements.get('app').querySelector=selector=>{
 run("action('categoriesJudge',{dataset:{id:'2'}})");
 assert.equal(focusedReviewId,2);assert.equal(reviewBody.scrollTop,420);
 elements.get('app').querySelector=restoreQuery;
+
+// Bluff: real local input and explicit fixture progression must not reveal authors early.
+run("resetRoom();S.me=0;S.host=0;people.forEach((p,i)=>{p.active=i<3;p.seen=i<3});self().total=11;S.games=2;S.screen='catalogue';action('selectGame',{dataset:{id:'bluff'}});action('bluffStart',{})");
+assert.equal(run('S.screen'),'bluffWrite');
+run("action('bluffSubmit',{});action('bluffSimulateVotes',{})");assert.equal(run('S.screen'),'bluffWrite');
+const bluffFormBefore=elements.get('app').innerHTML;
+elements.get('app').listeners.input({target:{id:'bluff-answer',dataset:{},value:' Nine '}});
+assert.equal(run('S.bluff.draft'),' Nine ');assert.equal(elements.get('app').innerHTML,bluffFormBefore);
+run("action('bluffSubmit',{})");assert.equal(run('S.screen'),'bluffSubmitted');assert.equal(run('S.bluff.answers[0]'),'Nine');
+run("S.bluff.draft='Changed';action('bluffSubmit',{})");assert.equal(run('S.bluff.answers[0]'),'Nine');
+run("action('bluffSimulateAnswers',{})");assert.equal(run('S.screen'),'bluffVote');
+assert(!elements.get('app').innerHTML.includes('Natural History Museum'));assert(!elements.get('app').innerHTML.includes('Truth</'));
+run("selectBluffOption(bluffOptions().find(o=>o.authors.includes(0)).id);castBluffVote();selectBluffOption('missing');castBluffVote()");
+assert.equal(run('S.bluff.votes.length'),0);
+run("selectBluffOption(bluffOptions().find(o=>o.truth).id);castBluffVote();castBluffVote()");
+assert.equal(run('S.screen'),'bluffVoteWaiting');assert.equal(run('S.bluff.votes.length'),1);
+assert(!elements.get('app').innerHTML.includes('Natural History Museum'));
+run("action('bluffSimulateVotes',{})");assert.equal(run('S.screen'),'bluffResult');
+assert.equal(run('S.bluff.votes.length'),3);run("action('bluffDetails',{})");assert(doc.getElementById('dialog').innerHTML.includes('Natural History Museum'));run('dismiss()');
+assert.equal(run('self().total'),11);assert.equal(run('S.games'),2);
+const bluffFinished=run('JSON.stringify(S.bluff)');run("action('bluffSimulateVotes',{});action('bluffSimulateAnswers',{});action('bluffCastVote',{})");assert.equal(run('JSON.stringify(S.bluff)'),bluffFinished);
+run("action('replayBluff',{})");assert.equal(run('S.screen'),'bluffPrepare');
+console.log('PASS: Bluff input without replacement, guarded submissions/self-votes, explicit simulation, concealed reveal, replay and unchanged evening totals.');
+
+// Scoring assertions exercise duplicates, truth aliases and credit separately from fixture choices.
+run("startBluff();S.bluff.answers={0:' Nine ',1:'nine',2:'3'}");
+assert.equal(run('bluffOptions().length'),2);
+assert.equal(run("bluffOptions().find(o=>o.truth).authors.join()"),'2');
+run("S.bluff.votes=[{voter:0,option:bluffOptions().find(o=>o.truth).id},{voter:1,option:bluffOptions().find(o=>o.truth).id},{voter:2,option:bluffOptions().find(o=>!o.truth).id}]");
+assert.deepEqual(JSON.parse(run('JSON.stringify(bluffScores())')),{0:3,1:3,2:2});
+run("S.screen='bluffVote';S.me=2;S.bluff.votes=[];S.bluff.selected=null;render();selectBluffOption(bluffOptions().find(o=>o.truth).id);castBluffVote()");
+assert.equal(run('S.bluff.votes.length'),0,'matching truth remains disabled without leaking its status');
+assert(elements.get('app').innerHTML.includes('disabled'));assert(!elements.get('app').innerHTML.includes('Natural History Museum'));
+console.log('PASS: Bluff duplicate authors share deception credit, numeric truth alias earns only truth credit and stays concealed as an own option.');
+
+for(const phase of ['bluffWrite','bluffSubmitted','bluffVote','bluffVoteWaiting','bluffResult']){
+  run("resetRoom();S.me=0;S.host=0;S.screen='catalogue';prepareGame('bluff');startBluff();S.bluff.draft='Nine'");
+  if(phase!=='bluffWrite')run('submitBluffAnswer()');
+  if(['bluffVote','bluffVoteWaiting','bluffResult'].includes(phase))run('simulateBluffAnswers()');
+  if(['bluffVoteWaiting','bluffResult'].includes(phase))run('selectBluffOption(bluffOptions().find(o=>o.truth).id);castBluffVote()');
+  if(phase==='bluffResult')run('simulateBluffVotes()');
+  const saved=run('JSON.stringify(S.bluff)');
+  run("action('confirmLeave',{});action('back',{});action('join',{});action('rejoin',{})");
+  assert.equal(run('S.screen'),phase);assert.equal(run('JSON.stringify(S.bluff)'),saved);
+}
+run("resetRoom();S.me=1;S.host=0;S.screen='catalogue';action('previewSelectBluff',{});action('bluffStart',{})");
+assert.equal(run('S.screen'),'bluffPrepare');run("action('previewBluffStart',{})");assert.equal(run('S.screen'),'bluffWrite');
+run("S.bluff.draft='x'.repeat(81);submitBluffAnswer()");assert.equal(run('S.screen'),'bluffWrite');
+for(const alias of ['3','Three',' THREE   HEARTS! ','3 hearts.'])assert.equal(run(`normalizeBluffAnswer(${JSON.stringify(alias)})`),'three');
+run("S.me=0;S.bluff.answers={0:'Three',1:'3',2:'three hearts'};people.forEach((p,i)=>p.active=i<3);freezeBluffOptions()");
+assert.equal(run('bluffOptions().filter(o=>!o.truth).length'),1);
+assert.equal(run('bluffOptions().find(o=>!o.truth).house'),true);
+for(const n of [2,20]){
+  run(`resetRoom();S.me=0;S.host=0;people.forEach((p,i)=>{p.active=i<${n};p.seen=i<${n}});S.screen='catalogue';prepareGame('bluff');startBluff();S.bluff.draft='3 hearts';submitBluffAnswer();simulateBluffAnswers()`);
+  const frozenOptions=run('JSON.stringify(bluffOptions())'),voteHtml=elements.get('app').innerHTML;
+  run('selectBluffOption(bluffOptions().find(o=>!o.authors.includes(S.me)).id)');
+  assert.equal(elements.get('app').innerHTML,voteHtml,'selecting an answer must not replace the scrolled list');
+  run('castBluffVote();simulateBluffVotes()');
+  assert.equal(run('S.screen'),'bluffResult');assert.equal(run('S.bluff.votes.length'),n);
+  assert.equal(run('S.bluff.scores[0]'),2);assert.equal(run('JSON.stringify(bluffOptions())'),frozenOptions);
+  assert(!elements.get('app').innerHTML.includes('undefined'));
+}
+console.log('PASS: Bluff recovery in every phase, explicit guest preview and answer length validation.');
+
+// Both voting games update selection in place, preserving the scrolled list and focus.
+run("resetRoom();S.me=0;people.forEach(p=>{p.active=true;p.seen=true});S.screen='catalogue';prepareGame('impostor');startImpostor();S.screen='impostorVote';render()");
+const voteMarkup=elements.get('app').innerHTML,queryBefore=elements.get('app').querySelector,queryAllBefore=elements.get('app').querySelectorAll;
+const voteConfirm={disabled:true},selectedRows=[1,19].map(id=>({dataset:{id:String(id)},setAttribute(key,value){this[key]=value}}));
+elements.get('app').querySelectorAll=()=>selectedRows;
+elements.get('app').querySelector=selector=>selector==='[data-action="confirmVote"]'?voteConfirm:null;
+run("action('chooseSuspect',{dataset:{id:'19'}})");
+assert.equal(run('S.impostor.vote'),19);assert.equal(elements.get('app').innerHTML,voteMarkup);
+assert.equal(selectedRows[0]['aria-pressed'],'false');assert.equal(selectedRows[1]['aria-pressed'],'true');assert.equal(voteConfirm.disabled,false);
+elements.get('app').querySelector=queryBefore;elements.get('app').querySelectorAll=queryAllBefore;
+run("castImpostorVote();finishImpostorPreview()");assert.equal(run('S.screen'),'impostorResult');
+run("S.screen='catalogue';prepareGame('bluff');startBluff();action('bluffDetails',{})");assert.equal(doc.getElementById('dialog').open,false);
+run("S.bluff.draft='Five';submitBluffAnswer();simulateBluffAnswers();selectBluffOption(bluffOptions().find(o=>o.truth).id);castBluffVote();simulateBluffVotes()");
+const detailsState=run('JSON.stringify(S.bluff)');
+run("action('bluffDetails',{})");assert(doc.getElementById('dialog').innerHTML.includes('By Artur'));assert(doc.getElementById('dialog').innerHTML.includes('Natural History Museum'));
+run('dismiss()');assert.equal(run('JSON.stringify(S.bluff)'),detailsState);assert.equal(run('S.screen'),'bluffResult');
+console.log('PASS: lower-row Impostor selection preserves markup and updates exact controls; Bluff details are reveal-only and retain result state.');
