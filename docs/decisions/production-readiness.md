@@ -2,6 +2,14 @@
 
 Status: implementation baseline selected by the lead under the user's instruction to complete the readiness work in order. Numeric defaults and game balance are provisional until the human playtest. This record specifies future behavior; it does not claim that the standalone mockup implements networking, deadlines or cross-game scoring. The five fixed architecture decisions remain binding.
 
+## Hosting choice and migration intent
+
+Accepted by the user on 2026-09-09: start with Cloudflare for the production backend, while keeping a possible near-term move to Supabase in mind. Supabase is an alternative destination, not a second backend to build or operate now.
+
+Keep game rules, scoring and their tests independent of provider APIs. Isolate Cloudflare-specific storage, connections, credentials and alarm integration from the pure game engines and UI contracts. This follows the existing room/game boundary; it does not require implementing two providers in advance.
+
+A later switch to Supabase would still require replacing and verifying the infrastructure integration, including transactions, scheduling, reconnect authorization and private delivery. No one-day migration commitment was made. Evaluate the actual scope against the implemented backend when the user chooses to migrate. This decision records the provider preference; it does not claim a deployment exists or authorize a paid subscription.
+
 ## Scope and order
 
 The product remains a persistent room for several games. First production delivery is one real room and one Blindstop round, with runner tests before a second runner feature. The four-game mockup remains the interaction reference and hidden-information contract check, not production source. No accounts, public matchmaking, bots, drawing, second locale or extra settings.
