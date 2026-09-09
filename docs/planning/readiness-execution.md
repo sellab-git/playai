@@ -10,6 +10,10 @@ User direction on 2026-09-09: complete the pre-production recommendations sequen
 - [Runner acceptance cases](../production/runner-acceptance.md): implementation order and failure cases for the real room.
 - [Doplay evidence](../research/pre-production-review.md): inspected commit, useful patterns and rejected scope expansion.
 
+## End-of-day sequencing clarification
+
+The final discussion clarified that unavailable human participants must not block technical foundation work (contracts, runner tests and a local room/Blindstop slice). R1 remains an unperformed gameplay/balance check, not an unconditional prerequisite for starting P1. P1's real-device/host-disconnect acceptance and later human/device gates still must pass before claiming readiness. This supersedes conflicting ordering language below. Work is paused for today at the user's request; no production implementation has started.
+
 ## Sequential gates
 
 | Gate | Concrete completion evidence | What may proceed |
@@ -20,7 +24,7 @@ User direction on 2026-09-09: complete the pre-production recommendations sequen
 | P2: device and accessibility | Real Android/iPhone, docked keyboards and large text; code/QR entry, background/rejoin, announced state and reachable controls with recorded devices/results | User onboarding/gameplay acceptance, within observed group limits |
 | P3: later games | One game folder and registry entry, contract tests and game-specific timeout/privacy/scoring tests, then real playtest | Add the next game without a core gameId branch |
 
-Do not label R1, P1 or P2 passed based on the standalone mockup's VM suite or synthetic screen fixtures. R1 can be performed without multiplayer code through facilitated cards/sheets; P1 cannot. The first production implementation follows R1 and the existing roadmap gate, per the user's approved sequence. No extra confirmation of already authorized work is required; actual missing people/devices/evidence must be requested when needed.
+Do not label R1, P1 or P2 passed based on the standalone mockup's VM suite or synthetic screen fixtures. R1 can be performed without multiplayer code through facilitated cards/sheets; P1 cannot. Technical production work may start while R1 is unavailable; the actual roadmap acceptance gates remain in force. No extra confirmation of already authorized work is required; actual missing people/devices/evidence must be requested when needed.
 
 ## Production baseline reconciliation
 
@@ -42,4 +46,4 @@ The prototype's embedded fixture state and manual simulations remain unchanged u
 
 ## Current external dependency
 
-The user reported that a 4–6-person group is not currently available. R1 is Not run; its owner is Artur when participants are available. Prepared documents and source reviews do not satisfy this gate. The implementation sequence is retained, with no claim that the production application has started or that all readiness work is complete.
+The user reported that a 4–6-person group is not currently available. R1 is Not run; its owner is Artur when participants are available. Prepared documents and source reviews do not satisfy this gate. Technical foundation work can proceed when the user resumes; gameplay/balance acceptance stays open. No production application has started and not all readiness work is complete.

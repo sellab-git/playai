@@ -6,6 +6,16 @@ Continue the Blindstop HTML mockup in `prototypes/blindstop/mockups/blindstop.ht
 
 The prototype supports 2–20 simulated players, 1–20 rounds (default 5), optional practice, manual or automatic progression, stable player slots during a game, final standings, and evening totals. There is no server, real device synchronization, persistent room, or working QR join URL.
 
+## End-of-day handoff — 2026-09-09
+
+The user ended work for today. No further implementation or deployment should run until they resume.
+
+- Saved: four-game mockup and consistency pass, readiness decisions, UI contracts, runner scenarios, playtest packet, review evidence and delegation records. Cloudflare is the chosen first backend; Supabase remains a possible later migration, with provider-specific integration kept separate.
+- Next session: resume with the generic production contracts and runner test harness, then a local real room plus one Blindstop round targeting Cloudflare. No backend or cloud deployment exists yet; no paid subscription was authorized.
+- Sequencing clarification from the final discussion: lack of a 4–6-person group leaves gameplay/balance validation open but need not block technical foundation work. Earlier R1-as-prerequisite wording was too restrictive. Real-device and production acceptance gates remain mandatory and unpassed.
+- Open acceptance: SEL-23 Bluff, SEL-15 room flow, SEL-16 physical/mobile checks, SEL-25 readiness/playtest. Do not mark these complete from source review alone.
+- Delivery: PR #1 remains open and unmerged. Continue bounded Luna/Terra/Sol delegation with lead integration. App UI checks remain Android Emulator only.
+
 ## Current work
 
 Hosting preference accepted: Cloudflare first, with a possible near-term migration to Supabase. Keep provider integration separate from game rules and UI; do not build both backends now or promise a one-day migration. See [the recorded decision](decisions/production-readiness.md#hosting-choice-and-migration-intent). This is a documentation-only record of the user decision, verified by the lead; no runtime behavior changed.
