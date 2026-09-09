@@ -143,6 +143,10 @@
   .timing{min-height:min-content}
 }
 
+/* The writing footer follows the visible viewport when a keyboard covers the page. */
+.category-write-shell{height:calc(var(--category-viewport-height,100svh) - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:0}
+.category-write-shell .body{overflow-y:auto}
+
 /* Room-level navigation and a single immediate pacing setting. */
 :root{--room-focal-min:248px;--room-reserved:420px;--room-list-min:116px}
 .room-shell{--height-list:min(calc(24px + var(--seen-count)*var(--height-row)),max(var(--room-list-min),calc(100svh - var(--room-reserved))),484px)}
@@ -496,7 +500,7 @@ const CATEGORY_KEYS=['categoryCountry','categoryCity','categoryAnimal','category
 function emptyCategoryAnswers(){return ['', '', '', '']}
 function categoriesPrepare(){const host=S.me===S.host,enough=active().length>=2;return shell(header(t('categoriesTitle'),'chooseGame','menu'),`<div class="preparation"><h1>${t('categoriesTitle')}</h1><p>${t('categoriesDescription')}</p><p class="meta">${t('categoriesPrepare')}</p></div>${roster('lobby')}`,footer(host?button(enough?'categoriesStart':'categoriesNeed','categoriesStart','primary',enough?'':'disabled'):status('prepWaiting',{name:people[S.host].name})),'preparation-shell')}
 function startCategories(preview=false){if(S.screen!=='categoriesPrepare'||active().length<2||(!preview&&S.me!==S.host))return;const samples=[['Brazil','Berlin','Bear','Bread'],['Belgium','Boston','Bear','Bagel'],['Bolivia','Bristol','Badger','Brownie'],['France','Bergen','','Banana']];S.categories={letter:'B',draft:emptyCategoryAnswers(),otherDrafts:Object.fromEntries(active().filter(p=>p.id!==S.me).map((p,i)=>[p.id,[...samples[i%samples.length]]])),answers:{},reviewIndex:0,judgments:{},scores:null};S.live=false;screen('categoriesWrite')}
-function categoriesWrite(){const c=S.categories,ready=c.draft.every(x=>x.trim());const fields=CATEGORY_KEYS.map((key,i)=>`<div class="field"><label for="category-${i}">${t(key)}</label><input id="category-${i}" data-category-index="${i}" value="${esc(c.draft[i])}" placeholder="${t('categoryPlaceholder')}" autocomplete="off" maxlength="40"></div>`).join('');return shell(header(t('categoriesTitle'),'','menu'),`<div class="category-form"><div class="letter-line"><span>${t('categoriesLetter')}</span><strong>${esc(c.letter)}</strong></div><div class="category-fields">${fields}</div></div>`,footer(button('categoriesStop','categoriesStop','primary',ready?'':'disabled')))}
+function categoriesWrite(){const c=S.categories,ready=c.draft.every(x=>x.trim());const fields=CATEGORY_KEYS.map((key,i)=>`<div class="field"><label for="category-${i}">${t(key)}</label><input id="category-${i}" data-category-index="${i}" value="${esc(c.draft[i])}" placeholder="${t('categoryPlaceholder')}" autocomplete="off" maxlength="40"></div>`).join('');return shell(header(t('categoriesTitle'),'','menu'),`<div class="category-form"><div class="letter-line"><span>${t('categoriesLetter')}</span><strong>${esc(c.letter)}</strong></div><div class="category-fields">${fields}</div></div>`,footer(button('categoriesStop','categoriesStop','primary',ready?'':'disabled')),'category-write-shell')}
 function lockCategoryAnswers(early=false){if(S.screen!=='categoriesWrite'||(early?S.me!==S.host:!S.categories.draft.every(value=>value.trim())))return;S.categories.answers=Object.fromEntries(Object.entries(S.categories.otherDrafts).map(([id,answers])=>[id,[...answers]]));S.categories.answers[S.me]=[...S.categories.draft];S.live=false;screen('categoriesWaiting')}
 function categoriesWaiting(){const n=Object.keys(S.categories.answers).length;return shell(header(t('categoriesTitle'),'','menu'),`<div class="center-body">${ico('t','locked-mark')}<h2>${t('categoriesWaiting')}</h2><p>${t('categoriesWaitingBody')}</p><p class="meta">${t('categoriesSubmitted',{n,total:active().length})}</p></div>`,footer(button('categoriesPreviewAnswers','categoriesPreview','secondary')))}
 function previewCategoryAnswers(){if(S.screen!=='categoriesWaiting')return;S.categories.reviewIndex=0;screen('categoriesReview')}
@@ -611,5 +615,7 @@ app.addEventListener('keydown',event=>{if(event.repeat)return;if(event.target?.d
 dialog.addEventListener('cancel',event=>{event.preventDefault();dialogBack()});
 dialog.addEventListener('change',event=>{if(['rounds-count','preview-people'].includes(event.target.id))commitSetup()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&reminderOpen)dismiss();if(document.hidden&&S.screen==='impostorRole'&&S.impostor?.revealed){S.impostor.revealed=false;render()}if(document.hidden&&S.live)pauseGame(false)});window.addEventListener('pagehide',stopTimers);
+// Resize the layout without replacing focused inputs or their drafts.
+if(window.visualViewport){const syncCategoryViewport=()=>app.style.setProperty('--category-viewport-height',window.visualViewport.height+'px');window.visualViewport.addEventListener('resize',syncCategoryViewport);syncCategoryViewport()}
 const initial=new URLSearchParams(location.hash.slice(1));if(initial.get('join')){S.mode='join';S.me=1;S.draftCode='K7QMX';S.screen='qrjoin'}render();
 </script></body></html>
