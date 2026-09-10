@@ -59,14 +59,17 @@ Independent logic and UX reviews passed the corrections.
 Android host observations cover recovery, settings/presets/invalid input/switch,
 copy/backdrop/nested rules, practice, two manual rounds, final stats, retained-settings
 replay, room totals/native sharing and identity Enter validation/submission. The
-eight-player roster used protocol guests; guest UI remains a separate open gate.
+eight-player roster used protocol guests; final row spacing, scrolling through all
+eight rows and bottom-action reachability were confirmed in Android. Guest UI remains
+a separate open gate.
 Physical two-phone/laptop checks, broader accessibility/device coverage and human
 playtest remain open. This is not production acceptance.
 
-Canonical changes remain uncommitted above `788ab12`; the temporary task checkout
-is still at that HEAD without the working diff. PR/Linear synchronization is not
-claimed. The correction evidence owns the latest served-build identity; do not
-copy a fingerprint into this document.
+Implementation commit `902e6a6` is published on [PR #1](https://github.com/sellab-git/playai/pull/1).
+The temporary 9236 checkout was fast-forwarded to that implementation commit.
+Both GitHub verification jobs passed for that implementation. Linear SEL-25 and
+PR #1 record the corrected architecture, verification and remaining acceptance gates.
+The correction evidence owns the latest served-build identity.
 
 Earlier 66/82/86-test results belong to historical implementation/audit records.
 

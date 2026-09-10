@@ -1,7 +1,7 @@
 # Frontend correction evidence — 2026-09-10
 
-Canonical source: `C:\AI biznes\40. Playai`, working diff above
-`788ab12a1a95aea44e4c91cc711ffe1994eefa7c`. This record supersedes the unresolved
+Canonical source: `C:\AI biznes\40. Playai`, implementation commit
+`902e6a69e6f3f267bd4e9efb76e3700b0b68ad28`, published to PR #1. This record supersedes the unresolved
 source findings in the [layered audit](nextjs-layer-audit.md), while preserving that
 audit as historical evidence. The [execution plan](../planning/frontend-correction.md)
 defines the acceptance gates.
@@ -62,6 +62,12 @@ Final source/export fingerprint:
 Built at `2026-09-10T15:44:42.611Z`; `verify:preview` confirms the same source is
 served at `http://127.0.0.1:8787`.
 
+GitHub verification also passed for implementation `902e6a6`:
+[push run](https://github.com/sellab-git/playai/actions/runs/34498452122) and
+[PR run](https://github.com/sellab-git/playai/actions/runs/34498459426).
+CodeRabbit's status explicitly says review skipped; it is not independent review
+evidence. The two agent reviews described above provide the source review record.
+
 Android host observations on Medium_Phone_API_36.1:
 
 - Reload/rejoin; settings expansion and chevron; switch and round preset updates
@@ -76,6 +82,10 @@ Android host observations on Medium_Phone_API_36.1:
   share payload use time-neutral copy and correct singular grammar. Nothing sent.
 - Eight-player preparation, participant management and sharing layout using seven
   protocol guests. These guests are not guest-browser or physical-device evidence.
+  Final row-spacing confirmation passed after rebuild; the last participant and
+  Remove control remain reachable by scrolling.
+- Closed-room summary retained all eight participants and the correct total.
+  New room returned to a fresh Create form; synthetic guest clients were stopped.
 
 The unmodified four-game reference at `http://127.0.0.1:8788` was inspected on the
 same emulator: home, create, catalogue (including Bluff), preparation, practice

@@ -4,7 +4,7 @@
 
 The user explicitly requires Next.js and TypeScript and rejects further development of the custom imperative frontend. Use React with the Next.js App Router. This resolves the former Next.js-or-Vite choice in ARCHITECTURE.md. The frontend has now been migrated to React and the imperative renderer removed. The audited correction is implemented. The [historical audit](../validation/nextjs-layer-audit.md) preserves original findings; [current evidence](../validation/frontend-correction.md) records 103 passing tests, build/adapter/restart checks, independent reviews and Android observations. Physical-device, guest UI and human playtest gates remain open. The evidence record owns current build identity.
 
-Canonical source remains C:\AI biznes\40. Playai. Baseline HEAD is 788ab12; existing uncommitted source/tests/docs must be preserved and assessed, never silently reset. The task worktree remains at that baseline and is not the current handoff. No new latest/final app copies.
+Canonical source remains `C:\AI biznes\40. Playai`. The original migration baseline was `788ab12`; implementation commit `902e6a6` is now published on [PR #1](https://github.com/sellab-git/playai/pull/1), and the temporary 9236 checkout was fast-forwarded to it. Final documentation synchronization is verified at handoff. No new latest/final app copies or unverified CI claims.
 
 ## What is rebuilt and what is retained
 
@@ -15,7 +15,7 @@ Canonical source remains C:\AI biznes\40. Playai. Baseline HEAD is 788ab12; exis
 | Dialogs, settings, footer and roster | Shared React components with explicit props, stable identity and controlled local state. Preserve the accepted visual tokens and hand-drawn assets. |
 | Browser transport | Extract socket/session/clock/outbox lifecycle from main.ts into a browser-only service with subscriptions and a React boundary. Never create sockets during render or module evaluation. |
 | Server and game rules | Retain src/engine.ts, src/room, src/provider and pure Blindstop engine. Keep existing provider-independent boundaries and server-owned state. |
-| Settings command buffer | Retain the delivery requirements and regression scenarios; review the uncommitted code before reuse. No generic rewriting of game-specific Start settings. |
+| Settings command buffer | Retain the delivery requirements and regression scenarios; preserve the reviewed delivery behavior. No generic rewriting of game-specific Start settings. |
 | Imperative DOM layer | Remove morphdom, patchHtml/on helpers, template rendering and associated compatibility code at cutover. Do not carry two live renderers forward. |
 | Tests | Keep runner, engine, protocol and adapter tests. Port useful DOM/transport regression scenarios to React; do not treat the old 82-test result as migration evidence. |
 | Design | Current four-game HTML plus explicit subsequent user corrections is the reference. Reimplement components from observed screens; do not paste mockup markup/scripts into production. |

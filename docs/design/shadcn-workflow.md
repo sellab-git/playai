@@ -116,7 +116,7 @@ For each meaningful change record briefly: affected screen; local owner; officia
 - [x] MCP actual registry query succeeds through the SDK probe; CLI fallback recorded.
 - [x] Ten official components imported with immutable baselines and explicit adaptation inventory.
 - [x] Source-contract script passes locally and runs in package/CI configuration; its limited scope is documented in the audit.
-- [ ] Representative flow compared in Android; independent reviews recorded.
+- [x] Representative flow compared in Android; independent reviews recorded in [correction evidence](../validation/frontend-correction.md). Broader device/user gates remain open.
 
 The earlier audit performed no application changes. The current installation evidence above supersedes that historical limitation; application acceptance remains a separate gate.
 

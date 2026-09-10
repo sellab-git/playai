@@ -28,10 +28,11 @@ eight-player roster used protocol guests; guest UI remains a separate open gate.
 Physical two-phone/laptop checks, broader accessibility/device coverage and human
 playtest remain open. This is not production acceptance.
 
-Canonical changes remain uncommitted above `788ab12`; the temporary task checkout
-is still at that HEAD without the working diff. PR/Linear synchronization is not
-claimed. The correction evidence owns the latest served-build identity; do not
-copy a fingerprint into this document.
+Implementation commit `902e6a6` is published on [PR #1](https://github.com/sellab-git/playai/pull/1).
+The temporary 9236 checkout was fast-forwarded to that implementation commit.
+Both GitHub verification jobs passed for that implementation. Linear SEL-25 and
+PR #1 record the corrected architecture, verification and remaining acceptance gates.
+The correction evidence owns the latest served-build identity.
 
 See [current correction evidence](docs/validation/frontend-correction.md).
 

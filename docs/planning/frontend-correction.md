@@ -16,10 +16,10 @@ foundation passes. Preserve server-owned state, pure engines and existing persis
 | --- | --- | --- | --- |
 | Correctness | A01/A02/A10: calibration, recovery, storage failure | Permanent regression cases and App/transport integration; exact retry identity | Implemented and verified |
 | Structure | A04/A05/A11: screens, typed dialogs, generic contract/manifests, dead code | Strict typecheck, registration contract, no game-specific room branches | Implemented and verified |
-| UI behavior | A06/A07/A08: local timer, synchronous title, shared primitive CSS, forms/focus | Continuity and keyboard tests; Android state matrix | Implemented and verified |
+| UI behavior | A06/A07/A08: local timer, synchronous title, shared primitive CSS, forms/focus | Continuity and keyboard tests; Android state matrix | Bounded Android verified; physical/guest UI open |
 | Guardrails | A09: React lifecycle lint, source/CSS ownership checks | Checks detect representative forbidden regressions and pass accepted code | Implemented and verified |
 | Build handoff | A03: source/export provenance, one preview command | Exact built source fingerprint matches preview; isolated adapter/restart pass | Implemented; external handoff/gates tracked below |
-| Acceptance | Complete Blindstop + independent logic/UX review | Findings resolved or explicit external gate, docs/Linear/PR consistent | Implemented; external handoff/gates tracked below |
+| Acceptance | Complete Blindstop + independent logic/UX review | Reviews passed; implementation published on PR #1; final documentation/tracker reconciliation at handoff | Bounded Android verified; physical/guest UI open |
 
 ## Minimal target structure
 
@@ -55,13 +55,16 @@ Independent logic and UX reviews passed the corrections.
 Android host observations cover recovery, settings/presets/invalid input/switch,
 copy/backdrop/nested rules, practice, two manual rounds, final stats, retained-settings
 replay, room totals/native sharing and identity Enter validation/submission. The
-eight-player roster used protocol guests; guest UI remains a separate open gate.
+eight-player roster used protocol guests; final row spacing, scrolling through all
+eight rows and bottom-action reachability were confirmed in Android. Guest UI remains
+a separate open gate.
 Physical two-phone/laptop checks, broader accessibility/device coverage and human
 playtest remain open. This is not production acceptance.
 
-Canonical changes remain uncommitted above `788ab12`; the temporary task checkout
-is still at that HEAD without the working diff. PR/Linear synchronization is not
-claimed. The correction evidence owns the latest served-build identity; do not
-copy a fingerprint into this document.
+Implementation commit `902e6a6` is published on [PR #1](https://github.com/sellab-git/playai/pull/1).
+The temporary 9236 checkout was fast-forwarded to that implementation commit.
+Both GitHub verification jobs passed for that implementation. Linear SEL-25 and
+PR #1 record the corrected architecture, verification and remaining acceptance gates.
+The correction evidence owns the latest served-build identity.
 
 See [correction evidence](../validation/frontend-correction.md) for final preview identity.

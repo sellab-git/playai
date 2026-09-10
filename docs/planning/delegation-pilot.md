@@ -89,3 +89,15 @@ and preserving game-derived practice settings in queued Start. Agent model, toke
 cost and elapsed measurements were unavailable. Two independent review assignments
 failed to run due to account usage limits; do not count them as completed reviews.
 See [evidence and pending gate](../validation/rendering-continuity.md).
+
+## React correction — 2026-09-10
+
+Three bounded implementation assignments completed (transport/recovery, generic
+screen contract, shadcn/dialogs) and two independent review assignments completed
+(logic/state and UX/copy). Reviews identified recovery escape paths, nested menu
+history and invalid-input focus; all accepted findings were fixed and focused
+rereviews passed. Lead integration added calibrated timing, local display timers,
+source/build guardrails and Android verification. Follow-up test/documentation
+work and rereviews are correction rounds, not extra assignments. Model identities,
+isolated duration, tokens and costs are unavailable; no savings estimate is made.
+See [correction evidence](../validation/frontend-correction.md).
