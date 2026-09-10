@@ -62,3 +62,12 @@ Task 36: independent local logic review — gpt-5.6-sol. Review found earliest-a
 Pilot checkpoint: 36 assignments have been recorded (the previous 30 plus tasks 31–36). Contract, runner, UI, UX, and logic review outcomes are now recorded as passed after corrections. No assignment has a time, token, or cost estimate; no savings or model-routing conclusion is supported. The local technical evidence is recorded in [local room review](../validation/local-room-review.md); bounded lead emulator evidence is recorded; human, physical-device, and public deployment evidence remain open.
 
 Full Blindstop extension — bounded engine and UI implementation plus separate backend logic/state and frontend UX/copy reviewer assignments. Both source reviews passed after accepted corrections recorded in [full-game evidence](../validation/full-blindstop.md). Backend reviewer did not implement backend; frontend reviewer did not implement frontend. Correction rounds are not extra assignments. Model identities, token/cost and isolated duration data for these reused agents are unavailable; no savings claim.
+
+
+## Controls refinement — 2026-09-10
+
+Three bounded assignments completed: manual-pacing investigation and runner
+regressions; independent logic review; independent UX/copy review. Both reviewers
+found the shared confirmation timer race and passed its focused correction.
+No backend pacing defect was found. Model/cost/token/duration measurements are
+unavailable for these reused-context assignments; no savings claim is made.

@@ -90,7 +90,7 @@ mark { padding: 0 var(--size-3); }
 .setup-help { font-size: var(--size-13); color: var(--ink2); line-height: 1.45; margin-top: var(--size-8); }
 .auto-switch { display: flex; align-items: center; justify-content: space-between; gap: var(--size-16); min-height: var(--size-54); padding: var(--size-12); border: var(--stroke); border-radius: var(--r-control); font-size: var(--fs-small); cursor: pointer; }
 .auto-switch:has(input:checked) { border: var(--border); background: var(--bg2); }
-.auto-switch:has(input:focus-visible) { outline: var(--size-2) solid var(--ink); outline-offset: var(--size-3); }
+.auto-switch:has(input:focus-visible) { outline: var(--size-2) solid var(--ink); outline-offset: calc(-1 * var(--size-2)); }
 .preparation-settings strong { font-size: var(--fs-body); font-weight: var(--fw-medium); }
 .preparation-settings { width: 100%; text-align: left; }
 .setup-toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--size-12); margin-block: var(--size-24); }
@@ -170,3 +170,22 @@ mark { padding: 0 var(--size-3); }
 .invitation .dialog-actions { margin: 0; }
 #dialog-error:empty, #settings-error:empty { display: none; }
 .dialog-body > .face-preview { margin-block: var(--size-20); }
+
+/* Keep focus inside scrollable content so the outline is not clipped at its edges. */
+input:focus-visible, .auto-switch:focus-within { outline: var(--size-2) solid var(--ink); outline-offset: calc(-1 * var(--size-2)); }
+.auto-switch { position: relative; gap: var(--size-12); }
+.auto-switch > span:first-child { flex: 1; }
+.switch-track { display: block; flex: none; width: var(--size-44); height: var(--size-24); border: var(--stroke); border-radius: var(--r-control); padding: var(--size-3); background: var(--bg2); }
+.switch-track > span { display: block; width: var(--size-16); height: var(--size-16); border-radius: var(--r-control); background: var(--ink2); }
+.auto-switch input:checked + .switch-track > span { transform: translateX(var(--size-18)); background: var(--ink); }
+.auto-switch strong { min-width: var(--size-24); font-size: var(--fs-small); }
+.button > svg { width: var(--size-20); height: var(--size-20); flex: none; }
+.hero > .entry-symbol { width: var(--size-64); height: var(--size-64); margin-bottom: var(--size-12); }
+.highlight { background: var(--mark); padding-inline: var(--size-3); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.highlight-blue { --mark: var(--tBlu); }
+.highlight-green { --mark: var(--tGrn); }
+.player.self .identity { --mark: var(--identity-mark, var(--tYel)); }
+.identity-tYel { --identity-mark: var(--tYel); }.identity-tRed { --identity-mark: var(--tRed); }.identity-tBlu { --identity-mark: var(--tBlu); }.identity-tGrn { --identity-mark: var(--tGrn); }.identity-tPur { --identity-mark: var(--tPur); }.identity-tOrg { --identity-mark: var(--tOrg); }.identity-tPnk { --identity-mark: var(--tPnk); }.identity-tGry { --identity-mark: var(--tGry); }
+.copy-status { min-height: var(--size-20); font-size: var(--fs-small); text-align: center; }
+
+.copy-status:empty { display: none; }

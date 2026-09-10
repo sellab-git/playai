@@ -57,6 +57,32 @@ function room(s: Setup) {
 }
 
 describe('full Blindstop through RoomRunner', () => {
+  it.each([1, 2])('keeps manual results visible for %i players across alarms and restoration until the host continues', count => {
+    const s = setup('manual', count);
+    const oldRoundDeadline = Number(projection(s).endsAt);
+    completeRound(s);
+    const revealedAt = s.clock.now();
+    const resultScope = scope(s);
+    const history = projection(s).history;
+    expect(projection(s).pace).toBe('manual');
+    expect(projection(s).nextAt).toBe(revealedAt + 15 * 60 * 1000);
+    expect(s.runner.nextAlarm).toBe(revealedAt + 15 * 60 * 1000);
+    for (const now of [revealedAt, revealedAt + 8000, oldRoundDeadline, revealedAt + 15 * 60 * 1000 - 1]) {
+      s.clock.setNow(now);
+      restore(s);
+      s.runner.advance();
+      s.runner.advance();
+      expect(projection(s).phase).toBe('result');
+      expect(projection(s).round).toBe(1);
+      expect(projection(s).history).toEqual(history);
+      expect(scope(s)).toEqual(resultScope);
+      expect(room(s).room.gamesPlayed).toBe(0);
+    }
+    expect(s.runner.intent(s.connections[0]!, action(s, 'explicit-manual-next', { type: 'NEXT' })).accepted).toBe(true);
+    expect(projection(s).phase).toBe('countdown');
+    expect(projection(s).round).toBe(2);
+  });
+
   it('plays solo practice and multiple real rounds, awards one point and replays with real deadlines', () => {
     const s = setup('manual', 1, true);
     expect(room(s).game?.roster).toEqual([s.connections[0]!.playerId]);

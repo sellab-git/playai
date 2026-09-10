@@ -48,7 +48,7 @@ there is no deployment or paid Cloudflare plan authorized.
 
 The current local evidence is:
 
-- the automated suite: 62 passing tests;
+- the automated suite: 66 passing tests;
 - `npm run typecheck`, `npm run lint`, `npm run build`, and the surface detector:
   passing;
 - `npm run test:integration`: passing its local Wrangler HTTP/WebSocket scenarios

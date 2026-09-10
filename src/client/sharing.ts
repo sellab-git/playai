@@ -12,5 +12,5 @@ export function qrMarkup(value: string): string {
 }
 export function eveningText(room: RoomState): string {
   const ordered=room.players.slice().sort((a,b)=>(room.totals[b.id]??0)-(room.totals[a.id]??0));
-  return [t('room.evening'),t('room.gamesPlayed',{count:room.gamesPlayed}),...ordered.map(player=>t('room.shareRow',{name:player.name,points:room.totals[player.id]??0}))].join('\n');
+  return [t('room.shareTitle'),t('room.gamesPlayed',{count:room.gamesPlayed}),'',...ordered.map(player=>t('room.shareRow',{rank:1+ordered.filter(other=>(room.totals[other.id]??0)>(room.totals[player.id]??0)).length,name:player.name,count:room.totals[player.id]??0}))].join('\n');
 }

@@ -2,7 +2,7 @@ import type { Command, Snapshot, Json } from '../engine.ts';
 import { defaultGame, games } from '../games/registry.ts';
 import { t } from './i18n.ts';
 import { gameView, gameClient, loadedGameClient } from './views.ts';
-import { avatar, button, escapeHtml, icon, playerIdentity } from './presentation.ts';
+import { avatar, button, escapeHtml, icon, playerIdentity, tick } from './presentation.ts';
 import { entryScreen } from './screens/EntryScreen.ts';
 import { lobbyScreen } from './screens/LobbyScreen.ts';
 import { eveningSummaryScreen } from './screens/EveningSummaryScreen.ts';
@@ -27,7 +27,7 @@ export interface UiActions {
   fresh(): void;
 }
 type EntryMode = 'home' | 'create' | 'join' | 'recovery';
-type DialogKind = 'faces' | 'menu' | 'invite' | 'rules' | 'points' | 'abort' | 'leave' | 'close' | 'practice' | 'details' | 'people' | 'identity';
+type DialogKind = 'faces' | 'menu' | 'invite' | 'rules' | 'points' | 'abort' | 'leave' | 'close' | 'practice' | 'details' | 'people' | 'identity' | 'share';
 let gameMenu: Array<{ label: string; run(): void }> = [];
 let onGameMenuOpen: (() => void) | undefined;
 let detail = { title: '', body: '' };
@@ -97,13 +97,14 @@ function drawDialog(): void {
   if (!openDialog) return;
   const { kind, trigger } = openDialog;
   const confirm = kind === 'abort' || kind === 'leave' || kind === 'close';
-  const titles: Record<DialogKind, string> = { faces:'entry.face',menu:'nav.menu',invite:'room.invite',rules:'room.rules',points:'room.points',abort:'confirm.abort.title',leave:'confirm.leave.title',close:'confirm.close.title',practice:preparation(model)?.practice.title ?? 'lobby.start',details:'room.details',people:'room.people',identity:'room.identity' };
+  const titles: Record<DialogKind, string> = { faces:'entry.face',menu:'nav.menu',invite:'room.invite',rules:'room.rules',points:'room.points',abort:'confirm.abort.title',leave:'confirm.leave.title',close:'confirm.close.title',practice:preparation(model)?.practice.title ?? 'lobby.start',details:'room.details',people:'room.people',identity:'room.identity',share:'room.share' };
   const inRoom = model.snapshot?.room.status === 'lobby';
   let body = '';
   if (kind === 'faces') body = `<div class="face-gallery">${Array.from({length:25},(_,i)=>{const id=`face-${String(i+1).padStart(2,'0')}`;return `<button data-face="${id}" aria-label="${t('entry.faceChoice',{number:i+1})}" aria-pressed="${faceDraft===id}">${avatar({faceId:id,tile:'tYel'})}</button>`;}).join('')}</div>`;
   if (kind === 'invite') body = `<div class="invitation">${qrMarkup(invitation(model.snapshot?.room.code??''))}<p class="room-code">${escapeHtml(model.snapshot?.room.code ?? '')}</p><p class="meta">${t('room.inviteBody')}</p><div class="dialog-actions">${button('room.copyCode','copy-code','secondary')}${button('room.copyLink','copy-link','secondary')}</div></div>`;
   if (kind === 'rules') body = preparation(model)?.rules() ?? `<p>${t(manifest(model).taglineKey)}</p>`;
-  if (kind === 'points') body = evening(model);
+  if (kind === 'points') body = evening(model) + `<div class="dialog-actions">${button('room.share','share-results')}</div>`;
+  if (kind === 'share' && model.snapshot) body = `<p class="meta">${t('room.shareHint')}</p><pre class="share-text">${escapeHtml(eveningText(model.snapshot.room))}</pre><div class="dialog-actions">${typeof navigator.share === 'function' ? button('room.shareSend','share-native') : ''}${button('room.copyResults','copy-results','secondary')}</div>`;
   if (kind === 'details') body = detail.body;
   if (kind === 'practice') { const choice=preparation(model)?.practice; body=`<p>${t(choice?.body ?? 'error.generic')}</p><div class="dialog-actions">${button(choice?.action ?? 'lobby.start','practice-start')}${button(choice?.skip ?? 'lobby.start','real-start','secondary')}</div>`; }
   if (kind === 'identity') body = `<div class="field"><label for="identity-name">${t('entry.name')}</label><input id="identity-name" maxlength="12" value="${escapeHtml(identityName)}" required /></div><div class="face-preview">${avatar({faceId:identityFace,tile:model.snapshot?.room.players.find(player=>player.id===model.snapshot?.selfId)?.tile ?? 'tYel'})}${button('entry.changeFace','identity-faces','secondary')}</div>${button('room.saveIdentity','save-identity','primary',!enabled(model))}`;
@@ -111,7 +112,7 @@ function drawDialog(): void {
   if (kind === 'menu') body = `<div class="dialog-actions">${gameMenu.map((item,index)=>`<button class="button secondary" data-game-menu="${index}">${escapeHtml(item.label)}</button>`).join('')}${button('room.rules','rules','secondary')}${inRoom ? button('room.invite','invite','secondary')+button('room.people','people','secondary')+button('room.identity','identity','secondary')+button('room.points','points','secondary') : ''}${host(model) ? (model.snapshot?.room.status === 'playing' ? button('lobby.abort','abort','secondary',!enabled(model)) : '') + (inRoom?button('lobby.close','close','secondary',!enabled(model)):'') : button('lobby.leave','leave','secondary',!enabled(model))}</div>`;
   if (confirm) body = `<p>${t(`confirm.${kind}.body`)}</p>`;
   const node = document.createElement('dialog'); node.className='confirm-dialog'; node.setAttribute('aria-labelledby','dialog-title');
-  node.innerHTML=`<div class="dialog-head">${dialogTrail.length?`<button class="close-button" data-action="dialog-back" aria-label="${t('nav.back')}">${icon('M21 7 11 16 21 25')}</button>`:''}<h2 id="dialog-title">${kind==='details'?escapeHtml(detail.title):t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><p class="error" id="dialog-error" role="alert"></p>${confirm||kind==='faces'?`<div class="dialog-actions">${confirm?button('confirm.confirm','confirm','primary',!enabled(model)):button('entry.useFace','save-face')}</div>`:''}`;
+  node.innerHTML=`<div class="dialog-head">${dialogTrail.length?`<button class="close-button" data-action="dialog-back" aria-label="${t('nav.back')}">${icon('M21 7 11 16 21 25')}</button>`:''}<h2 id="dialog-title">${kind==='details'?escapeHtml(detail.title):t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><p class="error" id="dialog-error" role="alert"></p><p class="copy-status" id="copy-status" role="status"></p>${confirm||kind==='faces'?`<div class="dialog-actions">${confirm?button('confirm.confirm','confirm','primary',!enabled(model)):button('entry.useFace','save-face')}</div>`:''}`;
   const dismiss=():void=>{openDialog=null;dialogTrail.length=0;faceReturn=null;node.close();redraw();if(trigger)root.querySelector<HTMLElement>(`[data-action="${trigger}"]`)?.focus();};
   const back=():void=>{const previous=dialogTrail.pop();if(!previous){dismiss();return;}openDialog=previous.dialog;detail=previous.detail;identityName=previous.identityName;identityFace=previous.identityFace;faceDraft=previous.faceDraft;faceReturn=previous.faceReturn;drawDialog();};
   node.addEventListener('cancel',event=>{event.preventDefault();if(dialogTrail.length)back();else dismiss();});
@@ -133,10 +134,30 @@ function drawDialog(): void {
     else if(action==='practice-start'||action==='real-start'){openDialog=null;node.close();startGame(action==='practice-start');}
     else if(action==='identity-faces'){faceReturn='identity';showDialog('faces','menu');}
     else if(action==='save-identity'){if(!identityName.trim()){node.querySelector('#dialog-error')!.textContent=t('join.invalid');return;}if(enabled(latest.model)){openDialog=null;latest.actions.send({type:'profile',profile:{name:identityName.trim(),faceId:identityFace}});}}
-    else if(action==='copy-code'||action==='copy-link'){try{await navigator.clipboard.writeText(action==='copy-link'?invitation(latest.model.snapshot?.room.code??''):latest.model.snapshot?.room.code??'');element.textContent=t('room.copied');}catch{node.querySelector('#dialog-error')!.textContent=t('room.copyFallback');}}
+    else if(action==='share-results')showDialog('share');
+    else if(action==='share-native' && latest.model.snapshot){try{await navigator.share({text:eveningText(latest.model.snapshot.room)});}catch(error){if(!(error instanceof DOMException && error.name==='AbortError'))node.querySelector('#dialog-error')!.textContent=t('room.shareFallback');}}
+    else if(action==='copy-code'||action==='copy-link'||action==='copy-results'){
+      const room=latest.model.snapshot?.room;if(!room)return;
+      const value=action==='copy-link'?invitation(room.code):action==='copy-results'?eveningText(room):room.code;
+      try{await navigator.clipboard.writeText(value);copyFeedback(element,node,action);node.querySelector('#dialog-error')!.textContent='';}
+      catch{node.querySelector('#dialog-error')!.textContent=t(action==='copy-results'?'room.shareFallback':'room.copyFallback');}
+    }
     else if(['invite','rules','points','abort','leave','close','people','identity'].includes(action??''))showDialog(action as DialogKind,'menu');
   }));
   root.appendChild(node);node.showModal();node.querySelector<HTMLElement>('[data-dismiss]')?.focus();
+}
+
+const statusTimers = new WeakMap<HTMLElement, ReturnType<typeof setTimeout>>();
+const copyTimers = new WeakMap<HTMLButtonElement, ReturnType<typeof setTimeout>>();
+function copyFeedback(element: HTMLButtonElement, node: HTMLElement, action: string): void {
+  const label=action==='copy-link'?'room.copyLink':action==='copy-results'?'room.copyResults':'room.copyCode';
+  const status=action==='copy-link'?'room.linkCopied':action==='copy-results'?'room.resultsCopied':'room.codeCopied';
+  clearTimeout(copyTimers.get(element));
+  element.innerHTML=tick()+t(label);
+  clearTimeout(statusTimers.get(node));
+  node.querySelector('#copy-status')!.textContent=t(status);
+  statusTimers.set(node,setTimeout(()=>{node.querySelector('#copy-status')!.textContent='';},1800));
+  copyTimers.set(element,setTimeout(()=>{element.textContent=t(label);},1800));
 }
 
 function bind(root: HTMLElement, model: UiModel, actions: UiActions): void {
@@ -146,11 +167,7 @@ function bind(root: HTMLElement, model: UiModel, actions: UiActions): void {
     if (action === 'home' || action === 'create' || action === 'join') navigate(action);
     else if (action === 'fresh') fresh();
     else if (action === 'resume') actions.resume();
-    else if (action === 'share' && model.snapshot) {
-      const text=eveningText(model.snapshot.room);
-      try { if(navigator.share) await navigator.share({title:t('room.evening'),text}); else { await navigator.clipboard.writeText(text); element.textContent=t('room.copied'); } }
-      catch(error) { if(error instanceof DOMException && error.name==='AbortError')return; detail={title:t('room.share'),body:`<p>${t('room.shareFallback')}</p><pre class="share-text">${escapeHtml(text)}</pre>`};showDialog('details'); }
-    }
+    else if (action === 'share' && model.snapshot) showDialog('share');
     else if (action === 'start' && enabled(model)) { if (!(model.snapshot?.room.gamesStarted ?? model.snapshot?.room.gamesPlayed) && preparation(model)) showDialog('practice'); else startGame(false); }
     else if (action === 'select' && enabled(model)) actions.send({type:'configure',setup:{gameId:element.dataset.game??defaultGame.id,settings:Object.values(games).find(entry=>entry.manifest.id===element.dataset.game)?.manifest.defaultSettings??defaultGame.defaultSettings}});
     else if (action === 'catalogue' && enabled(model)) actions.send({type:'configure',setup:null});

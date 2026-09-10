@@ -1,3 +1,4 @@
+import { bindIntentionalClick } from '../../client/activation.ts';
 import type { Json } from '../../engine.ts';
 import { t } from '../../client/i18n.ts';
 import type { GameViewProps } from '../../client/views.ts';
@@ -157,7 +158,7 @@ export function renderBlindstop(props: GameViewProps): void {
     localStarts.delete(roundKey);
     const final = state.phase === 'final', own = state.rows.find(row => row.playerId === props.selfId), standing = state.standings.find(row => row.playerId === props.selfId), error = own?.errorMs ?? null;
     const measurement = error === null ? `<h2>${t('blindstop.missed')}</h2>` : `<p class="number">${(Math.abs(error) / 1000).toFixed(2)} <small>${t('blindstop.unit')}${error === 0 ? '' : ` ${t(error < 0 ? 'blindstop.earlyLabel' : 'blindstop.lateLabel')}`}</small></p>`;
-    const focal = final ? `<h2>${winners(props, state, true)}</h2><p class="message">${standing?.meanErrorMs == null ? t('blindstop.noAverage') : t('blindstop.yourAverage', { time: time(standing.meanErrorMs) })}</p>` : `<p class="meta">${t('blindstop.yourTiming')}</p>${measurement}<p class="message">${winners(props, state, false)}</p>`;
+    const focal = final ? `<h2><span class="highlight highlight-green">${winners(props, state, true)}</span></h2><p class="message">${standing?.meanErrorMs == null ? t('blindstop.noAverage') : t('blindstop.yourAverage', { time: time(standing.meanErrorMs) })}</p>` : `<p class="meta">${t('blindstop.yourTiming')}</p>${measurement}<p class="message">${winners(props, state, false)}</p>`;
     props.root.innerHTML = `<section class="game-layout"><div class="focal">${focal}</div>${roster(props, state, final ? 'final' : 'round')}</section>`;
     const place = final ? standing && standing.completed > 0 ? t('blindstop.yourPlace', { rank: standing.rank }) : t('blindstop.noPoints') : own ? t('blindstop.place', { rank: own.rank, total: state.total }) : '';
     const auto = !final && state.pace === 'auto' && !state.practice;
@@ -170,7 +171,8 @@ export function renderBlindstop(props: GameViewProps): void {
       props.footerRoot.querySelector('[data-action="another-game"]')?.addEventListener('click', props.chooseGame);
     } else {
       footer(props, meta, button(state.practice ? 'blindstop.startGame' : state.round === state.rounds ? 'blindstop.seeFinal' : 'blindstop.nextRound', 'next', 'primary', !props.canAct), auto ? button(state.paused ? 'blindstop.resumeAuto' : 'blindstop.pauseAuto', 'toggle-auto', 'secondary', !props.canAct) : '');
-      props.footerRoot.querySelector('[data-action="next"]')?.addEventListener('click', () => send(props, state.practice ? 'START' : 'NEXT'));
+      const next = props.footerRoot.querySelector('[data-action="next"]');
+      if (next) bindIntentionalClick(next, `${roundKey}:${state.phase}`, () => send(props, state.practice ? 'START' : 'NEXT'));
       props.footerRoot.querySelector('[data-action="toggle-auto"]')?.addEventListener('click', () => send(props, state.paused ? 'RESUME' : 'PAUSE'));
     }
   }

@@ -1,5 +1,13 @@
 # Current state — 2026-09-10
 
+## Latest control and language fixes
+
+Current source removes time-of-day assumptions, adds a labelled Auto-start switch,
+repeatable copy feedback and a ranked sharing preview. A pointer activation guard
+prevents a released tap from activating the newly rendered Next button. Backend
+manual pacing already behaved correctly; new solo/two-player regression cases
+verify it. See [control validation](validation/controls-and-copy.md).
+
 ## Latest interaction correction
 
 The user explicitly authorized solo Blindstop (minimum one player) and rejected
@@ -55,7 +63,7 @@ The complete Blindstop game is implemented in the canonical source and local
 server, published in commit `bfd7be0`. It replaces the one-round implementation limit with the explicitly
 accepted scope above. The other three engines remain prototype-only.
 
-Current local checks: 62 tests, TypeScript, ESLint, build, and the isolated real
+Current local checks: 66 tests, TypeScript, ESLint, build, and the isolated real
 Wrangler HTTP/WebSocket and process-restart suite pass. Android host evidence
 covers practice, two scored rounds, private waiting, results, final awards and
 return to preparation with settings retained. The guest used a protocol client;
