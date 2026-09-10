@@ -62,6 +62,7 @@ export const blindstopMessages = {
   'blindstop.rank': '#{rank}',
   'blindstop.award': '+{count}',
   'blindstop.emptyValue': '—',
+  'setup.summaryOne': '1 round · {pace}',
   'setup.summary': '{rounds} rounds · {pace}',
   'setup.rounds': 'Rounds',
   'setup.roundsHint': '1–20 rounds. Five is a good first game.',

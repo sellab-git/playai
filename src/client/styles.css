@@ -6,7 +6,7 @@ body { margin: 0; color: var(--ink); background: var(--pg); font-family: var(--f
 button, input { font: inherit; color: inherit; }
 button { cursor: pointer; touch-action: manipulation; border: 0; background: none; -webkit-tap-highlight-color: transparent; }
 button:disabled { cursor: default; }
-button:focus-visible, input:focus-visible { outline: var(--size-2) solid var(--ink); outline-offset: var(--size-3); }
+button:focus-visible, input:focus-visible, summary:focus-visible { outline: var(--size-2) solid var(--ink); outline-offset: var(--size-3); }
 h1, h2, h3, p { margin: 0; }
 h1, h2 { font-weight: var(--fw-semibold); line-height: 1.12; letter-spacing: var(--tracking-title); }
 h2 { font-size: var(--fs-title); }
@@ -72,7 +72,7 @@ mark { padding: 0 var(--size-3); }
 .face-gallery button[aria-pressed='true'] { outline: var(--size-2) solid var(--ink); outline-offset: var(--size-3); }
 .catalogue { display: grid; align-content: start; gap: var(--size-32); padding: var(--size-20) 0; }
 .room-context { display: flex; align-items: center; justify-content: space-between; gap: var(--size-12); font-size: var(--fs-small); }
-.text-action { font-size: var(--fs-small); text-decoration: underline; text-underline-offset: var(--size-4); min-height: var(--size-44); padding: 0; }
+.text-action { font-size: var(--fs-small); text-decoration: none; min-height: var(--size-44); padding: var(--size-8) var(--size-12); border: var(--stroke); border-radius: var(--r-control); }
 .game-card { display: grid; grid-template-columns: var(--size-64) minmax(0, 1fr) var(--size-20); align-items: center; gap: var(--size-18); padding: var(--size-24) 0; border-top: var(--stroke); border-bottom: var(--stroke); width: 100%; text-align: left; }
 .game-card > .ink-mark { width: var(--size-64); height: var(--size-64); }
 .game-card h2, .game-card strong { font-size: var(--fs-title); font-weight: var(--fw-semibold); }
@@ -160,3 +160,13 @@ mark { padding: 0 var(--size-3); }
   .game-layout { min-height: min-content; }
   .roster.identity-only { flex: none; height: var(--size-180); }
 }
+
+.settings-summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.settings-summary::-webkit-details-marker { display: none; }
+#preparation-options[open] > summary svg { transform: rotate(180deg); }
+.inline-settings { padding: var(--size-20) 0; border-bottom: var(--stroke); }
+.invitation { display: grid; gap: var(--size-20); text-align: center; }
+.invitation .room-code { padding-left: var(--tracking-code); }
+.invitation .dialog-actions { margin: 0; }
+#dialog-error:empty, #settings-error:empty { display: none; }
+.dialog-body > .face-preview { margin-block: var(--size-20); }

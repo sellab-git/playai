@@ -9,7 +9,7 @@ const settings = (value: Json): { rounds: number; pace: 'manual' | 'auto' } => {
 export const preparation: PreparationView = {
   summary: value => {
     const choice = settings(value);
-    return t('setup.summary', { rounds: choice.rounds, pace: t(choice.pace === 'auto' ? 'setup.auto' : 'setup.manual') });
+    return t(choice.rounds===1?'setup.summaryOne':'setup.summary', { rounds: choice.rounds, pace: t(choice.pace === 'auto' ? 'setup.auto' : 'setup.manual') });
   },
   form: value => {
     const choice = settings(value), automatic = choice.pace === 'auto';

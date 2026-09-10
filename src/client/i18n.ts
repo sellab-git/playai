@@ -5,7 +5,7 @@ const messages = {
   'room.settings':'Game settings',
   'room.details':'Details',
   'room.people':'Room participants',
-  'room.identity':'Edit your identity',
+  'room.identity':'Name and avatar',
   'room.saveIdentity':'Save changes',
   'room.remove':'Remove',
   'room.removeTitle':'Remove this player?',
@@ -26,9 +26,10 @@ const messages = {
   'home.body': 'Join your friends. Pick a game. Keep playing together.',
   'entry.createTitle': 'Create your room',
   'entry.joinTitle': 'Join the room',
-  'entry.identity': 'Your name and face stay with you for the whole evening.',
+  'entry.identity': 'You can change your name and avatar between games.',
   'entry.codeHint': 'Five characters from your host.',
   'entry.codeError': 'Enter the five-character room code.',
+  'entry.useFace': 'Use this face',
   'entry.changeFace': 'Change face',
   'entry.recoveryTitle': 'Your room is still here',
   'entry.recoveryBody': 'Rejoin with the same name and face.',
@@ -70,7 +71,10 @@ const messages = {
   'lobby.host': 'You are hosting',
   'lobby.hostTag': 'Host',
   'lobby.waiting': 'Waiting for {name} to start.',
+  'lobby.players.one': '1 player',
+  'room.gamesPlayed.one': '1 game played',
   'lobby.players': '{count} players',
+  'lobby.startSolo': 'Play solo',
   'lobby.start': 'Start game',
   'lobby.close': 'End evening',
   'lobby.leave': 'Leave room',
@@ -138,6 +142,7 @@ const messages = {
 
 export type MessageKey = keyof typeof messages;
 export function t(key: string, values: Record<string, string | number> = {}): string {
-  const message = messages[key as MessageKey] ?? messages['error.generic'];
+  const singular = values.count === 1 ? messages[`${key}.one` as MessageKey] : undefined;
+  const message = singular ?? messages[key as MessageKey] ?? messages['error.generic'];
   return message.replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ''));
 }

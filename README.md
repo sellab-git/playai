@@ -25,7 +25,7 @@ results and retained settings for replay. The room supports shared preparation,
 profile changes, invitations and evening standings. The other three game engines
 remain in the HTML prototype only.
 
-The local suite has 60 passing tests; typecheck, lint, build and the isolated real
+The local suite has 62 passing tests; typecheck, lint, build and the isolated real
 adapter/restart suite pass. Android host evidence includes practice, two rounds,
 final awards and replay. See [full Blindstop evidence](docs/validation/full-blindstop.md)
 for the exact scope, independent reviews and remaining acceptance limits.

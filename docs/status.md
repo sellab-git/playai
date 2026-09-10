@@ -1,5 +1,14 @@
 # Current state — 2026-09-10
 
+## Latest interaction correction
+
+The user explicitly authorized solo Blindstop (minimum one player) and rejected
+underlined UI actions and duplicate Done/Back controls. The source adds inline
+expandable settings, header Back/X navigation, centered invitations, spaced copy
+buttons and consistent profile copy: name/avatar changes are allowed between
+games, never during play. These instructions supersede conflicting controls in
+the unchanged HTML reference. See [interaction and solo evidence](validation/interaction-solo.md).
+
 ## Accepted full Blindstop scope
 
 The user explicitly authorized the complete Blindstop game from the current HTML
@@ -46,7 +55,7 @@ The complete Blindstop game is implemented in the canonical source and local
 server, published in commit `bfd7be0`. It replaces the one-round implementation limit with the explicitly
 accepted scope above. The other three engines remain prototype-only.
 
-Current local checks: 60 tests, TypeScript, ESLint, build, and the isolated real
+Current local checks: 62 tests, TypeScript, ESLint, build, and the isolated real
 Wrangler HTTP/WebSocket and process-restart suite pass. Android host evidence
 covers practice, two scored rounds, private waiting, results, final awards and
 return to preparation with settings retained. The guest used a protocol client;

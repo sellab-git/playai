@@ -91,7 +91,7 @@ const decode = (raw: Json): State | null => {
   return { ...base, autoRemainingMs: typeof raw.autoRemainingMs === 'number' ? raw.autoRemainingMs : AUTO_DELAY, controlRevision: typeof raw.controlRevision === 'number' ? raw.controlRevision : 0, rounds: raw.rounds, round: raw.round, pace: raw.pace, practice: raw.practice, paused: raw.paused, legacy: raw.legacy, nextAt: raw.nextAt, targets: raw.targets as number[], history };
 };
 const engine: GameEngine<State, Action, Settings> = {
-  manifest: { id: 'blindstop', nameKey: 'blindstop.name', taglineKey: 'blindstop.tagline', markId: 'stopwatch', minPlayers: 2, maxPlayers: 20, estimatedMinutes: [2, 8], defaultSettings: { rounds: 5, pace: 'manual', practice: false, legacy: false }, awardPolicy: 'ranked' },
+  manifest: { id: 'blindstop', nameKey: 'blindstop.name', taglineKey: 'blindstop.tagline', markId: 'stopwatch', minPlayers: 1, maxPlayers: 20, estimatedMinutes: [2, 8], defaultSettings: { rounds: 5, pace: 'manual', practice: false, legacy: false }, awardPolicy: 'ranked' },
   parseSettings: raw => {
     if (!object(raw) || Object.keys(raw).some(key => !['rounds', 'pace', 'practice', 'legacy'].includes(key)) || !finite(raw.rounds) || !Number.isInteger(raw.rounds) || raw.rounds < 1 || raw.rounds > 20 || (raw.pace !== undefined && raw.pace !== 'manual' && raw.pace !== 'auto') || (raw.practice !== undefined && typeof raw.practice !== 'boolean') || (raw.legacy !== undefined && typeof raw.legacy !== 'boolean')) return null;
     if (raw.legacy === true && (raw.rounds !== 1 || (raw.pace !== undefined && raw.pace !== 'manual') || raw.practice === true)) return null;

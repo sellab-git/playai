@@ -27,7 +27,7 @@ export interface UiActions {
   fresh(): void;
 }
 type EntryMode = 'home' | 'create' | 'join' | 'recovery';
-type DialogKind = 'faces' | 'menu' | 'invite' | 'rules' | 'points' | 'abort' | 'leave' | 'close' | 'settings' | 'practice' | 'details' | 'people' | 'identity';
+type DialogKind = 'faces' | 'menu' | 'invite' | 'rules' | 'points' | 'abort' | 'leave' | 'close' | 'practice' | 'details' | 'people' | 'identity';
 let gameMenu: Array<{ label: string; run(): void }> = [];
 let onGameMenuOpen: (() => void) | undefined;
 let detail = { title: '', body: '' };
@@ -35,6 +35,7 @@ let identityName = '', identityFace = 'face-01';
 let faceReturn: 'identity' | null = null;
 let faceDraft = 'face-01';
 let renderedContext = '';
+const dialogTrail: Array<{ dialog: NonNullable<typeof openDialog>; detail: typeof detail; identityName: string; identityFace: string; faceDraft: string; faceReturn: 'identity' | null }> = [];
 const loadingClients = new Set<string>();
 const manifest = (model: UiModel) => Object.values(games).find(entry => entry.manifest.id === (model.snapshot?.room.setup?.gameId ?? model.snapshot?.game?.gameId))?.manifest ?? defaultGame;
 const preparation = (model: UiModel) => loadedGameClient(manifest(model).id)?.preparation;
@@ -81,6 +82,7 @@ function evening(model: UiModel): string {
 }
 function showDialog(kind: DialogKind, trigger: string | null = kind): void {
   saveDraft(latest.root);
+  if (openDialog && openDialog.kind !== kind) dialogTrail.push({dialog:{...openDialog},detail:{...detail},identityName,identityFace,faceDraft,faceReturn});
   if (kind === 'faces') faceDraft = faceReturn ? identityFace : faceId;
   if (kind === 'menu') { faceReturn=null; onGameMenuOpen?.(); }
   if (kind === 'identity' && !faceReturn) {
@@ -95,34 +97,27 @@ function drawDialog(): void {
   if (!openDialog) return;
   const { kind, trigger } = openDialog;
   const confirm = kind === 'abort' || kind === 'leave' || kind === 'close';
-  const titles: Record<DialogKind, string> = { faces:'entry.face',menu:'nav.menu',invite:'room.invite',rules:'room.rules',points:'room.points',abort:'confirm.abort.title',leave:'confirm.leave.title',close:'confirm.close.title',settings:'room.settings',practice:preparation(model)?.practice.title ?? 'lobby.start',details:'room.details',people:'room.people',identity:'room.identity' };
+  const titles: Record<DialogKind, string> = { faces:'entry.face',menu:'nav.menu',invite:'room.invite',rules:'room.rules',points:'room.points',abort:'confirm.abort.title',leave:'confirm.leave.title',close:'confirm.close.title',practice:preparation(model)?.practice.title ?? 'lobby.start',details:'room.details',people:'room.people',identity:'room.identity' };
   const inRoom = model.snapshot?.room.status === 'lobby';
   let body = '';
   if (kind === 'faces') body = `<div class="face-gallery">${Array.from({length:25},(_,i)=>{const id=`face-${String(i+1).padStart(2,'0')}`;return `<button data-face="${id}" aria-label="${t('entry.faceChoice',{number:i+1})}" aria-pressed="${faceDraft===id}">${avatar({faceId:id,tile:'tYel'})}</button>`;}).join('')}</div>`;
-  if (kind === 'invite') body = `<p>${t('room.inviteBody')}</p>${qrMarkup(invitation(model.snapshot?.room.code??''))}<p class="room-code">${escapeHtml(model.snapshot?.room.code ?? '')}</p>${button('room.copyCode','copy-code','secondary')}${button('room.copyLink','copy-link','secondary')}`;
+  if (kind === 'invite') body = `<div class="invitation">${qrMarkup(invitation(model.snapshot?.room.code??''))}<p class="room-code">${escapeHtml(model.snapshot?.room.code ?? '')}</p><p class="meta">${t('room.inviteBody')}</p><div class="dialog-actions">${button('room.copyCode','copy-code','secondary')}${button('room.copyLink','copy-link','secondary')}</div></div>`;
   if (kind === 'rules') body = preparation(model)?.rules() ?? `<p>${t(manifest(model).taglineKey)}</p>`;
   if (kind === 'points') body = evening(model);
   if (kind === 'details') body = detail.body;
-  if (kind === 'settings') body = preparation(model)?.form(roomSettings(model)) ?? '';
   if (kind === 'practice') { const choice=preparation(model)?.practice; body=`<p>${t(choice?.body ?? 'error.generic')}</p><div class="dialog-actions">${button(choice?.action ?? 'lobby.start','practice-start')}${button(choice?.skip ?? 'lobby.start','real-start','secondary')}</div>`; }
   if (kind === 'identity') body = `<div class="field"><label for="identity-name">${t('entry.name')}</label><input id="identity-name" maxlength="12" value="${escapeHtml(identityName)}" required /></div><div class="face-preview">${avatar({faceId:identityFace,tile:model.snapshot?.room.players.find(player=>player.id===model.snapshot?.selfId)?.tile ?? 'tYel'})}${button('entry.changeFace','identity-faces','secondary')}</div>${button('room.saveIdentity','save-identity','primary',!enabled(model))}`;
   if (kind === 'people') body = `<div class="room-people">${model.snapshot?.room.players.filter(player=>!player.departed).map(player=>`<div class="person-row">${avatar(player)}${playerIdentity(player,model.snapshot!.selfId,model.snapshot!.room.hostId)}${host(model)&&player.id!==model.snapshot?.selfId?`<button class="text-action" data-remove="${escapeHtml(player.id)}">${t('room.remove')}</button>`:''}</div>`).join('')}</div>`;
   if (kind === 'menu') body = `<div class="dialog-actions">${gameMenu.map((item,index)=>`<button class="button secondary" data-game-menu="${index}">${escapeHtml(item.label)}</button>`).join('')}${button('room.rules','rules','secondary')}${inRoom ? button('room.invite','invite','secondary')+button('room.people','people','secondary')+button('room.identity','identity','secondary')+button('room.points','points','secondary') : ''}${host(model) ? (model.snapshot?.room.status === 'playing' ? button('lobby.abort','abort','secondary',!enabled(model)) : '') + (inRoom?button('lobby.close','close','secondary',!enabled(model)):'') : button('lobby.leave','leave','secondary',!enabled(model))}</div>`;
   if (confirm) body = `<p>${t(`confirm.${kind}.body`)}</p>`;
   const node = document.createElement('dialog'); node.className='confirm-dialog'; node.setAttribute('aria-labelledby','dialog-title');
-  node.innerHTML=`<div class="dialog-head"><h2 id="dialog-title">${kind==='details'?escapeHtml(detail.title):t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><p class="error" id="dialog-error" role="alert"></p><div class="dialog-actions">${confirm?button('confirm.confirm','confirm','primary',!enabled(model)):''}${kind==='settings'?button('nav.done','save-settings'):kind==='faces'?button('nav.done','save-face'):kind==='practice'||kind==='identity'?'':`<button class="button secondary" data-dismiss>${t(confirm?'confirm.cancel':'nav.done')}</button>`}${trigger==='menu'&&kind!=='menu'?button('nav.back','dialog-back','quiet'):''}</div>`;
-  const dismiss=():void=>{openDialog=null;faceReturn=null;node.close();redraw();if(trigger)root.querySelector<HTMLElement>(`[data-action="${trigger}"]`)?.focus();};
-  node.addEventListener('cancel',event=>{event.preventDefault();if(trigger==='menu'&&kind!=='menu')showDialog('menu');else dismiss();});
+  node.innerHTML=`<div class="dialog-head">${dialogTrail.length?`<button class="close-button" data-action="dialog-back" aria-label="${t('nav.back')}">${icon('M21 7 11 16 21 25')}</button>`:''}<h2 id="dialog-title">${kind==='details'?escapeHtml(detail.title):t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><p class="error" id="dialog-error" role="alert"></p>${confirm||kind==='faces'?`<div class="dialog-actions">${confirm?button('confirm.confirm','confirm','primary',!enabled(model)):button('entry.useFace','save-face')}</div>`:''}`;
+  const dismiss=():void=>{openDialog=null;dialogTrail.length=0;faceReturn=null;node.close();redraw();if(trigger)root.querySelector<HTMLElement>(`[data-action="${trigger}"]`)?.focus();};
+  const back=():void=>{const previous=dialogTrail.pop();if(!previous){dismiss();return;}openDialog=previous.dialog;detail=previous.detail;identityName=previous.identityName;identityFace=previous.identityFace;faceDraft=previous.faceDraft;faceReturn=previous.faceReturn;drawDialog();};
+  node.addEventListener('cancel',event=>{event.preventDefault();if(dialogTrail.length)back();else dismiss();});
   node.querySelectorAll('[data-dismiss]').forEach(element=>element.addEventListener('click',dismiss));
   node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(element=>element.addEventListener('click',()=>{faceDraft=element.dataset.face!;node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(face=>face.setAttribute('aria-pressed',String(face.dataset.face===faceDraft)));}));
   node.querySelector<HTMLInputElement>('#identity-name')?.addEventListener('input',event=>{identityName=(event.target as HTMLInputElement).value;});
-  node.querySelectorAll<HTMLInputElement>('#setup-rounds,#setup-auto').forEach(input=>input.addEventListener('change',()=>{
-    const settings=preparation(latest.model)?.read(node);
-    if (!settings) { node.querySelector('#dialog-error')!.textContent=t('room.invalidSettings'); return; }
-    node.querySelector('#dialog-error')!.textContent='';
-    if (!enabled(latest.model)) return;
-    latest.actions.send({type:'configure',setup:{gameId:manifest(latest.model).id,settings}});
-  }));
   node.querySelectorAll<HTMLButtonElement>('[data-game-menu]').forEach(element=>element.addEventListener('click',()=>gameMenu[Number(element.dataset.gameMenu)]?.run()));
   node.querySelectorAll<HTMLButtonElement>('[data-remove]').forEach(element=>element.addEventListener('click',()=>{
     const playerId=element.dataset.remove!;
@@ -133,9 +128,8 @@ function drawDialog(): void {
   node.querySelectorAll<HTMLButtonElement>('[data-action]').forEach(element=>element.addEventListener('click',async()=>{
     const action=element.dataset.action;
     if(action==='confirm'){if(!confirm||!enabled(latest.model)||context(latest.model)!==openDialog?.context)return;openDialog=null;node.close();latest.actions.send({type:kind});}
-    else if(action==='save-settings'){if(!preparation(latest.model)?.read(node)){node.querySelector('#dialog-error')!.textContent=t('room.invalidSettings');return;}dismiss();}
-    else if(action==='save-face'){if(faceReturn){identityFace=faceDraft;showDialog('identity','menu');faceReturn=null;}else{faceId=faceDraft;dismiss();}}
-    else if(action==='dialog-back')showDialog('menu');
+    else if(action==='save-face'){if(faceReturn){const selected=faceDraft;back();identityFace=selected;faceReturn=null;drawDialog();}else{faceId=faceDraft;dismiss();}}
+    else if(action==='dialog-back')back();
     else if(action==='practice-start'||action==='real-start'){openDialog=null;node.close();startGame(action==='practice-start');}
     else if(action==='identity-faces'){faceReturn='identity';showDialog('faces','menu');}
     else if(action==='save-identity'){if(!identityName.trim()){node.querySelector('#dialog-error')!.textContent=t('join.invalid');return;}if(enabled(latest.model)){openDialog=null;latest.actions.send({type:'profile',profile:{name:identityName.trim(),faceId:identityFace}});}}
@@ -160,8 +154,23 @@ function bind(root: HTMLElement, model: UiModel, actions: UiActions): void {
     else if (action === 'start' && enabled(model)) { if (!(model.snapshot?.room.gamesStarted ?? model.snapshot?.room.gamesPlayed) && preparation(model)) showDialog('practice'); else startGame(false); }
     else if (action === 'select' && enabled(model)) actions.send({type:'configure',setup:{gameId:element.dataset.game??defaultGame.id,settings:Object.values(games).find(entry=>entry.manifest.id===element.dataset.game)?.manifest.defaultSettings??defaultGame.defaultSettings}});
     else if (action === 'catalogue' && enabled(model)) actions.send({type:'configure',setup:null});
-    else if (action === 'faces' || action === 'menu' || action === 'invite' || action === 'settings') showDialog(action);
+    else if (action === 'faces' || action === 'menu' || action === 'invite') showDialog(action);
   }));
+  const panel=root.querySelector<HTMLDetailsElement>('#preparation-options');
+  if(panel){
+    panel.querySelectorAll<HTMLInputElement>('input').forEach(input=>{input.disabled=!enabled(model);});
+    if(!panel.dataset.bound){
+      panel.dataset.bound='true';
+      panel.addEventListener('change',()=>{
+        const settings=preparation(latest.model)?.read(panel);
+        panel.querySelector('#settings-error')!.textContent=settings?'':t('room.invalidSettings');
+        const start=root.querySelector<HTMLButtonElement>('[data-action="start"]');if(start)start.disabled=!settings||!enabled(latest.model);
+        if(settings&&enabled(latest.model)) latest.actions.send({type:'configure',setup:{gameId:manifest(latest.model).id,settings}});
+      });
+      panel.addEventListener('input',()=>{const start=root.querySelector<HTMLButtonElement>('[data-action="start"]');if(start)start.disabled=!preparation(latest.model)?.read(panel)||!enabled(latest.model);});
+    }
+    if(!preparation(model)?.read(panel)){const start=root.querySelector<HTMLButtonElement>('[data-action="start"]');if(start)start.disabled=true;}
+  }
   root.querySelector<HTMLFormElement>('#entry-form')?.addEventListener('submit', event => {
     event.preventDefault(); saveDraft(root);
     if (model.pending) return;
@@ -183,13 +192,13 @@ export function render(root: HTMLElement, model: UiModel, actions: UiActions): v
   saveDraft(root);
   if (openDialog && root.querySelector('dialog') && openDialog.context === context(model)) {
     root.querySelectorAll<HTMLButtonElement>('dialog [data-action="confirm"], dialog [data-action="abort"], dialog [data-action="close"], dialog [data-action="leave"]').forEach(control => { control.disabled = !enabled(model); });
-    root.querySelectorAll<HTMLInputElement>('dialog #setup-rounds,dialog #setup-auto').forEach(control => { control.disabled = !enabled(model); });
     const error=root.querySelector('#dialog-error'); if(error && model.error)error.textContent=t(model.error);
     return;
   }
-  openDialog = null;
+  openDialog = null; dialogTrail.length=0;
   const active = document.activeElement;
   const preserveRoster = renderedContext === context(model);
+  const settingsPanel = preserveRoster ? root.querySelector<HTMLDetailsElement>('#preparation-options') : null;
   const rosterScroll = preserveRoster ? root.querySelector<HTMLElement>('.roster-scroll')?.scrollTop ?? 0 : 0;
   const rosterFocused = preserveRoster && active instanceof HTMLElement && active.classList.contains('roster-scroll');
   renderedContext = context(model);
@@ -213,13 +222,13 @@ export function render(root: HTMLElement, model: UiModel, actions: UiActions): v
       const players = snapshot.room.players.filter(player => !player.departed);
       const roster = players.map(player => `<div class="player ${player.id === snapshot.selfId ? 'self' : ''}">${avatar(player)}${playerIdentity(player, snapshot.selfId, snapshot.room.hostId)}</div>`).join('');
       const canStart = enabled(model) && !!preparation(model) && players.filter(player => player.connected).length >= manifest(model).minPlayers;
-      const footer = host(model) ? button('lobby.start', 'start', 'primary', !canStart) : `<p class="action-meta">${t('lobby.waiting', { name: escapeHtml(playerName(model, snapshot.room.hostId ?? '')) })}</p>`;
+      const footer = host(model) ? button(players.length===1 && manifest(model).minPlayers===1?'lobby.startSolo':'lobby.start', 'start', 'primary', !canStart) : `<p class="action-meta">${t('lobby.waiting', { name: escapeHtml(playerName(model, snapshot.room.hostId ?? '')) })}</p>`;
       if (!snapshot.room.setup) {
         const cards=Object.values(games).map(entry=>`<button class="game-card" data-action="select" data-game="${escapeHtml(entry.manifest.id)}" ${!host(model)||!enabled(model)?'disabled':''}><span class="ink-mark">${icon('M12 3h8 M16 3v4 M16 10v9l5 3 M27 19a11 11 0 1 1-22 0 11 11 0 0 1 22 0')}</span><span><strong>${t(entry.manifest.nameKey)}</strong><small>${t(entry.manifest.taglineKey)}</small></span>${icon('M11 7 21 16 11 25')}</button>`).join('');
         shell(root,t('app.title'),`<section class="catalogue"><div class="room-context"><span>${escapeHtml(snapshot.room.code)} · ${t('lobby.players',{count:players.length})}</span><button class="text-action" data-action="invite">${t('room.invite')}</button></div><h2>${t('room.chooseGame')}</h2><div>${cards}</div></section>`,host(model)?'':`<p class="action-meta">${t('room.waitingSelection')}</p>`,model);
       } else {
-        shell(root, t(manifest(model).nameKey), lobbyScreen(t(manifest(model).taglineKey), escapeHtml(snapshot.room.code), players.length, roster, preparation(model)?.summary(roomSettings(model))??'',host(model)), footer, model);
-        if(host(model))root.querySelector('.header > span')!.outerHTML=`<button class="text-action" data-action="catalogue">${t('room.games')}</button>`;
+        shell(root, t(manifest(model).nameKey), lobbyScreen(t(manifest(model).taglineKey), escapeHtml(snapshot.room.code), players.length, roster, preparation(model)?.summary(roomSettings(model))??'',host(model),preparation(model)?.form(roomSettings(model))??''), footer, model);
+        if(host(model))root.querySelector('.header > span')!.outerHTML=`<button class="nav-button" data-action="catalogue" aria-label="${t('room.games')}">${icon('M21 7 11 16 21 25')}</button>`;
       }
     } else {
       shell(root, t(defaultGame.nameKey), '<div id="game-view"></div>', '', model);
@@ -235,9 +244,10 @@ export function render(root: HTMLElement, model: UiModel, actions: UiActions): v
       });
     }
   }
+  if(settingsPanel && root.querySelector('#preparation-options')) { const replacement=root.querySelector('#preparation-options')!; settingsPanel.querySelector('summary strong')!.textContent=replacement.querySelector('summary strong')!.textContent; replacement.replaceWith(settingsPanel); }
   restoreRoster();
   bind(root, model, actions);
   const replacement = focusedId ? document.getElementById(focusedId) : focusedAction ? root.querySelector<HTMLElement>(`[data-action="${focusedAction}"]`) : null;
   replacement?.focus();
-  if (replacement instanceof HTMLInputElement && selection?.[0] !== null && selection?.[1] !== null && selection) replacement.setSelectionRange(selection[0]!, selection[1]!);
+  if (replacement instanceof HTMLInputElement && selection?.[0] !== null && selection?.[1] !== null && selection && ['text','search','tel','url','password'].includes(replacement.type)) replacement.setSelectionRange(selection[0]!, selection[1]!);
 }
