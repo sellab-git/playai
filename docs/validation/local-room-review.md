@@ -4,6 +4,11 @@ This record covers the implemented P1 local slice: one direct Cloudflare Durable
 Object room and one Blindstop round. It is technical evidence, not a production,
 human-playtest, or physical-device acceptance record.
 
+**Acceptance correction:** the user reported substantial UX/UI differences from the
+latest four-game HTML mockup. The bounded host interaction below is functional
+evidence only. A visual screen-by-screen parity review was not completed, and the
+real UI is not accepted. App work is paused for workspace/vault/tracker reconciliation.
+
 ## Verified
 
 - Environment: Node 24.14, npm 11.9, TypeScript 6.0.2, Vite 8.2.2, Vitest 5,

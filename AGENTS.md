@@ -1,3 +1,7 @@
+## Canonical workspace
+
+Use C:\AI biznes\40. Playai as the canonical working folder and its docs folder as the Obsidian vault. Before work, compare its Git status and HEAD with the intended PR branch; preserve local changes and reconcile versions. Temporary worktrees must not become an unsynchronized user handoff. Read README.md and docs/status.md for current scope and acceptance; passing technical tests does not establish UI parity with the mockup.
+
 # Project rules — Playai (agent instructions)
 
 Read `README.md`, then `docs/ARCHITECTURE.md`, then `docs/ROADMAP.md` before writing
@@ -55,7 +59,7 @@ by rejecting the alternatives. In particular:
 - `--ink` is `#37352F`, not `#000`
 - every number gets `font-variant-numeric: tabular-nums`
 
-`mockup.html` shows the target. It is a mockup, not source — do not copy its markup
+`prototypes/blindstop/mockups/blindstop.html` is the current four-game UX/UI reference. The early build-kit mockup is archived. It is a mockup, not source — do not copy its markup
 into the app.
 
 ## Out of scope

@@ -1,5 +1,26 @@
 # Current state — 2026-09-10
 
+## Workspace reconciliation and UI acceptance
+
+The canonical local project is `C:\AI biznes\40. Playai`; its `docs` directory is
+the registered Obsidian vault. It has been fast-forwarded from the older Categories
+checkout to the published local implementation and latest four-game mockup.
+The apparent local document changes were line-ending normalization only; staging
+them produced no content diff. No user content was discarded.
+
+The current visual reference is `prototypes/blindstop/mockups/blindstop.html`,
+including Bluff and cross-game interaction corrections. The early root mockup has
+been moved to `prototypes/blindstop/archive/build-kit-mockup.html`. The old 6686
+worktree has been unregistered and its files removed; Windows retains an empty,
+locked directory. The active task's 9236 checkout is temporary, not the project home.
+
+The user reported substantial UX/UI differences in the real application. Prior
+technical tests and bounded emulator interaction did **not** compare every screen
+with the current mockup and do not establish visual or interaction parity. That
+comparison was interrupted and remains unfinished. Do not treat the real UI as
+accepted. Further app/comparison work is paused at the user's request until the
+canonical folder, Obsidian documentation and Linear are reconciled.
+
 ## Current P1 local slice
 
 The earlier end-of-day pause is lifted for the authorized technical foundation

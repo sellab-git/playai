@@ -2,6 +2,14 @@
 
 ## Sources of truth
 
+Canonical local checkout: `C:\AI biznes\40. Playai`. Its `docs` folder is the
+Obsidian vault. Work directly there for this reconciliation. For future tasks,
+compare the canonical checkout, active task checkout and PR head before reading or
+editing. Preserve uncommitted content, fast-forward accepted branch history into
+the canonical folder before handoff, and verify the current mockup and status files
+there. Do not call a worktree file “latest” without that check. Retire completed
+temporary worktrees after confirming clean state and that their commits are retained.
+
 - Linear: live issue status, priority, dependencies, milestone progress.
 - Repository Markdown / Obsidian: product truth, rules, screen map, decisions, research, verification.
 - GitHub: mockup/source, tests, commits and reviewable PRs. Do not create a second GitHub Issues backlog.

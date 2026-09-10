@@ -1,5 +1,11 @@
 # Playai knowledge base
 
+Canonical vault: `C:\AI biznes\40. Playai\docs`. This is the vault registered in
+Obsidian. Temporary Codex worktree copies are not separate maintained vaults.
+The current four-game HTML reference is
+[the mockup](../prototypes/blindstop/mockups/blindstop.html); the real application's
+UX/UI parity is unverified. Start with the reconciliation notice in Current status.
+
 Read [Current status](status.md), [Working agreement](working-agreement.md), and the relevant current specification before work.
 
 App UI testing and previews: Android Emulator only, per user instruction. Do not use desktop Chrome for the app. See [testing environment](working-agreement.md#required-app-testing-environment).

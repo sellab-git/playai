@@ -5,7 +5,7 @@
 # SCREENS — Playai
 
 Fourteen screens. Six are the game loop, two are entry, two are the room, four are
-edges. Open `mockup.html` alongside this file.
+edges. The original build-kit reference is archived at `prototypes/blindstop/archive/build-kit-mockup.html`. Use `prototypes/blindstop/mockups/blindstop.html` and the current game screen notes for the latest interaction reference.
 
 **Twelve of the fourteen are in the mockup.** Screens 13 and 14 — the evening summary
 and the game picker — are specified here and not drawn yet. The picker is not built in
