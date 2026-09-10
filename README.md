@@ -24,8 +24,8 @@ Its 43 automated tests, build, typecheck, lint and real adapter/restart checks p
 including GitHub CI. The bounded Android host flow was exercised with a protocol guest.
 **This does not establish UX/UI parity with the mockup.** The user reported substantial
 differences. The screen-by-screen visual comparison is unfinished and UI acceptance
-is open. Application and comparison work are paused until workspace, vault and tracker
-reconciliation is complete.
+is open. Reconciliation is complete and the user resumed the frontend restoration.
+See [restoration evidence and remaining differences](docs/validation/frontend-restoration.md).
 
 Two-phone/laptop acceptance, human playtest and broader device/accessibility checks
 remain open. No merge into main, public deployment or paid plan is authorized.

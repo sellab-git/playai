@@ -34,4 +34,3 @@ export const blindstopMessages = {
   'blindstop.yourAverage': 'Your average: {time}',
   'blindstop.noAverage': 'No measured average',
 } as const;
-

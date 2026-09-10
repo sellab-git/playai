@@ -7,8 +7,8 @@ SEL-25, SEL-15, SEL-16 and SEL-17 were corrected; SEL-23 already recorded Bluff 
 the cross-game changes accurately. The final project issue list was verified:
 SEL-25/SEL-23/SEL-15 In Review, SEL-16 Todo, SEL-17 Done for its accepted mockup
 scope. The registered Obsidian vault points to the canonical docs directory and now
-contains the latest committed knowledge. App/UI comparison remains paused at this
-handoff; no implementation or visual-comparison work was resumed.
+contains the current project knowledge. The user subsequently resumed work and
+authorized frontend restoration; see [current evidence](validation/frontend-restoration.md).
 
 The canonical local project is `C:\AI biznes\40. Playai`; its `docs` directory is
 the registered Obsidian vault. It has been fast-forwarded from the older Categories
@@ -26,8 +26,8 @@ The user reported substantial UX/UI differences in the real application. Prior
 technical tests and bounded emulator interaction did **not** compare every screen
 with the current mockup and do not establish visual or interaction parity. That
 comparison was interrupted and remains unfinished. Do not treat the real UI as
-accepted. Further app/comparison work is paused at the user's request until the
-canonical folder, Obsidian documentation and Linear are reconciled.
+accepted. Workspace reconciliation is complete. The frontend restoration now runs
+in the canonical folder and on the local server; full four-game parity remains open.
 
 ## Current P1 local slice
 

@@ -19,6 +19,7 @@ Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sel
 - [Runner acceptance scenarios](production/runner-acceptance.md)
 - [Local P1 development runbook](production/local-development.md)
 - [Local room review evidence](validation/local-room-review.md)
+- [Frontend restoration and remaining mockup differences](validation/frontend-restoration.md)
 - [Product vision and scope](product/vision.md)
 - [Blindstop screen map](games/blindstop/screens.md)
 - [Blindstop rules](games/blindstop/rules.md)
