@@ -1,32 +1,15 @@
-/* Playai design tokens.
-   Every colour, radius and type size in the app comes from here.
-   If you are about to write a hex value in a component, stop.
-
-   Names match mockup.html, docs/DESIGN.md and docs/SCREENS.md exactly. They were
-   spelled differently here once and it is the kind of drift that costs an afternoon:
-   three artefacts agreed, this file did not. */
-
+/* Shared paper, ink, typography and geometry, aligned with the current HTML reference. */
 :root {
-  /* Surfaces */
-  --pg: #ffffff;           /* page */
-  --bg2: #f7f6f3;          /* inset areas, disabled tiles, progress track */
-
-  /* Ink — warm near-black, never #000 */
-  --ink: #37352f;          /* primary text, primary button fill, drawn strokes */
-  --ink2: #787774;         /* secondary text */
-  --ink3: #9b9a97;         /* captions, disabled */
-  --on-ink: #ffffff;       /* text on an ink fill */
-
-  /* Rules */
-  --ln: #edece9;           /* hairline dividers, 1px, horizontal only */
-  --ln2: #dfdeda;          /* dashed placeholders, dead-state outlines */
-  --border: 1.5px solid var(--ink); /* interactive borders */
-
-  /* Colour appears in exactly two places: an avatar tile, and a highlighter.
-     Eight tiles because a room holds eight players and the tile is the player's
-     identity — it has to stay distinct in a list of eight. */
-  --mark: #fbf3db;         /* highlighter behind text */
-  --tYel: #fbf3db;         /* avatar tiles — assign per player, keep stable */
+  --pg: #ffffff;
+  --bg2: #f7f6f3;
+  --ink: #37352f;
+  --ink2: #787774;
+  --ink3: #9b9a97;
+  --on-ink: #ffffff;
+  --ln: #edece9;
+  --ln2: #dfdeda;
+  --mark: #fbf3db;
+  --tYel: #fbf3db;
   --tRed: #fbe4e4;
   --tBlu: #ddebf1;
   --tGrn: #ddedea;
@@ -34,78 +17,83 @@
   --tOrg: #faebdd;
   --tPnk: #f4dfeb;
   --tGry: #f1f0ee;
-
-  /* Radius — nothing above 6px */
+  --dialog-scrim: rgb(55 53 47 / 45%);
+  --border: 1.5px solid var(--ink);
+  --stroke: 1px solid var(--ln2);
+  --rule: 1px solid var(--ln);
   --r-control: 4px;
   --r-tile: 6px;
-
-  /* Type */
   --font: "Inter", system-ui, -apple-system, sans-serif;
   --fs-hero: 46px;
   --fs-title: 26px;
-  --fs-display: 84px;      /* target time */
-  --fs-count: 110px;       /* countdown digit */
+  --fs-display: 72px;
+  --fs-count: 80px;
+  --fs-number: 60px;
   --fs-body: 16px;
   --fs-row: 15px;
+  --fs-small: 14px;
   --fs-caption: 12px;
-
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
-
-  /* Spacing */
-  --pad-screen: 24px;
-  --pad-top: 46px;         /* plus safe-area inset */
-  --pad-bottom: 30px;
-  --row-gap: 7px;
-}
-
-/* Every number in this app lives in a column. Without this, results jitter. */
-.num,
-[data-numeric] {
-  font-variant-numeric: tabular-nums;
-}
-
-/* Dark mode is not built. When it is, it is these eight values and nothing else.
-   Do not add a second set of components.
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --pg: #191918;
-    --bg2: #222220;
-    --ink: #f0efec;
-    --ink2: #a5a29b;
-    --ink3: #7b7872;
-    --on-ink: #191918;
-    --ln: #2a2a28;
-    --ln2: #3a3a37;
-  }
-}
-*/
-
-:root {
-  --dialog-scrim: rgb(55 53 47 / 25%);
-  --size-108: 108px;
+  --tracking-title: -1px;
+  --tracking-number: -2px;
+  --tracking-header: -.2px;
+  --tracking-code: 5px;
+  --line-height: 1.45;
+  --pad-screen: 20px;
+  --pad-top: 0px;
+  --pad-bottom: 20px;
+  --row-gap: 8px;
+  --height-header: 52px;
+  --height-row: 46px;
+  --action-size: 52px;
+  --width-avatar: 34px;
+  --width-value: 88px;
+  --width-position: 48px;
+  --size-1: 1px;
+  --size-2: 2px;
+  --size-3: 3px;
+  --size-4: 4px;
+  --size-5: 5px;
+  --size-6: 6px;
+  --size-7: 7px;
+  --size-8: 8px;
   --size-10: 10px;
+  --size-12: 12px;
+  --size-13: 13px;
   --size-14: 14px;
-  --size-150: 150px;
   --size-16: 16px;
   --size-18: 18px;
-  --size-1: 1px;
   --size-20: 20px;
+  --size-22: 22px;
   --size-24: 24px;
+  --size-26: 26px;
   --size-28: 28px;
-  --size-2: 2px;
   --size-30: 30px;
   --size-32: 32px;
   --size-34: 34px;
   --size-40: 40px;
+  --size-44: 44px;
+  --size-48: 48px;
+  --size-52: 52px;
+  --size-54: 54px;
+  --size-64: 64px;
+  --size-72: 72px;
+  --size-80: 80px;
+  --size-92: 92px;
+  --size-94: 94px;
+  --size-104: 104px;
+  --size-108: 108px;
+  --size-112: 112px;
+  --size-128: 128px;
+  --size-148: 148px;
+  --size-150: 150px;
+  --size-180: 180px;
+  --size-320: 320px;
+  --size-350: 350px;
+  --size-390: 390px;
   --size-420: 420px;
   --size-430: 430px;
-  --size-48: 48px;
-  --size-4: 4px;
   --size-520: 520px;
-  --size-52: 52px;
-  --size-7: 7px;
-  --size-8: 8px;
 }

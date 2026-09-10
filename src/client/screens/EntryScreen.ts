@@ -1,16 +1,7 @@
-export interface EntryScreenModel {
-  title: string;
-  createLabel: string;
-  joinLabel: string;
-  createSelected: boolean;
-  nameLabel: string;
-  name: string;
-  codeField: string;
-  faceLabel: string;
-  faces: string;
-  resume: string;
-}
-
-export function entryScreen(model: EntryScreenModel): string {
-  return `<div class="entry intro"><h2>${model.title}</h2><div class="mode-switch"><button type="button" data-mode="create" aria-pressed="${model.createSelected}">${model.createLabel}</button><button type="button" data-mode="join" aria-pressed="${!model.createSelected}">${model.joinLabel}</button></div><form id="entry-form"><label for="player-name">${model.nameLabel}</label><input id="player-name" name="name" autocomplete="name" maxlength="24" value="${model.name}" required />${model.codeField}<p class="field-label">${model.faceLabel}</p><div class="faces">${model.faces}</div></form>${model.resume}</div>`;
+import { t } from '../i18n.ts';
+import { avatar, button, escapeHtml } from '../presentation.ts';
+export function entryScreen(mode: 'home' | 'create' | 'join' | 'recovery', name: string, code: string, faceId: string, savedCode: string | null): string {
+  if (mode === 'home') return `<section class="home"><div class="hero"><h2>${t('home.title')}</h2><p class="message">${t('home.intro')}</p><p class="message">${t('home.body')}</p></div></section>`;
+  if (mode === 'recovery') return `<section class="home"><div class="hero"><h2>${t('entry.recoveryTitle')}</h2><p class="meta">${t('entry.code')}</p><p class="room-code">${escapeHtml(savedCode ?? '')}</p><p class="message">${t('entry.recoveryBody')}</p></div></section>`;
+  return `<form id="entry-form" class="form-body"><h2>${t(mode === 'create' ? 'entry.createTitle' : 'entry.joinTitle')}</h2><p class="message">${t('entry.identity')}</p>${mode === 'join' ? `<div class="field"><label for="room-code">${t('entry.code')}</label><input id="room-code" class="code-input" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="5" minlength="5" pattern="[A-HJ-NP-Za-hj-np-z2-9]{5}" value="${escapeHtml(code)}" required aria-describedby="code-hint" /><p class="meta" id="code-hint">${t('entry.codeHint')}</p></div>` : ''}<div class="field"><label for="player-name">${t('entry.name')}</label><input id="player-name" name="name" autocomplete="nickname" maxlength="12" value="${escapeHtml(name)}" required /></div><div class="face-choice"><p class="face-label">${t('entry.face')}</p><div class="face-preview">${avatar({ faceId, tile: 'tYel' })}${button('entry.changeFace', 'faces', 'secondary')}</div></div></form>`;
 }

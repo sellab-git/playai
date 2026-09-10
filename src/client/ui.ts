@@ -1,7 +1,8 @@
 import type { Command, Snapshot } from '../engine.ts';
 import { defaultGame } from '../games/registry.ts';
-import { t, type MessageKey } from './i18n.ts';
+import { t } from './i18n.ts';
 import { gameView } from './views.ts';
+import { avatar, button, escapeHtml, icon, playerIdentity } from './presentation.ts';
 import { entryScreen } from './screens/EntryScreen.ts';
 import { lobbyScreen } from './screens/LobbyScreen.ts';
 import { eveningSummaryScreen } from './screens/EveningSummaryScreen.ts';
@@ -24,116 +25,148 @@ export interface UiActions {
   send(command: Command): void;
   fresh(): void;
 }
-
-type DialogKind = 'abort' | 'leave' | 'close' | null;
-let dialog: DialogKind = null;
-let dialogInstance: string | undefined;
-let dialogStatus: string | undefined;
-let entryMode: 'create' | 'join' = 'create';
-let entryName = '';
-let entryCode = '';
+type EntryMode = 'home' | 'create' | 'join' | 'recovery';
+type DialogKind = 'faces' | 'menu' | 'invite' | 'rules' | 'points' | 'abort' | 'leave' | 'close';
+let mode: EntryMode = 'home';
+let name = '';
+let code = '';
 let faceId = 'face-01';
-
-const escape = (value: string): string => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[c] ?? c);
+let hadSession = false;
+let latest: { root: HTMLElement; model: UiModel; actions: UiActions };
+let openDialog: { kind: DialogKind; context: string; trigger: string | null } | null = null;
+const context = (model: UiModel): string => `${model.snapshot?.room.code}:${model.snapshot?.room.status}:${model.snapshot?.room.hostId}:${model.snapshot?.game?.scope.gameInstanceId}:${model.connected}`;
+const host = (model: UiModel): boolean => !!model.snapshot && model.snapshot.room.hostId === model.snapshot.selfId;
+const enabled = (model: UiModel): boolean => model.connected && model.calibrated && !model.pending;
 const playerName = (model: UiModel, id: string): string => model.snapshot?.room.players.find(player => player.id === id)?.name ?? '';
-const isHost = (model: UiModel): boolean => model.snapshot?.room.hostId === model.snapshot?.selfId;
-const avatar = (id: string, _name: string, tile = 'tYel'): string => {
-  const safeTile = ['tYel', 'tRed', 'tBlu', 'tGrn', 'tPur', 'tOrg', 'tPnk', 'tGry'].includes(tile) ? tile : 'tYel';
-  return `<span class="avatar tile-${safeTile}" aria-hidden="true"><img src="/assets/avatars/${escape(id)}.svg" alt="" /></span>`;
-};
-
-function shell(root: HTMLElement, title: string, body: string, footer: string, model: UiModel, hasSession = true): void {
-  const status = !model.connected && hasSession ? t('connection.reconnecting') : model.delivery ? t(model.delivery) : '';
-  const error = model.error ? t(model.error) : '';
-  root.innerHTML = `<main class="shell"><header class="shell-header"><h1>${escape(title)}</h1></header><section class="scroll-body"><div id="ui-alert" class="ui-alert" role="alert">${escape(error)}</div>${body}</section><footer class="shell-footer"><p class="footer-status" role="status" aria-live="polite">${escape(status)}</p><div id="shell-actions">${footer}</div></footer></main>`;
+function redraw(): void { render(latest.root, latest.model, latest.actions); }
+function navigate(next: EntryMode): void { mode = next; redraw(); }
+function fresh(): void { mode = 'home'; openDialog = null; latest.actions.fresh(); }
+function saveDraft(root: HTMLElement): void {
+  name = root.querySelector<HTMLInputElement>('#player-name')?.value ?? name;
+  code = root.querySelector<HTMLInputElement>('#room-code')?.value ?? code;
 }
-
-function entry(root: HTMLElement, model: UiModel, actions: UiActions): void {
-  const codeField = entryMode === 'join' ? `<label for="room-code">${t('entry.code')}</label><input id="room-code" name="code" inputmode="text" autocomplete="off" maxlength="5" value="${escape(entryCode)}" />` : '';
-  const faces = Array.from({ length: 8 }, (_, index) => `face-${String(index + 1).padStart(2, '0')}`)
-    .map((id, index) => `<button class="face ${id === faceId ? 'selected' : ''}" type="button" data-face="${id}" aria-label="${t('entry.faceChoice', { number: index + 1 })}" aria-pressed="${id === faceId}">${avatar(id, '')}</button>`).join('');
-  const resume = model.savedRoomCode ? `<button class="quiet-button" type="button" data-resume>${t('entry.resume')}</button>` : '';
-  shell(root, t('app.title'), entryScreen({ title: t('entry.title'), createLabel: t('entry.create'), joinLabel: t('entry.join'), createSelected: entryMode === 'create', nameLabel: t('entry.name'), name: escape(entryName), codeField, faceLabel: t('entry.face'), faces, resume }), `<button class="primary-button" form="entry-form" type="submit" ${model.pending ? 'disabled' : ''}>${entryMode === 'create' ? t('entry.createAction') : t('entry.joinAction')}</button>`, model, false);
-  const preserveDraft = (): void => { entryName = root.querySelector<HTMLInputElement>('#player-name')?.value ?? entryName; entryCode = root.querySelector<HTMLInputElement>('#room-code')?.value ?? entryCode; };
-  root.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach(button => button.addEventListener('click', () => { preserveDraft(); entryMode = button.dataset.mode === 'join' ? 'join' : 'create'; entry(root, model, actions); }));
-  root.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(button => button.addEventListener('click', () => { preserveDraft(); faceId = button.dataset.face ?? faceId; entry(root, model, actions); }));
-  root.querySelector<HTMLButtonElement>('[data-resume]')?.addEventListener('click', actions.resume);
-  root.querySelector<HTMLFormElement>('#entry-form')?.addEventListener('submit', event => { event.preventDefault(); const form = event.currentTarget as HTMLFormElement; const data = new FormData(form); entryName = String(data.get('name') ?? '').trim(); entryCode = String(data.get('code') ?? '').trim().toUpperCase(); if (!entryName || (entryMode === 'join' && entryCode.length !== 5)) return; if (entryMode === 'create') actions.create(entryName, faceId); else actions.join(entryCode, entryName, faceId); });
+function shell(root: HTMLElement, title: string, body: string, footer: string, model: UiModel): void {
+  const back = !model.snapshot && (mode === 'join' || mode === 'create');
+  const menu = model.snapshot && model.snapshot.room.status !== 'closed';
+  const status = model.snapshot && !model.connected ? t('connection.reconnecting') : model.delivery && model.delivery !== 'delivery.saved' ? t(model.delivery) : '';
+  root.innerHTML = `<main class="shell"><header class="header">${back ? `<button class="nav-button" data-action="home" aria-label="${t('nav.back')}">${icon('M21 7 11 16 21 25 M11 16H28')}</button>` : '<span></span>'}<div class="middle"><h1 id="screen-title">${escapeHtml(title)}</h1></div>${menu ? `<button class="nav-button right" data-action="menu" aria-label="${t('nav.menu')}">${icon('M5 9H27 M5 16H27 M5 23H27')}</button>` : '<span></span>'}</header><p class="connection-status" role="status">${escapeHtml(status)}</p><section class="body"><p class="ui-alert" role="alert">${model.error ? escapeHtml(t(model.error)) : ''}</p>${body}</section><footer class="actions"><div id="shell-actions">${footer}</div></footer></main>`;
 }
-
-function lobby(root: HTMLElement, model: UiModel, actions: UiActions): void {
+function evening(model: UiModel): string {
   const snapshot = model.snapshot!;
   const room = snapshot.room;
-  const host = playerName(model, room.hostId ?? '');
-  const manifest = defaultGame;
-  const roster = room.players.filter(player => !player.departed).map(player => `<li>${avatar(player.faceId, player.name, player.tile)}<span class="player-name">${escape(player.name)}</span><span class="total num">${room.totals[player.id] ?? 0}</span>${player.id === room.hostId ? `<span class="host-mark">${t('lobby.hostTag')}</span>` : ''}</li>`).join('');
-  const canStart = room.players.filter(player => !player.departed && player.connected).length >= manifest.minPlayers && !model.pending && model.connected && model.calibrated;
-  const hostControls = isHost(model) ? `<button class="text-button" data-dialog="close" ${model.pending || !model.connected ? 'disabled' : ''}>${t('lobby.close')}</button>` : `<p class="waiting-copy">${t('lobby.waiting', { name: escape(host) })}</p>`;
-  const footer = isHost(model) ? `<button class="primary-button" data-start ${canStart ? '' : 'disabled'}>${t('lobby.start')}</button>` : `<button class="text-button" data-dialog="leave" ${model.pending || !model.connected ? 'disabled' : ''}>${t('lobby.leave')}</button>`;
-  shell(root, t('lobby.title', { code: room.code }), lobbyScreen({ gameName: t(manifest.nameKey), tagline: t(manifest.taglineKey), roster, controls: hostControls }), footer, model);
-  root.querySelector<HTMLButtonElement>('[data-start]')?.addEventListener('click', () => actions.send({ type: 'start', gameId: manifest.id, settings: manifest.defaultSettings }));
-  bindDialogs(root, model, actions);
+  const ordered = room.players.slice().sort((a, b) => (room.totals[b.id] ?? 0) - (room.totals[a.id] ?? 0));
+  const best = ordered.length ? room.totals[ordered[0]!.id] ?? 0 : 0;
+  const leaders = ordered.filter(player => (room.totals[player.id] ?? 0) === best);
+  const winner = !room.gamesPlayed ? t(room.status === 'closed' ? 'completed.body' : 'room.noGames') : leaders.length > 1 ? t('room.tie', { count: leaders.length }) : t('room.winner', { name: escapeHtml(leaders[0]?.name ?? '') });
+  const rows = ordered.map(player => {
+    const total = room.totals[player.id] ?? 0;
+    const rank = 1 + ordered.filter(other => (room.totals[other.id] ?? 0) > total).length;
+    return `<div class="player ${player.id === snapshot.selfId ? 'self' : ''}">${avatar(player)}${playerIdentity(player, snapshot.selfId, room.hostId)}<span class="value">${total}</span><span class="position">${rank}</span></div>`;
+  }).join('');
+  return eveningSummaryScreen(winner, room.gamesPlayed, rows);
 }
-
-function bindDialogs(root: HTMLElement, model: UiModel, actions: UiActions): void {
-  root.querySelectorAll<HTMLButtonElement>('[data-dialog]').forEach(button => button.addEventListener('click', () => { dialog = (button.dataset.dialog as DialogKind) ?? null; dialogInstance = model.snapshot?.game?.scope.gameInstanceId; dialogStatus = model.snapshot?.room.status; render(root, model, actions); }));
+function showDialog(kind: DialogKind, trigger: string | null = kind): void {
+  saveDraft(latest.root);
+  openDialog = { kind, context: context(latest.model), trigger };
+  drawDialog();
 }
-function modal(root: HTMLElement, model: UiModel, actions: UiActions): void {
-  if (!dialog) return;
-  const kind = dialog;
-  const title = t(`confirm.${kind}.title` as MessageKey);
-  const body = t(`confirm.${kind}.body` as MessageKey);
-  const node = document.createElement('dialog'); node.className = 'confirm-dialog';
-  node.innerHTML = `<form method="dialog"><h2>${title}</h2><p>${body}</p><div><button value="cancel">${t('confirm.cancel')}</button><button value="confirm" class="primary-button">${t('confirm.confirm')}</button></div></form>`;
-  node.addEventListener('close', () => { const choice = node.returnValue; dialog = null; if (choice === 'confirm') actions.send({ type: kind }); else render(root, model, actions); root.querySelector<HTMLElement>(`[data-dialog="${kind}"]`)?.focus(); });
+function drawDialog(): void {
+  const { root, model } = latest;
+  root.querySelector('dialog')?.remove();
+  if (!openDialog) return;
+  const { kind, trigger } = openDialog;
+  const confirm = kind === 'abort' || kind === 'leave' || kind === 'close';
+  const titles: Record<DialogKind, string> = { faces: 'entry.face', menu: 'nav.menu', invite: 'room.invite', rules: 'room.rules', points: 'room.points', abort: 'confirm.abort.title', leave: 'confirm.leave.title', close: 'confirm.close.title' };
+  let body = '';
+  if (kind === 'faces') body = `<div class="face-gallery">${Array.from({ length: 25 }, (_, i) => { const id = `face-${String(i + 1).padStart(2, '0')}`; return `<button data-face="${id}" aria-label="${t('entry.faceChoice', { number: i + 1 })}" aria-pressed="${faceId === id}">${avatar({ faceId: id, tile: 'tYel' })}</button>`; }).join('')}</div>`;
+  if (kind === 'invite') body = `<p>${t('room.inviteBody')}</p><p class="room-code">${escapeHtml(model.snapshot?.room.code ?? '')}</p>`;
+  if (kind === 'rules') body = `<p>${t(defaultGame.taglineKey)}</p>`;
+  if (kind === 'points') body = evening(model);
+  if (kind === 'menu') body = `<div class="dialog-actions">${button('room.invite', 'invite', 'secondary')}${button('room.rules', 'rules', 'secondary')}${button('room.points', 'points', 'secondary')}${host(model) ? (model.snapshot?.room.status === 'playing' ? button('lobby.abort', 'abort', 'secondary', !enabled(model)) : '') + button('lobby.close', 'close', 'secondary', !enabled(model)) : button('lobby.leave', 'leave', 'secondary', !enabled(model))}</div>`;
+  if (confirm) body = `<p>${t(`confirm.${kind}.body`)}</p>`;
+  const node = document.createElement('dialog');
+  node.className = 'confirm-dialog';
+  node.setAttribute('aria-labelledby', 'dialog-title');
+  node.innerHTML = `<div class="dialog-head"><h2 id="dialog-title">${t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><div class="dialog-actions">${confirm ? button('confirm.confirm', 'confirm', 'primary', !enabled(model)) : ''}<button class="button secondary" data-dismiss>${t(confirm ? 'confirm.cancel' : 'nav.done')}</button></div>`;
+  const dismiss = (): void => { openDialog = null; node.close(); redraw(); if (trigger) root.querySelector<HTMLElement>(`[data-action="${trigger}"]`)?.focus(); };
+  node.addEventListener('cancel', event => { event.preventDefault(); dismiss(); });
+  node.querySelectorAll('[data-dismiss]').forEach(element => element.addEventListener('click', dismiss));
+  node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(element => element.addEventListener('click', () => { faceId = element.dataset.face!; dismiss(); }));
+  node.querySelector('[data-action="confirm"]')?.addEventListener('click', () => {
+    if (!confirm || !enabled(latest.model) || context(latest.model) !== openDialog?.context) return;
+    openDialog = null; node.close(); latest.actions.send({ type: kind });
+  });
+  node.querySelectorAll<HTMLButtonElement>('[data-action]').forEach(element => {
+    if (element.dataset.action !== 'confirm') element.addEventListener('click', () => showDialog(element.dataset.action as DialogKind, 'menu'));
+  });
   root.appendChild(node); node.showModal();
+  node.querySelector<HTMLElement>('[data-dismiss]')?.focus();
 }
-
+function bind(root: HTMLElement, model: UiModel, actions: UiActions): void {
+  root.querySelectorAll<HTMLButtonElement>('[data-action]').forEach(element => element.addEventListener('click', () => {
+    const action = element.dataset.action;
+    saveDraft(root);
+    if (action === 'home' || action === 'create' || action === 'join') navigate(action);
+    else if (action === 'fresh') fresh();
+    else if (action === 'resume') actions.resume();
+    else if (action === 'start' && enabled(model)) actions.send({ type: 'start', gameId: defaultGame.id, settings: defaultGame.defaultSettings });
+    else if (action === 'faces' || action === 'menu' || action === 'invite') showDialog(action);
+  }));
+  root.querySelector<HTMLFormElement>('#entry-form')?.addEventListener('submit', event => {
+    event.preventDefault(); saveDraft(root);
+    if (model.pending) return;
+    name = name.trim(); code = code.trim().toUpperCase();
+    if (!name) { root.querySelector<HTMLInputElement>('#player-name')?.focus(); return; }
+    if (mode === 'create') actions.create(name, faceId);
+    else if (mode === 'join') actions.join(code, name, faceId);
+  });
+}
 export function render(root: HTMLElement, model: UiModel, actions: UiActions): void {
-  if (dialog && root.querySelector('dialog') && model.connected && model.snapshot?.game?.scope.gameInstanceId === dialogInstance && model.snapshot?.room.status === dialogStatus) return;
-  if (root.querySelector('dialog')) dialog = null;
+  let announcer = document.getElementById('game-announcer');
+  if (!announcer) { announcer = document.createElement('p'); announcer.id = 'game-announcer'; announcer.className = 'sr-only'; announcer.setAttribute('role', 'status'); announcer.setAttribute('aria-live', 'polite'); document.body.appendChild(announcer); }
+  latest = { root, model, actions };
+  saveDraft(root);
+  if (openDialog && root.querySelector('dialog') && openDialog.context === context(model)) {
+    root.querySelectorAll<HTMLButtonElement>('dialog [data-action="confirm"], dialog [data-action="abort"], dialog [data-action="close"], dialog [data-action="leave"]').forEach(control => { control.disabled = !enabled(model); });
+    return;
+  }
+  openDialog = null;
   const active = document.activeElement;
-  const focusedId = active instanceof HTMLInputElement && root.contains(active) ? active.id : null;
-  const selectionStart = active instanceof HTMLInputElement ? active.selectionStart : null;
-  const selectionEnd = active instanceof HTMLInputElement ? active.selectionEnd : null;
-  const currentName = root.querySelector<HTMLInputElement>('#player-name');
-  const currentCode = root.querySelector<HTMLInputElement>('#room-code');
-  if (currentName) entryName = currentName.value;
-  if (currentCode) entryCode = currentCode.value;
+  const focusedId = active instanceof HTMLElement && root.contains(active) ? active.id : '';
+  const focusedAction = active instanceof HTMLElement && root.contains(active) ? active.dataset.action : undefined;
+  const selection = active instanceof HTMLInputElement ? [active.selectionStart, active.selectionEnd] : null;
   const snapshot = model.snapshot;
-  if (!snapshot) entry(root, model, actions);
-  else if (snapshot.room.status === 'closed') {
-    const totals = snapshot.room.players.slice().sort((a, b) => (snapshot.room.totals[b.id] ?? 0) - (snapshot.room.totals[a.id] ?? 0)).map((player, index) => `<li><span class="rank num">${index + 1}</span>${avatar(player.faceId, player.name, player.tile)}<span class="player-name">${escape(player.name)}</span><span class="total num">${snapshot.room.totals[player.id] ?? 0}</span></li>`).join('');
-    shell(root, t('completed.title'), eveningSummaryScreen(t('completed.body'), totals), `<button class="primary-button" data-fresh>${t('completed.fresh')}</button>`, model);
-  }
-  else if (snapshot.room.status === 'lobby' || !snapshot.game) lobby(root, model, actions);
-  else {
-    shell(root, t('app.title'), '<div id="game-view"></div>', '', model);
-    const gameRoot = root.querySelector<HTMLElement>('#game-view')!;
-    const footerRoot = root.querySelector<HTMLElement>('#shell-actions')!;
-    const game = snapshot.game;
-    void gameView(game.gameId).then(view => {
-      if (!view || root.querySelector('#game-view') !== gameRoot) { gameRoot.innerHTML = `<p class="game-error">${t('error.generic')}</p>`; return; }
-      view({ root: gameRoot, footerRoot, publicView: game.public, privateView: game.private, now: model.now, actions, scope: game.scope, playerName: id => playerName(model, id), selfId: snapshot.selfId, isHost: isHost(model), canAct: model.connected && model.calibrated && !model.pending, localTime: model.serverToLocal });
-      if (snapshot.room.status === 'completed') footerRoot.innerHTML = isHost(model) ? `<button class="primary-button" data-lobby ${model.pending || !model.connected || !model.calibrated ? 'disabled' : ''}>${t('lobby.back')}</button>` : `<p class="waiting-copy">${t('lobby.waiting', { name: escape(playerName(model, snapshot.room.hostId ?? '')) })}</p>`;
-      footerRoot.querySelector<HTMLButtonElement>('[data-lobby]')?.addEventListener('click', () => actions.send({ type: 'lobby' }));
-      if (snapshot.room.status === 'playing') {
-        const controls = document.createElement('div');
-        controls.innerHTML = `<button class="text-button" data-dialog="${isHost(model) ? 'abort' : 'leave'}" ${model.pending || !model.connected || !model.calibrated ? 'disabled' : ''}>${t(isHost(model) ? 'lobby.abort' : 'lobby.leave')}</button>`;
-        footerRoot.appendChild(controls);
-        bindDialogs(root, model, actions);
-      }
-    });
-    bindDialogs(root, model, actions);
-  }
-  root.querySelector<HTMLButtonElement>('[data-fresh]')?.addEventListener('click', actions.fresh);
-  root.querySelector<HTMLButtonElement>('[data-lobby]')?.addEventListener('click', () => actions.send({ type: 'lobby' }));
-  modal(root, model, actions);
-  if (focusedId) {
-    const replacement = root.querySelector<HTMLInputElement>(`#${focusedId}`);
-    if (replacement) {
-      replacement.focus();
-      if (selectionStart !== null && selectionEnd !== null) replacement.setSelectionRange(selectionStart, selectionEnd);
+  if (!snapshot) {
+    if (hadSession) mode = 'home';
+    hadSession = false;
+    if (mode === 'home' && model.savedRoomCode) mode = 'recovery';
+    if (mode === 'recovery' && !model.savedRoomCode) mode = 'home';
+    const footer = mode === 'home' ? `<div class="action-row two">${button('entry.joinAction', 'join', 'secondary')}${button('entry.createAction', 'create')}</div>` : mode === 'recovery' ? `<div class="action-row two">${button('entry.newRoom', 'fresh', 'secondary', model.pending)}${button('entry.rejoin', 'resume', 'primary', model.pending)}</div>` : `<button class="button primary" form="entry-form" type="submit" ${model.pending ? 'disabled' : ''}>${t(mode === 'create' ? 'entry.createAction' : 'entry.joinAction')}</button>`;
+    shell(root, t('app.title'), entryScreen(mode, name, code, faceId, model.savedRoomCode), footer, model);
+  } else {
+    hadSession = true;
+    if (snapshot.room.status === 'closed') shell(root, t('room.evening'), evening(model), button('entry.newRoom', 'fresh'), model);
+    else if (snapshot.room.status === 'lobby' || !snapshot.game) {
+      const players = snapshot.room.players.filter(player => !player.departed);
+      const roster = players.map(player => `<div class="player ${player.id === snapshot.selfId ? 'self' : ''}">${avatar(player)}${playerIdentity(player, snapshot.selfId, snapshot.room.hostId)}</div>`).join('');
+      const canStart = enabled(model) && players.filter(player => player.connected).length >= defaultGame.minPlayers;
+      const footer = host(model) ? button('lobby.start', 'start', 'primary', !canStart) : `<p class="action-meta">${t('lobby.waiting', { name: escapeHtml(playerName(model, snapshot.room.hostId ?? '')) })}</p>`;
+      shell(root, t(defaultGame.nameKey), lobbyScreen(t(defaultGame.taglineKey), escapeHtml(snapshot.room.code), players.length, roster), footer, model);
+    } else {
+      shell(root, t(defaultGame.nameKey), '<div id="game-view"></div>', '', model);
+      const gameRoot = root.querySelector<HTMLElement>('#game-view')!;
+      const footerRoot = root.querySelector<HTMLElement>('#shell-actions')!;
+      const game = snapshot.game;
+      void gameView(game.gameId).then(view => {
+        if (root.querySelector('#game-view') !== gameRoot) return;
+        if (!view) { gameRoot.innerHTML = `<p>${t('error.generic')}</p>`; return; }
+        view({ root: gameRoot, footerRoot, publicView: game.public, privateView: game.private, now: model.now, actions, scope: game.scope, playerName: id => playerName(model, id), selfId: snapshot.selfId, isHost: host(model), canAct: enabled(model), localTime: model.serverToLocal, players: snapshot.room.players, hostId: snapshot.room.hostId, setTitle: title => { root.querySelector('#screen-title')!.textContent = title; }, announce: message => { if (announcer.textContent !== message) announcer.textContent = message; }, returnToRoom: () => actions.send({ type: 'lobby' }) });
+        if (focusedAction) footerRoot.querySelector<HTMLElement>(`[data-action="${focusedAction}"]`)?.focus();
+      });
     }
   }
+  bind(root, model, actions);
+  const replacement = focusedId ? document.getElementById(focusedId) : focusedAction ? root.querySelector<HTMLElement>(`[data-action="${focusedAction}"]`) : null;
+  replacement?.focus();
+  if (replacement instanceof HTMLInputElement && selection?.[0] !== null && selection?.[1] !== null && selection) replacement.setSelectionRange(selection[0]!, selection[1]!);
 }

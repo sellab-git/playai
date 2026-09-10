@@ -1,4 +1,4 @@
-import type { Json } from '../engine.ts';
+import type { Json, Player } from '../engine.ts';
 import type { UiActions } from './ui.ts';
 
 export interface GameViewProps {
@@ -13,6 +13,11 @@ export interface GameViewProps {
   selfId: string;
   isHost: boolean;
   canAct: boolean;
+  players: Player[];
+  hostId: string | null;
+  setTitle(title: string): void;
+  announce(message: string): void;
+  returnToRoom(): void;
   localTime(serverTimestamp: number): number;
 }
 
