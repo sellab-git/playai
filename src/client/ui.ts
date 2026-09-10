@@ -122,7 +122,7 @@ function drawDialog(): void {
   let outsidePress=false;
   const outside=(event:MouseEvent):boolean=>{const box=node.getBoundingClientRect();return event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom;};
   node.addEventListener('pointerdown',event=>{outsidePress=event.target===node&&outside(event);});
-  node.addEventListener('click',event=>{if(outsidePress&&event.target===node&&outside(event))dismiss();outsidePress=false;});
+  node.addEventListener('click',event=>{if(outsidePress&&event.target===node&&outside(event)){event.preventDefault();event.stopPropagation();dismiss();}outsidePress=false;});
   node.addEventListener('cancel',event=>{event.preventDefault();if(dialogTrail.length)back();else dismiss();});
   node.querySelectorAll('[data-dismiss]').forEach(element=>element.addEventListener('click',dismiss));
   node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(element=>element.addEventListener('click',()=>{faceDraft=element.dataset.face!;node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(face=>face.setAttribute('aria-pressed',String(face.dataset.face===faceDraft)));}));
