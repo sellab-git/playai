@@ -26,7 +26,7 @@ and independent Sol logic review passed after corrections; reviewers supplied no
 emulator evidence. See [local room review](validation/local-room-review.md) and [the
 local runbook](production/local-development.md).
 
-## Scope
+## Historical prototype scope
 
 Continue the Blindstop HTML mockup in `prototypes/blindstop/mockups/blindstop.html` (repository-relative path). The user approved preserving the handoff in GitHub, reconciling documentation, and continuing tested refinements. The user subsequently approved the room-level UX update in [prototype decisions](decisions/prototype.md), including a single-game selection view and editing room identity. This does not start the full application or approve the remaining [backlog proposals](planning/backlog-notes.md).
 

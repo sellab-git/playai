@@ -19,6 +19,11 @@ human-playtest, or physical-device acceptance record.
   once.
 - Dependency hygiene: the development `sharp` advisory is fixed and `npm audit` is
   clean.
+- Published implementation: commit `38cb536` on PR #1. GitHub Actions
+  [run 34440814904](https://github.com/sellab-git/playai/actions/runs/34440814904)
+  passes installation, typecheck, lint, all 43 tests, build, and the isolated real
+  adapter/restart harness on Ubuntu with Node 24. This confirms CI execution as
+  well as the local Windows evidence.
 
 The implementation uses the direct Durable Object adapter selected by the local
 contract. No PartyKit transport, second provider, public deployment, or paid plan is
