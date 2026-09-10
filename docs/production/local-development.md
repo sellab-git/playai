@@ -1,7 +1,7 @@
 # Local P1 development runbook
 
-This is the local workflow and evidence record for the P1 room plus one Blindstop
-round. The direct Durable Object slice and its local integration path are now
+This is the local workflow and evidence record for the P1 room plus the complete Blindstop
+game. The direct Durable Object slice and its local integration path are now
 implemented. Remaining checks and gates are stated explicitly below; this document
 does not turn local evidence into production or device acceptance.
 
@@ -48,7 +48,7 @@ there is no deployment or paid Cloudflare plan authorized.
 
 The current local evidence is:
 
-- the automated suite: 43 passing tests;
+- the automated suite: 60 passing tests;
 - `npm run typecheck`, `npm run lint`, `npm run build`, and the surface detector:
   passing;
 - `npm run test:integration`: passing its local Wrangler HTTP/WebSocket scenarios
@@ -72,7 +72,7 @@ npm run test:adapter
 ```
 
 `test:adapter` owns an isolated Wrangler on port 8790, runs the HTTP/WebSocket
-suite and actual process restart, then removes its temporary persistence. It refuses
+suite, full practice/multi-round/pause/replay scenario and actual process restart, then removes its temporary persistence. It refuses
 an occupied port. `test:integration` separately targets an already-running local
 Worker on 8787. Abrupt external cancellation may leave temporary state or an owned
 child process; ordinary completion and failure clean up, including Windows lock retries.

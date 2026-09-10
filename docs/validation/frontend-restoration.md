@@ -1,3 +1,5 @@
+> Historical one-round restoration record. The later full-game extension and current evidence are in [full Blindstop](full-blindstop.md). Missing-scope statements below describe this earlier stage.
+
 # Frontend restoration — 2026-09-10
 
 ## Reference and scope

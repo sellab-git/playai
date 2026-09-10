@@ -7,7 +7,7 @@ not alternative project homes or Obsidian vaults.
 | What you need | Current location |
 | --- | --- |
 | Latest four-game UX/UI reference | [Open the HTML mockup](prototypes/blindstop/mockups/blindstop.html) — Blindstop, Impostor, Categories, Bluff |
-| Real local application | `src/` — server-owned room and one Blindstop round |
+| Real local application | `src/` — server-owned room and complete Blindstop game |
 | Current status and unresolved acceptance | [docs/status.md](docs/status.md) |
 | Obsidian knowledge base | [docs/index.md](docs/index.md) — open this project's `docs` folder as the vault |
 | Local server instructions | [Local development](docs/production/local-development.md) |
@@ -19,13 +19,16 @@ The four-game HTML mockup contains the latest prototype interaction work, includ
 Bluff and the cross-game consistency changes. It is the visual and interaction
 reference; simulated participants are not real multiplayer.
 
-The real application implements a local Durable Object room and one Blindstop round.
-Its 43 automated tests, build, typecheck, lint and real adapter/restart checks pass,
-including GitHub CI. The bounded Android host flow was exercised with a protocol guest.
-**This does not establish UX/UI parity with the mockup.** The user reported substantial
-differences. The screen-by-screen visual comparison is unfinished and UI acceptance
-is open. Reconciliation is complete and the user resumed the frontend restoration.
-See [restoration evidence and remaining differences](docs/validation/frontend-restoration.md).
+The real application now implements the complete Blindstop game: 1–20 rounds,
+manual or automatic progression with pause, optional unscored practice, cumulative
+results and retained settings for replay. The room supports shared preparation,
+profile changes, invitations and evening standings. The other three game engines
+remain in the HTML prototype only.
+
+The local suite has 60 passing tests; typecheck, lint, build and the isolated real
+adapter/restart suite pass. Android host evidence includes practice, two rounds,
+final awards and replay. See [full Blindstop evidence](docs/validation/full-blindstop.md)
+for the exact scope, independent reviews and remaining acceptance limits.
 
 Two-phone/laptop acceptance, human playtest and broader device/accessibility checks
 remain open. No merge into main, public deployment or paid plan is authorized.

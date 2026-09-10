@@ -1,5 +1,16 @@
 # Current state — 2026-09-10
 
+## Accepted full Blindstop scope
+
+The user explicitly authorized the complete Blindstop game from the current HTML
+reference after being asked about settings and the one-round roadmap restriction.
+That authorization supersedes the historical one-round implementation limit:
+1–20 rounds, manual/automatic progression with pause, optional unscored practice,
+full standings/details, retained settings and replay are now in scope. Room setup
+and identity remain generic, server-owned capabilities. Other game engines,
+deployment, paid plans and production acceptance are not part of this extension.
+Physical/device gates remain acceptance requirements, not claims of completed tests.
+
 ## Workspace reconciliation and UI acceptance
 
 Reconciliation completed on 2026-09-10. Linear project summary/description and
@@ -8,7 +19,7 @@ the cross-game changes accurately. The final project issue list was verified:
 SEL-25/SEL-23/SEL-15 In Review, SEL-16 Todo, SEL-17 Done for its accepted mockup
 scope. The registered Obsidian vault points to the canonical docs directory and now
 contains the current project knowledge. The user subsequently resumed work and
-authorized frontend restoration; see [current evidence](validation/frontend-restoration.md).
+authorized frontend restoration; see [earlier restoration evidence](validation/frontend-restoration.md).
 
 The canonical local project is `C:\AI biznes\40. Playai`; its `docs` directory is
 the registered Obsidian vault. It has been fast-forwarded from the older Categories
@@ -29,31 +40,23 @@ comparison was interrupted and remains unfinished. Do not treat the real UI as
 accepted. Workspace reconciliation is complete. The frontend restoration now runs
 in the canonical folder and on the local server; full four-game parity remains open.
 
-## Current P1 local slice
+## Current local implementation
 
-The earlier end-of-day pause is lifted for the authorized technical foundation
-work. The direct Cloudflare Durable Object local slice now exists for one Blindstop
-round. It covers the generic room/runner path and a local Wrangler integration
-exercise; no later games have been ported, no public deployment exists, and no paid
-Cloudflare plan is authorized.
+The complete Blindstop game is implemented in the canonical source and local
+server, published in commit `bfd7be0`. It replaces the one-round implementation limit with the explicitly
+accepted scope above. The other three engines remain prototype-only.
 
-Verified local evidence currently includes Node 24.14, npm 11.9, TypeScript 6.0.2,
-Vite 8.2.2, Vitest 5, Wrangler 4.130.0, and the `sharp` 0.35.4 override. The
-automated suite has 43 passing tests; typecheck, lint, build, and the surface
-detector pass. The real Wrangler local integration script passes HTTP and WebSocket create/join, origin and
-credential rejection, clock readiness, host authorization, countdown/alarm, privacy,
-connection generation, equal/conflicting retries, awards, and closed-summary
-scenarios. A real Wrangler process restart also passes: membership and the Start
-ack are retained, overdue phases advance, and the award is applied exactly once.
-The fixed development advisory is recorded as `npm audit` clean.
+Current local checks: 60 tests, TypeScript, ESLint, build, and the isolated real
+Wrangler HTTP/WebSocket and process-restart suite pass. Android host evidence
+covers practice, two scored rounds, private waiting, results, final awards and
+return to preparation with settings retained. The guest used a protocol client;
+this is not guest UI or physical-device evidence.
 
-Evidence is still incomplete. A bounded Android Emulator host flow passes (create, round, results, reload/resume, and close) with a protocol guest. Two real phones plus a laptop, including host-browser closure
-mid-round, remain unavailable, so the P1 physical acceptance gate is open. R1 human
-content/pacing, P2 device/accessibility, and later-game gates remain open as well.
-The contract review, generic runner review, UI review, independent Terra UX review,
-and independent Sol logic review passed after corrections; reviewers supplied no
-emulator evidence. See [local room review](validation/local-room-review.md) and [the
-local runbook](production/local-development.md).
+See [full Blindstop validation](validation/full-blindstop.md) for reviewed changes,
+remaining limitations and final visual observations. The earlier [frontend
+restoration](validation/frontend-restoration.md) is historical one-round evidence.
+No merge or public deployment has occurred. Two-phone/laptop, human playtest,
+guest UI and broader device/accessibility acceptance remain open.
 
 ## Historical prototype scope
 
