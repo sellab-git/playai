@@ -53,6 +53,7 @@ const messages = {
   'room.invite': 'Invite friends',
   'room.inviteBody': 'Ask your friends to open Playai and join with this room code.',
   'room.rules': 'How to play',
+  'room.gameRules':'How to play {game}',
   'room.points': 'Room standings',
   'room.total': 'Total',
   'room.place': 'Place',

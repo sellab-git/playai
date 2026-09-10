@@ -1,7 +1,7 @@
 import type { Command, Snapshot, Json } from '../engine.ts';
 import { defaultGame, games } from '../games/registry.ts';
 import { t } from './i18n.ts';
-import { gameView, gameClient, loadedGameClient } from './views.ts';
+import { gameView, gameClient, loadedGameClient, type GameView } from './views.ts';
 import { avatar, button, escapeHtml, icon, playerIdentity, tick } from './presentation.ts';
 import { entryScreen } from './screens/EntryScreen.ts';
 import { lobbyScreen } from './screens/LobbyScreen.ts';
@@ -35,6 +35,10 @@ let identityName = '', identityFace = 'face-01';
 let faceReturn: 'identity' | null = null;
 let faceDraft = 'face-01';
 let renderedContext = '';
+let preparationKey = '';
+let settingsFocus = '';
+const preparationIdentity = (model: UiModel): string => model.snapshot?.room.status === 'lobby' && model.snapshot.room.setup ? JSON.stringify([context(model),model.snapshot.selfId,model.snapshot.room.players,model.snapshot.room.setup.gameId]) : '';
+
 const dialogTrail: Array<{ dialog: NonNullable<typeof openDialog>; detail: typeof detail; identityName: string; identityFace: string; faceDraft: string; faceReturn: 'identity' | null }> = [];
 const loadingClients = new Set<string>();
 const manifest = (model: UiModel) => Object.values(games).find(entry => entry.manifest.id === (model.snapshot?.room.setup?.gameId ?? model.snapshot?.game?.gameId))?.manifest ?? defaultGame;
@@ -112,9 +116,13 @@ function drawDialog(): void {
   if (kind === 'menu') body = `<div class="dialog-actions">${gameMenu.map((item,index)=>`<button class="button secondary" data-game-menu="${index}">${escapeHtml(item.label)}</button>`).join('')}${button('room.rules','rules','secondary')}${inRoom ? button('room.invite','invite','secondary')+button('room.people','people','secondary')+button('room.identity','identity','secondary')+button('room.points','points','secondary') : ''}${host(model) ? (model.snapshot?.room.status === 'playing' ? button('lobby.abort','abort','secondary',!enabled(model)) : '') + (inRoom?button('lobby.close','close','secondary',!enabled(model)):'') : button('lobby.leave','leave','secondary',!enabled(model))}</div>`;
   if (confirm) body = `<p>${t(`confirm.${kind}.body`)}</p>`;
   const node = document.createElement('dialog'); node.className='confirm-dialog'; node.setAttribute('aria-labelledby','dialog-title');
-  node.innerHTML=`<div class="dialog-head">${dialogTrail.length?`<button class="close-button" data-action="dialog-back" aria-label="${t('nav.back')}">${icon('M21 7 11 16 21 25')}</button>`:''}<h2 id="dialog-title">${kind==='details'?escapeHtml(detail.title):t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><p class="error" id="dialog-error" role="alert"></p><p class="copy-status" id="copy-status" role="status"></p>${confirm||kind==='faces'?`<div class="dialog-actions">${confirm?button('confirm.confirm','confirm','primary',!enabled(model)):button('entry.useFace','save-face')}</div>`:''}`;
+  node.innerHTML=`<div class="dialog-head">${dialogTrail.length?`<button class="close-button" data-action="dialog-back" aria-label="${t('nav.back')}">${icon('M21 7 11 16 21 25')}</button>`:''}<h2 id="dialog-title">${kind==='details'?escapeHtml(detail.title):kind==='rules'?t('room.gameRules',{game:t(manifest(model).nameKey)}):t(titles[kind])}</h2><button class="close-button" data-dismiss aria-label="${t('nav.close')}">${icon('M7 7 25 25 M25 7 7 25')}</button></div><div class="dialog-body">${body}</div><p class="error" id="dialog-error" role="alert"></p><p class="copy-status" id="copy-status" role="status"></p>${confirm||kind==='faces'?`<div class="dialog-actions">${confirm?button('confirm.confirm','confirm','primary',!enabled(model)):button('entry.useFace','save-face')}</div>`:''}`;
   const dismiss=():void=>{openDialog=null;dialogTrail.length=0;faceReturn=null;node.close();redraw();if(trigger)root.querySelector<HTMLElement>(`[data-action="${trigger}"]`)?.focus();};
   const back=():void=>{const previous=dialogTrail.pop();if(!previous){dismiss();return;}openDialog=previous.dialog;detail=previous.detail;identityName=previous.identityName;identityFace=previous.identityFace;faceDraft=previous.faceDraft;faceReturn=previous.faceReturn;drawDialog();};
+  let outsidePress=false;
+  const outside=(event:MouseEvent):boolean=>{const box=node.getBoundingClientRect();return event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom;};
+  node.addEventListener('pointerdown',event=>{outsidePress=event.target===node&&outside(event);});
+  node.addEventListener('click',event=>{if(outsidePress&&event.target===node&&outside(event))dismiss();outsidePress=false;});
   node.addEventListener('cancel',event=>{event.preventDefault();if(dialogTrail.length)back();else dismiss();});
   node.querySelectorAll('[data-dismiss]').forEach(element=>element.addEventListener('click',dismiss));
   node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(element=>element.addEventListener('click',()=>{faceDraft=element.dataset.face!;node.querySelectorAll<HTMLButtonElement>('[data-face]').forEach(face=>face.setAttribute('aria-pressed',String(face.dataset.face===faceDraft)));}));
@@ -175,14 +183,16 @@ function bind(root: HTMLElement, model: UiModel, actions: UiActions): void {
   }));
   const panel=root.querySelector<HTMLDetailsElement>('#preparation-options');
   if(panel){
-    panel.querySelectorAll<HTMLInputElement>('input').forEach(input=>{input.disabled=!enabled(model);});
+    panel.querySelectorAll<HTMLInputElement | HTMLButtonElement>('input, [data-round-preset]').forEach(input=>{input.disabled=!enabled(model);});
     if(!panel.dataset.bound){
       panel.dataset.bound='true';
+      panel.addEventListener('pointerdown',event=>{if((event.target as Element).closest('[data-round-preset]'))event.preventDefault();});
+      panel.addEventListener('click',event=>{const preset=(event.target as Element).closest<HTMLButtonElement>('[data-round-preset]');if(!preset||!enabled(latest.model))return;const input=panel.querySelector<HTMLInputElement>('#setup-rounds');if(input){input.value=preset.dataset.roundPreset!;input.dispatchEvent(new Event('change',{bubbles:true}));}});
       panel.addEventListener('change',()=>{
         const settings=preparation(latest.model)?.read(panel);
         panel.querySelector('#settings-error')!.textContent=settings?'':t('room.invalidSettings');
         const start=root.querySelector<HTMLButtonElement>('[data-action="start"]');if(start)start.disabled=!settings||!enabled(latest.model);
-        if(settings&&enabled(latest.model)) latest.actions.send({type:'configure',setup:{gameId:manifest(latest.model).id,settings}});
+        if(settings&&enabled(latest.model)) { settingsFocus=(document.activeElement as HTMLElement)?.id??''; latest.actions.send({type:'configure',setup:{gameId:manifest(latest.model).id,settings}}); }
       });
       panel.addEventListener('input',()=>{const start=root.querySelector<HTMLButtonElement>('[data-action="start"]');if(start)start.disabled=!preparation(latest.model)?.read(panel)||!enabled(latest.model);});
     }
@@ -213,9 +223,25 @@ export function render(root: HTMLElement, model: UiModel, actions: UiActions): v
     return;
   }
   openDialog = null; dialogTrail.length=0;
+  const currentPreparation=preparationIdentity(model);
+  const mountedPanel=root.querySelector<HTMLDetailsElement>('#preparation-options');
+  if(currentPreparation && currentPreparation===preparationKey && mountedPanel?.querySelector('input') && preparation(model)) {
+    mountedPanel.querySelector('summary strong')!.textContent=preparation(model)!.summary(roomSettings(model));
+    mountedPanel.querySelectorAll<HTMLInputElement | HTMLButtonElement>('input, [data-round-preset]').forEach(control=>{control.disabled=!enabled(model);});
+    const valid=preparation(model)!.read(mountedPanel);
+    const start=root.querySelector<HTMLButtonElement>('[data-action="start"]');
+    if(start)start.disabled=!valid||!enabled(model)||model.snapshot!.room.players.filter(player=>player.connected&&!player.departed).length<manifest(model).minPlayers;
+    const status=root.querySelector<HTMLElement>('#settings-save-status');if(status)status.textContent=t(model.pending?'setup.saving':'setup.saved');
+    root.querySelector('.ui-alert')!.textContent=model.error?t(model.error):'';
+    root.querySelector('.connection-status')!.textContent=!model.connected?t('connection.reconnecting'):model.delivery&&model.delivery!=='delivery.saved'&&model.delivery!=='delivery.sending'?t(model.delivery):'';
+    const menu=root.querySelector<HTMLButtonElement>('.header [data-action="menu"]');if(menu)menu.disabled=model.pending;
+    if(!model.pending&&settingsFocus){root.querySelector<HTMLElement>(`#${settingsFocus}`)?.focus({preventScroll:true});settingsFocus='';}
+    return;
+  }
+  preparationKey=currentPreparation;
   const active = document.activeElement;
   const preserveRoster = renderedContext === context(model);
-  const settingsPanel = preserveRoster ? root.querySelector<HTMLDetailsElement>('#preparation-options') : null;
+  const settingsPanel = preserveRoster && mountedPanel?.querySelector('input') ? mountedPanel : null;
   const rosterScroll = preserveRoster ? root.querySelector<HTMLElement>('.roster-scroll')?.scrollTop ?? 0 : 0;
   const rosterFocused = preserveRoster && active instanceof HTMLElement && active.classList.contains('roster-scroll');
   renderedContext = context(model);
@@ -248,23 +274,26 @@ export function render(root: HTMLElement, model: UiModel, actions: UiActions): v
         if(host(model))root.querySelector('.header > span')!.outerHTML=`<button class="nav-button" data-action="catalogue" aria-label="${t('room.games')}">${icon('M21 7 11 16 21 25')}</button>`;
       }
     } else {
-      shell(root, t(defaultGame.nameKey), '<div id="game-view"></div>', '', model);
+      const existingTitle=root.querySelector('#screen-title')?.textContent;
+      shell(root, existingTitle || t(manifest(model).nameKey), '<div id="game-view"></div>', '', model);
       const gameRoot = root.querySelector<HTMLElement>('#game-view')!;
       const footerRoot = root.querySelector<HTMLElement>('#shell-actions')!;
       const game = snapshot.game;
-      void gameView(game.gameId).then(view => {
+      const paintGame=(view:GameView|null):void => {
         if (root.querySelector('#game-view') !== gameRoot) return;
         if (!view) { gameRoot.innerHTML = `<p>${t('error.generic')}</p>`; return; }
         view({ root: gameRoot, footerRoot, publicView: game.public, privateView: game.private, now: model.now, actions, scope: game.scope, playerName: id => playerName(model, id), selfId: snapshot.selfId, isHost: host(model), canAct: enabled(model), completed: snapshot.room.status === 'completed', localTime: model.serverToLocal, players: snapshot.room.players, hostId: snapshot.room.hostId, setTitle: title => { root.querySelector('#screen-title')!.textContent = title; }, announce: message => { if (announcer.textContent !== message) announcer.textContent = message; }, returnToRoom: () => actions.send({ type: 'lobby',destination:'preparation' }),chooseGame:()=>actions.send({type:'lobby',destination:'catalogue'}),registerMenu:(items,onOpen)=>{gameMenu=items;onGameMenuOpen=onOpen;},openDialog:(title,body)=>{detail={title,body};showDialog('details','menu');} });
         restoreRoster();
-        if (focusedAction) footerRoot.querySelector<HTMLElement>(`[data-action="${focusedAction}"]`)?.focus();
-      });
+        if (focusedAction) footerRoot.querySelector<HTMLElement>(`[data-action="${focusedAction}"]`)?.focus({preventScroll:true});
+      };
+      const cached=loadedGameClient(game.gameId);
+      if(cached)paintGame(cached.default);else void gameView(game.gameId).then(paintGame);
     }
   }
   if(settingsPanel && root.querySelector('#preparation-options')) { const replacement=root.querySelector('#preparation-options')!; settingsPanel.querySelector('summary strong')!.textContent=replacement.querySelector('summary strong')!.textContent; replacement.replaceWith(settingsPanel); }
   restoreRoster();
   bind(root, model, actions);
   const replacement = focusedId ? document.getElementById(focusedId) : focusedAction ? root.querySelector<HTMLElement>(`[data-action="${focusedAction}"]`) : null;
-  replacement?.focus();
+  replacement?.focus({preventScroll:true});
   if (replacement instanceof HTMLInputElement && selection?.[0] !== null && selection?.[1] !== null && selection && ['text','search','tel','url','password'].includes(replacement.type)) replacement.setSelectionRange(selection[0]!, selection[1]!);
 }

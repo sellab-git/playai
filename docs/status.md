@@ -1,5 +1,12 @@
 # Current state — 2026-09-10
 
+## Latest settings and dialog refinement
+
+Settings save in place without remounting the preparation screen. Cached game views
+render synchronously to avoid a fallback-title flash. Rules identify the selected
+game; popup backdrop presses dismiss like X. Round shortcuts 3/5/10/15/20 retain
+manual 1-20 entry. See [validation](validation/settings-continuity.md).
+
 ## Latest control and language fixes
 
 Current source removes time-of-day assumptions, adds a labelled Auto-start switch,

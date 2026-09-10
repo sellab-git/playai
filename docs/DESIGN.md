@@ -1,3 +1,5 @@
+> Accepted interaction refinement — 2026-09-10: preparation settings update in place; round presets accompany manual entry; rules name their game; backdrop dismissal matches X. Avoid transient fallback headings during game rendering.
+
 > Accepted refinement — 2026-09-10: time-neutral room/game/results language; labelled Auto-start switch; transient copy confirmation with reusable action labels; results preview before native sharing. Pastel highlighter backgrounds may reuse avatar tokens for personal identity, invitation copy and result emphasis. Controls and icons stay monochrome. Input focus rings sit inside the field to avoid scroll-container clipping.
 
 > Accepted UI correction — 2026-09-10: in-app actions must use buttons or icons, never underlined text. A downward chevron expands settings inline. Nested dialogs use a header Back arrow and an X to dismiss the whole stack; omit redundant Done/Back footer buttons. Keep explicit actions only where data is committed (Save changes, Use this face). Invitation QR and room code are centered; copy controls have a visible gap. These direct user corrections supersede conflicting historical mockup controls below.

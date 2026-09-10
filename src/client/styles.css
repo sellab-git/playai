@@ -189,3 +189,10 @@ input:focus-visible, .auto-switch:focus-within { outline: var(--size-2) solid va
 .copy-status { min-height: var(--size-20); font-size: var(--fs-small); text-align: center; }
 
 .copy-status:empty { display: none; }
+
+.round-presets { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: var(--size-8); margin-top: var(--size-10); }
+.round-presets button { min-height: var(--size-44); border: var(--stroke); border-radius: var(--r-control); font-size: var(--fs-small); }
+.round-presets button[aria-pressed="true"] { border-color: var(--ink); background: var(--bg2); font-weight: var(--fw-semibold); }
+#settings-save-status { min-height: var(--size-20); }
+
+.auto-switch { -webkit-tap-highlight-color: transparent; }

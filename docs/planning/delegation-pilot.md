@@ -71,3 +71,10 @@ regressions; independent logic review; independent UX/copy review. Both reviewer
 found the shared confirmation timer race and passed its focused correction.
 No backend pacing defect was found. Model/cost/token/duration measurements are
 unavailable for these reused-context assignments; no savings claim is made.
+
+
+## Settings continuity — 2026-09-10
+
+Two independent assignments (logic and UX) reviewed the stable diff. Findings:
+menu disabled state, reconnect feedback and cold-load panel preservation. All
+corrected and focused re-reviews passed. Cost/token/time/model metrics unavailable.
