@@ -1,3 +1,11 @@
+> Accepted solo extension — 2026-09-10: Blindstop permits 1–20 players so one person can play real rounds without bots. Profile name/avatar changes are allowed only between games. See [latest status](status.md).
+
+> Accepted extension — 2026-09-10: the user explicitly authorized the complete Blindstop game from the current HTML mockup, including settings, practice and multiple rounds. This supersedes the historical one-round/no-settings restriction below; architecture and physical acceptance gates remain binding. See [current status](status.md) and [implementation evidence](validation/full-blindstop.md).
+
+> Current implementation preparation: [production readiness](decisions/production-readiness.md) and [gate/reconciliation table](planning/readiness-execution.md) supersede conflicting historical limits and behavior below. The fixed architecture and visual language remain binding.
+
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # SPEC — Playai
 
 ## What this is

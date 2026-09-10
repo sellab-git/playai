@@ -10,3 +10,13 @@ Thumbs.db
 
 # tool output
 .playwright-mcp/
+
+# Local Obsidian workspace state
+**/.obsidian/
+
+.wrangler/
+
+# Generated Next static export and source asset staging
+out/
+public/assets/avatars/
+*.tsbuildinfo

@@ -1,0 +1,9 @@
+Kontynuujemy pracę nad Playai / Blindstop przeniesioną z rozmowy w ChatGPT.
+
+Przeczytaj README.md, docs/STATE.md, docs/DECISIONS.md, docs/GAME-RULES.md, docs/KNOWN-ISSUES.md i docs/NEXT.md. Aktualny mockup to mockups/blindstop.html; history/mockup-v8.html jest zachowanym punktem startowym.
+
+Najpierw sprawdź, czy jesteś w istniejącym repo sellab-git/playai, i przeczytaj jego instrukcje, jeśli tak. Nie nadpisuj rootowego AGENTS.md. Porównaj istniejące specyfikacje z późniejszymi decyzjami w tej paczce. Zależy mi nadal na mockupach, nie wdrożeniu pełnej aplikacji.
+
+Uruchom testy z tools/check.cjs. Jeśli masz dostęp do przeglądarki, przeklikaj mockup w rozmiarach telefonu, szczególnie przewijanie dla 20 osób, stałość pozycji avatarów, układ dolnych przycisków i menu. Sprawdź również copy względem logiki. Napraw potwierdzone błędy bez dokładania funkcji. Nie oznaczaj propozycji z NEXT.md jako wdrożonych.
+
+Krótko opisz, jaki jest stan projektu, co sprawdziłeś i co wymaga dalszej pracy. Potem będziemy kontynuować kolejne poprawki tutaj. Rozmawiaj ze mną po polsku, copy w apce zostaw po angielsku.

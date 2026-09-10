@@ -1,0 +1,122 @@
+[
+  {
+    "name": "button",
+    "path": "src/components/ui/button.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/button.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "fe8220afc0ec9b62c7a520f4e6eb0b56b3b9e951eb963183c29d274395ee476c",
+    "baseline": "tooling/shadcn/baseline/button.tsx",
+    "adaptations": "Replace generated utility geometry with shared Playai token classes; retain Base UI Button and variant API. Map default to ink primary, outline/secondary to neutral outline, ghost to plain. Remove link/destructive variants and press translation.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "collapsible",
+    "path": "src/components/ui/collapsible.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/collapsible.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "ead4349ff7b01d696ef89294a81d18ee1d3f732321398896462c834ab9b9e065",
+    "baseline": "tooling/shadcn/baseline/collapsible.tsx",
+    "adaptations": "Retain generated Base UI Root, Trigger and Panel composition and data slots. No product-specific behavior changes.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "dialog",
+    "path": "src/components/ui/dialog.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/dialog.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "07e127c666f56e0701ab9060b8c71a8e32e1a1fb406027bdfb6b41bdaf75eaa9",
+    "baseline": "tooling/shadcn/baseline/dialog.tsx",
+    "adaptations": "Retain Base UI portal/backdrop/popup/title/focus/dismiss behavior. Use shared Playai overlay classes, hand-drawn close SVG and i18n close copy; omit generated animation, large radius, underline and default visual utilities. Use visual viewport height for keyboard-safe bounds. Product dialog navigation moves focus to its title; native form submission and linked field errors are covered by integration tests.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "field",
+    "path": "src/components/ui/field.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/field.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "80a9e67e4ee032cf70761f266897ecbb8d3feb5039095ba8f52b26e0c3631343",
+    "baseline": "tooling/shadcn/baseline/field.tsx",
+    "adaptations": "Retain generated field, label, description and error composition. Replace layout/type utility recipes with shared Playai field classes; retain validation/error aggregation behavior.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "input",
+    "path": "src/components/ui/input.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/input.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "b8d0c2a2ab66080b5fe9a3467884f896eb6f9e6b45ac0185925e831f551362e6",
+    "baseline": "tooling/shadcn/baseline/input.tsx",
+    "adaptations": "Retain Base UI Input props and data slot; replace generated focus/color/size utilities with shared Playai input class. The shared playai-input recipe owns input geometry; legacy field input and round-setting geometry overrides removed.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "label",
+    "path": "src/components/ui/label.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/label.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "b3b7b21d2877838fc73713df48a47248392de04a3b3fafa8961369f33ab14530",
+    "baseline": "tooling/shadcn/baseline/label.tsx",
+    "adaptations": "Retain generated native label composition and props. Use shared Playai label class.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "separator",
+    "path": "src/components/ui/separator.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/separator.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "9a80ff8c110e0c55489509f4f82ebcc929c0174b59544047147b7134f86a54e7",
+    "baseline": "tooling/shadcn/baseline/separator.tsx",
+    "adaptations": "Retain Base UI Separator semantics and orientation; replace generated utility classes with shared Playai separator class.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "switch",
+    "path": "src/components/ui/switch.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/switch.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "adff46ae3684891bdbbb5fdcf07c7dfa1598275ed65715269e444db9ba6021be",
+    "baseline": "tooling/shadcn/baseline/switch.tsx",
+    "adaptations": "Retain Base UI Root/Thumb, controlled state and accessibility. Replace generated visual utilities with Playai switch/thumb token classes. Expose one supported token size only; remove the unused sm option.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "toggle-group",
+    "path": "src/components/ui/toggle-group.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/toggle-group.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "2cf416634c5dc40a56e37b94f664235d524bffd31307b9436e3ffe6e1787f837",
+    "baseline": "tooling/shadcn/baseline/toggle-group.tsx",
+    "adaptations": "Retain Base UI ToggleGroup composition, context, controlled value and Toggle items. Use shared Playai group classes and adapted toggle variants. Use the canonical token gap; remove the unused numeric spacing API.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  },
+  {
+    "name": "toggle",
+    "path": "src/components/ui/toggle.tsx",
+    "registry": "https://ui.shadcn.com/r/styles/base-vega/toggle.json",
+    "retrieved": "2026-09-10",
+    "cli": "4.21.0",
+    "base": "@base-ui/react@1.8.0",
+    "sha256": "f6e3fed0379d2dee67df8a5e7e33694935bf2982dc513cbeacf2ce287b9446a6",
+    "baseline": "tooling/shadcn/baseline/toggle.tsx",
+    "adaptations": "Retain Base UI Toggle and variant API; replace utility recipes with Playai neutral toggle classes. Expose only the implemented default size; preserve neutral default/outline variants.",
+    "baselineMeaning": "Exact CLI-generated local source captured before Playai adaptations; sha256 hashes baseline bytes, not the adapted live component."
+  }
+]

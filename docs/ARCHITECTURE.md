@@ -1,3 +1,9 @@
+> Accepted frontend correction — 2026-09-10: use Next.js App Router + React + TypeScript. The custom imperative renderer has been removed. The audited correction is implemented and locally verified; see [current evidence and external gates](validation/frontend-correction.md) and [the decision](decisions/nextjs-frontend.md). The layered audit remains historical.
+
+> Current implementation preparation: [production readiness](decisions/production-readiness.md) and [gate/reconciliation table](planning/readiness-execution.md) supersede conflicting historical limits and behavior below. The fixed architecture and visual language remain binding.
+
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # ARCHITECTURE — Playai
 
 ## Five decisions that are fixed
@@ -51,7 +57,9 @@ it is importable both on the server, where the runner needs the engine, and on t
 client, where the lobby needs the manifest to draw a card.
 
 Screen components are registered separately and lazily, because the server cannot
-import React components. **That second registry is the only permitted duplication,
+import React components. Frontend descriptors own their lightweight manifest, mark,
+title, rules and settings. Engines import the same game-local manifest; client
+metadata derives from descriptors without a third registration map. **That second registry is the only permitted duplication,
 and a contract test iterates the first and asserts every game has a view in the
 second.**
 
@@ -84,8 +92,7 @@ hours. A document store makes you simulate that with heartbeats, write-rate limi
 (~1 write per second per document), tick coordination and manual host migration. That
 is where most of the complexity in comparable projects lives, and it is avoidable.
 
-Frontend: Next.js on Vercel, or plain Vite + React. Two deploy targets is the only
-real cost of this split.
+Frontend: Next.js App Router + React + TypeScript. Hosting is not selected by this frontend correction. See the current decision above for backend/origin integration gates.
 
 ### Room lifetime and cleanup
 
@@ -231,3 +238,21 @@ Not optional, even for a small project:
 
 A 5-character code space is about 33 million combinations, which makes blind
 enumeration pointless. Without join rate limiting it is not.
+
+
+## Historical imperative rendering correction (superseded)
+
+The following describes uncommitted work before the Next.js decision. Do not extend this renderer; preserve useful delivery requirements and migrate them to React.
+
+Use `src/client/dom.ts` to reconcile screen templates and rebind retained controls.
+Do not replace a live screen with `innerHTML` on each snapshot. Key distinct
+phase actions so a released pointer cannot activate a new command. Use `setText`
+for imperative labels to avoid rewriting unchanged text nodes.
+
+Background preparation saves have a separate client draft and latest-wins unsent
+buffer. Authoritative room state still comes exclusively from the server. A Start
+command is derived from the latest draft through the game adapter and ordered after
+settings delivery; the generic buffer must not rewrite game-owned start options.
+Never coalesce game actions. Retries retain the original intent ID. Normal settings
+acknowledgements must not disable unrelated controls or alternate save labels.
+See [validation](validation/rendering-continuity.md) for pending review and coverage.

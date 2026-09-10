@@ -1,3 +1,7 @@
+> Historical build-kit brief. Current UX/UI reference: prototypes/blindstop/mockups/blindstop.html (four games). Read index.md and status.md first. The original twelve-screen mockup below is archived and must not be treated as the current target.
+
+> Production build-kit baseline. Current prototype work starts at [Project home](index.md); later accepted prototype decisions take precedence for the mockup.
+
 # DESIGN BRIEF — handing these screens to a designer
 
 For a design tool or a designer picking this up cold. Everything needed is in this
@@ -24,7 +28,7 @@ change — do not build a wordmark or a lockup around either name.
 
 | # | File | Why |
 | --- | --- | --- |
-| 1 | `mockup.html` | **Open it on a phone first.** Twelve screens, clickable. This is the target, not an approximation of it. |
+| 1 | `prototypes/blindstop/archive/build-kit-mockup.html` | **Open it on a phone first.** Twelve screens, clickable. This is the target, not an approximation of it. |
 | 2 | `docs/DESIGN.md` | The visual language. **Binding, not advisory** — see below. |
 | 3 | `docs/SCREENS.md` | All fourteen screens with exact content and copy. |
 | 4 | `src/tokens.css` | Every colour, size, radius and weight. Nothing is invented outside this file. |
@@ -117,7 +121,7 @@ or throwaway** — each one gets written down and translated eventually.
   it.
 - The avatars came from a Notion-style generator whose licence does not clearly cover
   the artwork. Fine privately, not fine publicly — see `docs/DESIGN.md` § Licensing.
-- Screens 13 and 14 are not in `mockup.html`. Everything else is.
+- Screens 13 and 14 are not in `prototypes/blindstop/archive/build-kit-mockup.html`. Everything else is.
 
 ## What not to decide alone
 

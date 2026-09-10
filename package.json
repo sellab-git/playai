@@ -1,0 +1,59 @@
+{
+  "name": "playai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && wrangler dev --ip 127.0.0.1 --port 8787",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "test:integration": "node scripts/local-integration.mjs",
+    "test:adapter": "node scripts/ci-integration.mjs",
+    "verify:ui": "node scripts/check-ui-contract.mjs",
+    "verify:preview": "node scripts/verify-preview.mjs",
+    "verify:registry": "node scripts/probe-shadcn-mcp.mjs"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260910.1",
+    "@eslint/js": "^10.0.1",
+    "@fontsource/inter": "^5.3.0",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.7",
+    "@types/node": "^22.20.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/ws": "^8.18.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "jsdom": "^29.1.1",
+    "postcss": "8.5.28",
+    "prettier": "3.9.6",
+    "shadcn": "4.21.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^5.0.0",
+    "wrangler": "^4.130.0",
+    "ws": "^8.21.3"
+  },
+  "overrides": {
+    "sharp": "0.35.4"
+  },
+  "dependencies": {
+    "@base-ui/react": "1.8.0",
+    "class-variance-authority": "0.7.1",
+    "cn": "^0.2.6",
+    "next": "16.3.4",
+    "qrcode-generator": "^2.0.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "^4.6.1"
+  }
+}

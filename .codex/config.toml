@@ -1,0 +1,7 @@
+# Canonical project only. Use the lockfile-installed CLI, not an unpinned download.
+[mcp_servers.shadcn]
+command = "node"
+args = ["node_modules/shadcn/dist/index.js", "mcp"]
+cwd = 'C:\AI biznes\40. Playai'
+startup_timeout_sec = 30
+tool_timeout_sec = 60
