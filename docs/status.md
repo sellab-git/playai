@@ -1,6 +1,46 @@
 # Current state — 2026-09-10
 
-## Latest settings and dialog refinement
+## shadcn process audit
+
+The project 36/42 process and current official sources were inspected.
+[Playai operator workflow](design/shadcn-workflow.md) covers CLI, skill, MCP,
+source provenance, overwrite review and UI checks. CLI, skill, ten official components
+and a successful SDK-based MCP registry query are now verified. Native tool hot-loading
+in this conversation is not claimed.
+A live Skiloq probe found that standalone diff reported no updates while
+add --diff exposed material overwrites; use the latter before adoption.
+
+## Current implementation: correction completed
+
+The audited Next.js/React/TypeScript correction is implemented and locally verified.
+Current results: **103 tests in 18 files**, strict TypeScript, React lifecycle lint,
+UI guardrails and production build pass. The isolated real adapter suite passes
+practice, two rounds, automatic progression/pause, replay and actual process restart.
+Independent logic and UX reviews passed the corrections.
+
+Android host observations cover recovery, settings/presets/invalid input/switch,
+copy/backdrop/nested rules, practice, two manual rounds, final stats, retained-settings
+replay, room totals/native sharing and identity Enter validation/submission. The
+eight-player roster used protocol guests; guest UI remains a separate open gate.
+Physical two-phone/laptop checks, broader accessibility/device coverage and human
+playtest remain open. This is not production acceptance.
+
+Canonical changes remain uncommitted above `788ab12`; the temporary task checkout
+is still at that HEAD without the working diff. PR/Linear synchronization is not
+claimed. The correction evidence owns the latest served-build identity; do not
+copy a fingerprint into this document.
+
+See [current correction evidence](validation/frontend-correction.md). The layered audit and pre-React records below are historical.
+
+## Historical pre-React rendering and synchronization correction
+
+The shared DOM update layer and settings command buffer replace the earlier
+preparation-only workaround. Background saves no longer toggle Start or save copy.
+82 tests, typecheck, lint, build and the real adapter/restart suite pass.
+Required independent reviews are pending: both reviewer agents hit usage limits.
+See [current evidence and limits](validation/rendering-continuity.md).
+
+## Earlier settings and dialog refinement (superseded continuity claim)
 
 Settings save in place without remounting the preparation screen. Cached game views
 render synchronously to avoid a fallback-title flash. Rules identify the selected

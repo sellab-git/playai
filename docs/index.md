@@ -4,7 +4,7 @@ Canonical vault: `C:\AI biznes\40. Playai\docs`. This is the vault registered in
 Obsidian. Temporary Codex worktree copies are not separate maintained vaults.
 The current four-game HTML reference is
 [the mockup](../prototypes/blindstop/mockups/blindstop.html); the real application's
-UX/UI parity is unverified. Start with the reconciliation notice in Current status.
+host flow and revised controls have Android evidence; broader visual/device acceptance remains open. Start with Current status.
 
 Read [Current status](status.md), [Working agreement](working-agreement.md), and the relevant current specification before work.
 
@@ -47,3 +47,12 @@ Linear owns live task status once the project is configured. This vault owns spe
 The uppercase build-kit files are a production baseline: [Architecture](ARCHITECTURE.md), [Spec](SPEC.md), [Roadmap](ROADMAP.md), [Screens](SCREENS.md), [Design](DESIGN.md). Their production gates have not been completed. Current mockup decisions do not imply real multiplayer.
 
 Historical handoff files and HTML versions remain under prototypes/blindstop. Redirect notes there lead here without duplicating maintained specifications.
+
+- [Historical pre-React rendering validation](validation/rendering-continuity.md) — superseded by the migration audit.
+
+- [Accepted Next.js frontend direction and migration gates](decisions/nextjs-frontend.md) — correction implemented; external acceptance gates remain open.
+
+- [shadcn sourcing, tooling and update process](design/shadcn-workflow.md) — official components installed; registry connection verified.
+- [Historical layered audit](validation/nextjs-layer-audit.md) — findings addressed by the correction.
+- [Current correction evidence](validation/frontend-correction.md) — local checks, independent reviews, Android observations and latest build identity.
+- [Correction execution record](planning/frontend-correction.md) — completed implementation and external gates.

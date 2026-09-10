@@ -78,3 +78,14 @@ unavailable for these reused-context assignments; no savings claim is made.
 Two independent assignments (logic and UX) reviewed the stable diff. Findings:
 menu disabled state, reconnect feedback and cold-load panel preservation. All
 corrected and focused re-reviews passed. Cost/token/time/model metrics unavailable.
+
+
+### Rendering continuity follow-up — 2026-09-10
+
+Two bounded implementation assignments completed: shared DOM helper and game
+integration; command buffer and transport integration. Lead integrated the room UI
+and added actual UI/transport regression tests, correcting accumulated listeners
+and preserving game-derived practice settings in queued Start. Agent model, token,
+cost and elapsed measurements were unavailable. Two independent review assignments
+failed to run due to account usage limits; do not count them as completed reviews.
+See [evidence and pending gate](../validation/rendering-continuity.md).

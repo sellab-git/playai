@@ -1,3 +1,4 @@
+import { secureAssetResponse } from './asset-response';
 import { DurableObject } from 'cloudflare:workers';
 import { games } from '../games/registry';
 import { RoomRunner } from '../room/runner';
@@ -178,17 +179,17 @@ export class AdmissionLimiter extends DurableObject<Env> {
   }
   async alarm(): Promise<void> { await this.ctx.storage.deleteAll(); }
 }
-const csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'";
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     if (!url.pathname.startsWith('/api/')) {
-      const asset = await env.ASSETS.fetch(request);
-      const response = new Response(asset.body, asset);
-      response.headers.set('Content-Security-Policy', csp);
-      response.headers.set('X-Content-Type-Options', 'nosniff');
-      response.headers.set('Referrer-Policy', 'no-referrer');
-      return response;
+      // HTML must include its body so its CSP always covers the current build's hydration scripts.
+      const headers = new Headers(request.headers);
+      if (request.headers.get('Accept')?.includes('text/html') || url.pathname === '/' || url.pathname.endsWith('.html')) {
+        headers.delete('If-None-Match'); headers.delete('If-Modified-Since');
+      }
+      const asset = await env.ASSETS.fetch(new Request(request, { headers }));
+      return secureAssetResponse(asset);
     }
     if (!sameOrigin(request)) return json({ code: 'request.origin' }, 403);
     if (request.method === 'POST' && (url.pathname === '/api/rooms' || url.pathname.endsWith('/join'))) {

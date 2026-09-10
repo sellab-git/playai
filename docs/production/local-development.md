@@ -17,23 +17,27 @@ Install the locked dependencies with:
 npm ci
 ```
 
-The intended dependency baseline is TypeScript 6.0.2, Vite 8.2.2, Vitest 5.0.0,
-Wrangler 4.130.0, and `@cloudflare/workers-types` 5.20260910.1. TypeScript 7 is
+The frontend now uses Next.js 16.3.4, React 19.3.0 and shadcn CLI 4.21.0 with
+Base UI 1.8.0. TypeScript 6.0.2, Vitest 5.0.0,
+Wrangler 4.130.0, and `@cloudflare/workers-types` 5.20260910.1 remain in the toolchain. TypeScript 7 is
 not part of this baseline because the current ESLint TypeScript peer range does not
-accept it. Keep the lockfile and the package manifest aligned when implementation
-starts.
+accept it. Keep the lockfile and the package manifest aligned throughout development.
 
 ## Local loop
 
-Run the build before starting the Worker:
+The canonical command builds the Next static export, then starts the Worker:
 
 ```text
-npm run build
 npm run dev
 ```
 
-The `dev` script starts Wrangler on `127.0.0.1:8787` and serves the built `dist`
-assets through the Worker. The repository now has the Wrangler configuration and
+The `dev` script builds before starting Wrangler on `127.0.0.1:8787`, serving `out`
+through the Worker. It does not provide Next hot reload. Stop the owned preview,
+then run `npm run dev` from the canonical folder after source changes. Build refuses
+an active preview on port 8787, preventing partial exports from being served.
+Run `npm run verify:preview` to compare source and served-build provenance. Keep the
+latest verified identity in [correction evidence](../validation/frontend-correction.md).
+The repository has the Wrangler configuration and
 Worker entrypoint needed for this local slice. A successful local run records the
 exact URL, configuration, asset shell response, and room WebSocket upgrade.
 The real Wrangler process-restart scenario passes: membership and the Start
@@ -46,26 +50,32 @@ there is no deployment or paid Cloudflare plan authorized.
 
 ## Checks
 
-The current local evidence is:
+The audited Next.js/React/TypeScript correction is implemented and locally verified.
+Current results: **103 tests in 18 files**, strict TypeScript, React lifecycle lint,
+UI guardrails and production build pass. The isolated real adapter suite passes
+practice, two rounds, automatic progression/pause, replay and actual process restart.
+Independent logic and UX reviews passed the corrections.
 
-- the automated suite: 66 passing tests;
-- `npm run typecheck`, `npm run lint`, `npm run build`, and the surface detector:
-  passing;
-- `npm run test:integration`: passing its local Wrangler HTTP/WebSocket scenarios
-  for create/join, origin and credential rejection, clock readiness, host auth,
-  countdown/alarm, privacy, generation, equal/conflicting retries, awards, and the
-  closed summary;
-- the real Wrangler process-restart scenario: passing, including retained
-  membership/Start acknowledgement, overdue phase advancement, and exactly-once
-  award behavior;
-- the development `sharp` advisory is fixed with the 0.35.4 override and `npm audit`
-  is clean.
+Android host observations cover recovery, settings/presets/invalid input/switch,
+copy/backdrop/nested rules, practice, two manual rounds, final stats, retained-settings
+replay, room totals/native sharing and identity Enter validation/submission. The
+eight-player roster used protocol guests; guest UI remains a separate open gate.
+Physical two-phone/laptop checks, broader accessibility/device coverage and human
+playtest remain open. This is not production acceptance.
+
+Canonical changes remain uncommitted above `788ab12`; the temporary task checkout
+is still at that HEAD without the working diff. PR/Linear synchronization is not
+claimed. The correction evidence owns the latest served-build identity; do not
+copy a fingerprint into this document.
+
+Earlier 66/82/86-test results belong to historical implementation/audit records.
 
 Run or reproduce the repository scripts in this order when changing the slice:
 
 ```text
 npm run typecheck
 npm run lint
+npm run verify:ui
 npm test
 npm run build
 npm run test:adapter
@@ -91,7 +101,7 @@ that when comparing time-sensitive logs.
 
 ## Emulator and device evidence
 
-The Android Emulator host flow passes for create, one round, results, reload/resume, and close with a protocol guest. Guest UI and broader device checks remain unverified. To point an emulator at
+Android host flow and revised controls are covered in [current correction evidence](../validation/frontend-correction.md), including eight protocol participants for roster layout. Guest UI, physical devices and broader accessibility checks remain open. To point an emulator at
 the local Worker, keep Wrangler bound to loopback and run:
 
 ```text

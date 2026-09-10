@@ -1,0 +1,2 @@
+# Preserve the exact imported bytes used by the shadcn provenance checks.
+tooling/shadcn/baseline/* text eol=lf

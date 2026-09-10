@@ -1,0 +1,349 @@
+@import '../tokens.css';
+@import 'tailwindcss';
+@import '../client/styles.css';
+
+/* Official Base UI components retain their behavior; Playai owns their token theme. */
+.nav-button {
+  display: grid;
+  place-items: center;
+  width: var(--size-44);
+  height: var(--size-44);
+  padding: var(--size-10);
+  border-radius: var(--r-control);
+}
+.nav-button.right {
+  justify-self: end;
+}
+.nav-button svg {
+  width: var(--size-22);
+  height: var(--size-22);
+}
+.nav-button:active,
+.close-button:active {
+  background: var(--bg2);
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-8);
+  width: 100%;
+  min-height: var(--action-size);
+  padding: var(--size-10) var(--size-12);
+  border: var(--border);
+  border-radius: var(--r-control);
+  background: var(--pg);
+  color: var(--ink);
+  font-size: var(--fs-row);
+  font-weight: var(--fw-medium);
+  line-height: 1.2;
+  text-align: center;
+}
+.button.primary {
+  background: var(--ink);
+  color: var(--on-ink);
+  font-size: var(--fs-body);
+}
+.button.primary:active {
+  background: var(--ink2);
+  border-color: var(--ink2);
+}
+.button.secondary,
+.button.quiet {
+  border-color: var(--ln2);
+}
+.button:disabled {
+  background: var(--bg2);
+  border-color: var(--ln2);
+  color: var(--ink2);
+}
+.button.tap {
+  font-size: var(--size-24);
+}
+.close-button {
+  width: var(--size-44);
+  height: var(--size-44);
+  flex: none;
+  padding: var(--size-12);
+  border-radius: var(--r-control);
+  display: grid;
+  place-items: center;
+}
+.close-button svg {
+  width: var(--size-18);
+  height: var(--size-18);
+}
+.button > svg {
+  width: var(--size-20);
+  height: var(--size-20);
+  flex: none;
+}
+.button.plain {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ink);
+}
+.button.compact {
+  width: auto;
+  min-height: var(--size-44);
+  font-size: var(--fs-small);
+}
+.button.nav-button,
+.button.close-button {
+  width: var(--size-44);
+  min-height: var(--size-44);
+  padding: var(--size-10);
+  flex: none;
+}
+.button:active {
+  transform: none;
+}
+.playai-input {
+  width: 100%;
+  min-width: 0;
+  height: var(--size-54);
+  padding: var(--size-12) var(--size-14);
+  border: var(--stroke);
+  border-radius: var(--r-control);
+  background: var(--pg);
+  color: var(--ink);
+}
+.playai-input:focus-visible {
+  outline: var(--size-2) solid var(--ink);
+  outline-offset: calc(-1 * var(--size-2));
+}
+.playai-input:disabled {
+  color: var(--ink2);
+  background: var(--bg2);
+}
+.playai-field-group,
+.playai-field-set {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-20);
+  width: 100%;
+  min-width: 0;
+}
+.playai-field-set {
+  padding: 0;
+  border: 0;
+}
+.playai-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-8);
+  width: 100%;
+  min-width: 0;
+}
+.playai-field-horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+.playai-field-horizontal > .playai-field-label {
+  flex: 1;
+}
+.playai-field-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--size-4);
+}
+.playai-field-label,
+.playai-label {
+  display: flex;
+  align-items: center;
+  gap: var(--size-8);
+  color: var(--ink);
+  font-size: var(--fs-row);
+  font-weight: var(--fw-regular);
+}
+.playai-field-legend {
+  margin-bottom: var(--size-12);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+}
+.playai-field-description {
+  color: var(--ink2);
+  font-size: var(--fs-small);
+  line-height: var(--line-height);
+}
+.playai-field-error {
+  color: var(--ink);
+  font-size: var(--fs-small);
+}
+.playai-field[data-disabled='true'] > .playai-field-label {
+  color: var(--ink2);
+}
+.playai-field-errors {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4);
+  list-style: disc;
+  padding-left: var(--size-20);
+}
+.playai-field-separator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--size-20);
+}
+.playai-field-separator-line {
+  position: absolute;
+  inset-inline: 0;
+}
+.playai-field-separator-content {
+  position: relative;
+  background: var(--pg);
+  padding-inline: var(--size-8);
+  color: var(--ink2);
+  font-size: var(--fs-small);
+}
+.playai-separator {
+  flex-shrink: 0;
+  background: var(--ln);
+  height: var(--size-1);
+  width: 100%;
+}
+.playai-separator[data-orientation='vertical'] {
+  height: 100%;
+  width: var(--size-1);
+}
+.playai-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-8);
+  min-height: var(--size-44);
+  padding: var(--size-8) var(--size-12);
+  border: var(--stroke);
+  border-radius: var(--r-control);
+  background: var(--pg);
+  color: var(--ink);
+  font-size: var(--fs-small);
+}
+.playai-toggle:not(.playai-toggle-outline) {
+  border-color: transparent;
+}
+.playai-toggle[aria-pressed='true'],
+.playai-toggle[data-pressed] {
+  border-color: var(--ink);
+  background: var(--bg2);
+  font-weight: var(--fw-semibold);
+}
+.playai-toggle:disabled {
+  color: var(--ink2);
+}
+.playai-toggle-group {
+  display: flex;
+  gap: var(--size-8);
+}
+.playai-toggle-group[data-orientation='vertical'] {
+  flex-direction: column;
+}
+.playai-toggle-group.round-presets {
+  display: grid;
+  width: 100%;
+}
+.playai-toggle-group-item {
+  min-width: 0;
+}
+.playai-switch {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  width: var(--size-44);
+  height: var(--size-24);
+  padding: var(--size-3);
+  border: var(--stroke);
+  border-radius: var(--r-control);
+  background: var(--bg2);
+  cursor: pointer;
+}
+.playai-switch-thumb {
+  display: block;
+  width: var(--size-16);
+  height: var(--size-16);
+  border-radius: var(--r-control);
+  background: var(--ink2);
+  transform: translateX(0);
+}
+.playai-switch[data-checked] {
+  border-color: var(--ink);
+}
+.playai-switch[data-checked] .playai-switch-thumb {
+  transform: translateX(var(--size-18));
+  background: var(--ink);
+}
+.playai-switch[data-disabled] {
+  cursor: default;
+}
+.auto-switch:has(.playai-switch[data-checked]) {
+  border-color: var(--ink);
+  background: var(--bg2);
+}
+.auto-switch > .playai-field-label {
+  margin: 0;
+  cursor: pointer;
+}
+.playai-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--dialog-scrim);
+}
+.playai-dialog {
+  position: fixed;
+  top: calc(var(--viewport-height, 100dvh) / 2);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  width: calc(100% - var(--size-32));
+  max-width: var(--size-390);
+  max-height: calc(var(--viewport-height, 100dvh) - var(--size-32));
+  padding: var(--size-24);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: var(--border);
+  border-radius: var(--r-tile);
+  background: var(--pg);
+  color: var(--ink);
+  scrollbar-width: none;
+}
+.playai-dialog:focus {
+  outline: none;
+}
+.playai-dialog-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-8);
+  margin-bottom: var(--size-20);
+}
+.playai-dialog-title {
+  font-size: var(--size-24);
+  font-weight: var(--fw-semibold);
+  line-height: var(--line-height);
+}
+.playai-dialog-close {
+  position: absolute;
+  top: var(--size-16);
+  right: var(--size-16);
+}
+.playai-dialog:has(> .playai-dialog-close) > .playai-dialog-header {
+  padding-right: var(--size-44);
+}
+@media (min-width: 520px) {
+  .playai-field-responsive {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Focus remains visible inside scroll-clipped rows and overlays. */
+.button:focus-visible,
+.playai-toggle:focus-visible,
+.settings-summary:focus-visible {
+  outline-offset: calc(-1 * var(--size-2));
+}
+.playai-dialog-title:focus {
+  outline: none;
+}

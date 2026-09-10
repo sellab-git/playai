@@ -15,6 +15,26 @@ not alternative project homes or Obsidian vaults.
 
 ## Current state — 2026-09-10
 
+The audited Next.js/React/TypeScript correction is implemented and locally verified.
+Current results: **103 tests in 18 files**, strict TypeScript, React lifecycle lint,
+UI guardrails and production build pass. The isolated real adapter suite passes
+practice, two rounds, automatic progression/pause, replay and actual process restart.
+Independent logic and UX reviews passed the corrections.
+
+Android host observations cover recovery, settings/presets/invalid input/switch,
+copy/backdrop/nested rules, practice, two manual rounds, final stats, retained-settings
+replay, room totals/native sharing and identity Enter validation/submission. The
+eight-player roster used protocol guests; guest UI remains a separate open gate.
+Physical two-phone/laptop checks, broader accessibility/device coverage and human
+playtest remain open. This is not production acceptance.
+
+Canonical changes remain uncommitted above `788ab12`; the temporary task checkout
+is still at that HEAD without the working diff. PR/Linear synchronization is not
+claimed. The correction evidence owns the latest served-build identity; do not
+copy a fingerprint into this document.
+
+See [current correction evidence](docs/validation/frontend-correction.md).
+
 The four-game HTML mockup contains the latest prototype interaction work, including
 Bluff and the cross-game consistency changes. It is the visual and interaction
 reference; simulated participants are not real multiplayer.
@@ -25,10 +45,7 @@ results and retained settings for replay. The room supports shared preparation,
 profile changes, invitations and room standings. The other three game engines
 remain in the HTML prototype only.
 
-The local suite has 66 passing tests; typecheck, lint, build and the isolated real
-adapter/restart suite pass. Android host evidence includes practice, two rounds,
-final awards and replay. See [full Blindstop evidence](docs/validation/full-blindstop.md)
-for the exact scope, independent reviews and remaining acceptance limits.
+Earlier [full Blindstop evidence](docs/validation/full-blindstop.md) describes the previous frontend and remains historical.
 
 Two-phone/laptop acceptance, human playtest and broader device/accessibility checks
 remain open. No merge into main, public deployment or paid plan is authorized.

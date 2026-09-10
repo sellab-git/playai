@@ -15,3 +15,8 @@ Thumbs.db
 **/.obsidian/
 
 .wrangler/
+
+# Generated Next static export and source asset staging
+out/
+public/assets/avatars/
+*.tsbuildinfo
