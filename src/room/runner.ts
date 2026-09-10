@@ -27,7 +27,7 @@ export class RoomRunner {
     if (this.current !== null) return err('room.exists');
     if (!/^[A-Z0-9]{5}$/.test(code)) return err('room.code');
     const now = this.deps.now();
-    this.current = { kind: 'room', value: { version: 1, room: { code, createdAt: now, hostId: null, players: [], status: 'lobby', gameId: null, totals: {}, gamesPlayed: 0 }, memberships: {}, game: null, outcomes: {}, awards: {}, hostDeadline: null, insufficientDeadline: null, alarm: null, notice: null, lastActivity: now } };
+    this.current = { kind: 'room', value: { version: 1, room: { code, createdAt: now, hostId: null, players: [], status: 'lobby', gameId: null, totals: {}, gamesPlayed: 0, gamesStarted: 0 }, memberships: {}, game: null, outcomes: {}, awards: {}, hostDeadline: null, insufficientDeadline: null, alarm: null, notice: null, lastActivity: now } };
     this.changed = true; this.schedule(); return ok(undefined);
   }
 
@@ -137,6 +137,26 @@ export class RoomRunner {
 
   private applyIntent(aggregate: Aggregate, connection: Connection, intent: Intent): Acknowledgement {
     const command = intent.command, host = aggregate.room.hostId === connection.playerId;
+    if (command.type === 'configure') {
+      if (!host) return { actionId: intent.actionId, accepted: false, code: 'room.hostOnly', version: aggregate.version };
+      if (aggregate.room.status !== 'lobby') return { actionId: intent.actionId, accepted: false, code: 'room.inProgress', version: aggregate.version };
+      if (command.setup === null) aggregate.room.setup = null;
+      else {
+        const entry = Object.hasOwn(this.deps.games, command.setup.gameId) ? this.deps.games[command.setup.gameId] : undefined;
+        const settings = entry?.parseSettings(command.setup.settings);
+        if (!entry || settings === null || settings === undefined) return { actionId: intent.actionId, accepted: false, code: 'game.invalid', version: aggregate.version };
+        aggregate.room.setup = { gameId: entry.manifest.id, settings };
+      }
+      this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version };
+    }
+    if (command.type === 'profile') {
+      if (aggregate.room.status !== 'lobby') return { actionId: intent.actionId, accepted: false, code: 'room.inProgress', version: aggregate.version };
+      const player = this.player(connection.playerId)!;
+      const profile = { ...command.profile, tile: player.tile };
+      if (!validProfile(profile)) return { actionId: intent.actionId, accepted: false, code: 'join.invalid', version: aggregate.version };
+      player.name = profile.name.trim(); player.faceId = profile.faceId;
+      this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version };
+    }
     if ((command.type === 'start' || command.type === 'abort' || command.type === 'lobby' || command.type === 'close' || command.type === 'kick') && !host) return { actionId: intent.actionId, accepted: false, code: 'room.hostOnly', version: aggregate.version };
     if (command.type === 'start') {
       if (aggregate.room.status !== 'lobby' || aggregate.game) return { actionId: intent.actionId, accepted: false, code: 'game.notStartable', version: aggregate.version };
@@ -149,6 +169,7 @@ export class RoomRunner {
       if (players.some(player => !aggregate.memberships[player.id]?.ready)) return { actionId: intent.actionId, accepted: false, code: 'game.notReady', version: aggregate.version };
       const seed = this.deps.seed(), state = entry.init({ players: clone(players), settings, seed, now: this.deps.now(), rng: rng(seed, 0), hostId: aggregate.room.hostId }); const phase = entry.phase(state);
       aggregate.game = { id: this.deps.id(), gameId: command.gameId, roster: players.map(player => player.id), phaseEpoch: 1, phaseToken: phase.token, state, seed, transition: 1, status: 'active', result: null };
+      aggregate.room.gamesStarted = (aggregate.room.gamesStarted ?? aggregate.room.gamesPlayed) + 1;
       aggregate.room.status = 'playing'; aggregate.room.gameId = command.gameId; aggregate.notice = null; this.updateInsufficient(); this.mutate();
       return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version };
     }
@@ -163,7 +184,7 @@ export class RoomRunner {
       return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version };
     }
     if (command.type === 'abort') { if (aggregate.game?.status !== 'active') return { actionId: intent.actionId, accepted: false, code: 'game.notActive', version: aggregate.version }; this.abort(aggregate, 'game.aborted'); this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version }; }
-    if (command.type === 'lobby') { if (aggregate.game?.status !== 'completed') return { actionId: intent.actionId, accepted: false, code: 'game.notCompleted', version: aggregate.version }; aggregate.game = null; aggregate.room.status = 'lobby'; aggregate.room.gameId = null; aggregate.notice = null; this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version }; }
+    if (command.type === 'lobby') { if (aggregate.game?.status !== 'completed') return { actionId: intent.actionId, accepted: false, code: 'game.notCompleted', version: aggregate.version }; if (command.destination === 'catalogue') aggregate.room.setup = null; aggregate.game = null; aggregate.room.status = 'lobby'; aggregate.room.gameId = null; aggregate.notice = null; this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version }; }
     if (command.type === 'leave') { this.depart(aggregate, connection.playerId); this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version }; }
     if (command.type === 'kick') { const target = Object.hasOwn(aggregate.memberships, command.playerId) ? aggregate.memberships[command.playerId] : undefined; if (command.playerId === aggregate.room.hostId || !target || target.revoked) return { actionId: intent.actionId, accepted: false, code: 'room.cannotKick', version: aggregate.version }; this.depart(aggregate, command.playerId); this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version }; }
     aggregate.room.status = 'closed'; aggregate.room.gameId = null; aggregate.game = null; aggregate.hostDeadline = null; aggregate.insufficientDeadline = null; aggregate.notice = 'room.closed'; this.mutate(); return { actionId: intent.actionId, accepted: true, code: 'ok', version: aggregate.version };

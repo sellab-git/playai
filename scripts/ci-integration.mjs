@@ -37,6 +37,7 @@ async function stop() {
 try {
   await start();
   await run('scripts/local-integration.mjs');
+  await run('scripts/full-game-integration.mjs');
   await run('scripts/restart-integration.mjs', ['prepare']);
   await stop();
   await start();

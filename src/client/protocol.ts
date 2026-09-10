@@ -6,7 +6,7 @@ const phase = z.object({ name: z.string(), token: z.string(), roundId: z.string(
 export const snapshotSchema: z.ZodType<Snapshot> = z.object({
   version: z.number().int().nonnegative(), selfId: z.string(), notice: z.string().nullable(),
   acknowledgement: acknowledgement.nullable(),
-  room: z.object({ code: z.string(), createdAt: z.number(), hostId: z.string().nullable(), players: z.array(player), status: z.enum(['lobby', 'playing', 'completed', 'closed']), gameId: z.string().nullable(), totals: z.record(z.string(), z.number()), gamesPlayed: z.number().int() }),
+  room: z.object({ code: z.string(), createdAt: z.number(), hostId: z.string().nullable(), players: z.array(player), status: z.enum(['lobby', 'playing', 'completed', 'closed']), gameId: z.string().nullable(), totals: z.record(z.string(), z.number()), gamesPlayed: z.number().int(), gamesStarted: z.number().int().nonnegative().optional(), setup: z.object({ gameId: z.string(), settings: z.json() }).nullable().optional() }),
   game: z.object({ gameId: z.string(), scope: z.object({ gameInstanceId: z.string(), phaseEpoch: z.number().int(), roundId: z.string() }), phase, public: z.json(), private: z.json() }).nullable(),
 });
 const messageSchema: z.ZodType<ServerMessage> = z.discriminatedUnion('type', [

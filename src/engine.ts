@@ -20,6 +20,10 @@ export interface RoomState {
   gameId: string | null;
   totals: Record<PlayerId, number>;
   gamesPlayed: number;
+  /** Accepted starts, including aborted games; absent in older saved rooms. */
+  gamesStarted?: number;
+  /** Generic preparation, retained between games; absent in legacy rooms. */
+  setup?: { gameId: string; settings: Json } | null;
 }
 export interface GameManifest<C = Json> {
   id: string;
@@ -107,9 +111,12 @@ export interface GameScope {
   roundId: string;
 }
 export type Command =
+  | { type: 'configure'; setup: { gameId: string; settings: Json } | null }
+  | { type: 'profile'; profile: { name: string; faceId: string } }
   | { type: 'start'; gameId: string; settings: Json }
   | { type: 'action'; scope: GameScope; payload: Json }
-  | { type: 'abort' | 'lobby' | 'leave' | 'close' }
+  | { type: 'lobby'; destination?: 'catalogue' | 'preparation' }
+  | { type: 'abort' | 'leave' | 'close' }
   | { type: 'kick'; playerId: PlayerId };
 export interface Intent {
   actionId: string;

@@ -24,6 +24,9 @@ export function parseIntent(raw: unknown): Intent | null {
   if (!object(raw) || !exact(raw, ['actionId', 'command']) || typeof raw.actionId !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(raw.actionId) || !object(raw.command)) return null;
   const command = raw.command;
   let parsed: Command | null = null;
+  if (command.type === 'lobby' && exact(command, ['type', 'destination']) && (command.destination === 'catalogue' || command.destination === 'preparation')) return { actionId: raw.actionId, command: { type: 'lobby', destination: command.destination } };
+  if (command.type === 'configure' && exact(command, ['type', 'setup']) && (command.setup === null || object(command.setup) && exact(command.setup, ['gameId', 'settings']) && typeof command.setup.gameId === 'string' && isJson(command.setup.settings))) return { actionId: raw.actionId, command: { type: 'configure', setup: command.setup === null ? null : { gameId: command.setup.gameId as string, settings: command.setup.settings as Json } } };
+  if (command.type === 'profile' && exact(command, ['type', 'profile']) && object(command.profile) && exact(command.profile, ['name', 'faceId']) && typeof command.profile.name === 'string' && typeof command.profile.faceId === 'string') return { actionId: raw.actionId, command: { type: 'profile', profile: { name: command.profile.name, faceId: command.profile.faceId } } };
   if (command.type === 'start' && exact(command, ['type', 'gameId', 'settings']) && typeof command.gameId === 'string' && isJson(command.settings)) parsed = { type: 'start', gameId: command.gameId, settings: command.settings };
   else if (command.type === 'action' && exact(command, ['type', 'scope', 'payload']) && object(command.scope) && exact(command.scope, ['gameInstanceId', 'phaseEpoch', 'roundId']) && typeof command.scope.gameInstanceId === 'string'
     && Number.isSafeInteger(command.scope.phaseEpoch) && typeof command.scope.roundId === 'string' && isJson(command.payload)) {
