@@ -2,6 +2,14 @@
 
 ## Workspace reconciliation and UI acceptance
 
+Reconciliation completed on 2026-09-10. Linear project summary/description and
+SEL-25, SEL-15, SEL-16 and SEL-17 were corrected; SEL-23 already recorded Bluff and
+the cross-game changes accurately. The final project issue list was verified:
+SEL-25/SEL-23/SEL-15 In Review, SEL-16 Todo, SEL-17 Done for its accepted mockup
+scope. The registered Obsidian vault points to the canonical docs directory and now
+contains the latest committed knowledge. App/UI comparison remains paused at this
+handoff; no implementation or visual-comparison work was resumed.
+
 The canonical local project is `C:\AI biznes\40. Playai`; its `docs` directory is
 the registered Obsidian vault. It has been fast-forwarded from the older Categories
 checkout to the published local implementation and latest four-game mockup.
