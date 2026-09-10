@@ -82,3 +82,30 @@
   }
 }
 */
+
+:root {
+  --dialog-scrim: rgb(55 53 47 / 25%);
+  --size-108: 108px;
+  --size-10: 10px;
+  --size-14: 14px;
+  --size-150: 150px;
+  --size-16: 16px;
+  --size-18: 18px;
+  --size-1: 1px;
+  --size-20: 20px;
+  --size-24: 24px;
+  --size-28: 28px;
+  --size-2: 2px;
+  --size-30: 30px;
+  --size-32: 32px;
+  --size-34: 34px;
+  --size-40: 40px;
+  --size-420: 420px;
+  --size-430: 430px;
+  --size-48: 48px;
+  --size-4: 4px;
+  --size-520: 520px;
+  --size-52: 52px;
+  --size-7: 7px;
+  --size-8: 8px;
+}

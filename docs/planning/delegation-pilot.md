@@ -46,3 +46,17 @@ Task 23: Bluff implementation — gpt-5.6-sol. Delivered the bounded flow and re
 
 
 Task 26: readiness playtest packet — gpt-5.6-luna. Prepared paper/current-mockup versus connected-build modes, capacity/device probes and three primary-source-checked Bluff prompts. Lead and reviewer corrected mode ambiguity, alias wording and schedule arithmetic. Task 27: contract gap audit — gpt-5.6-sol, read-only; six useful generic protocol/lifecycle/scoring gaps informed the lead-authored baseline. Task 28: shared game UI contracts — gpt-5.6-terra; lead clarified acknowledgement, unknown delivery and server-only data separation. Task 29: independent readiness logic/state review — gpt-5.6-sol. Accepted corrections for terminal completion, host order, draft freeze, deadline transitions, projections, scoring amendment and incremental test gates; correction rounds are part of the same assignment. Task 30: independent readiness UX/rules and packet review — gpt-5.6-terra. Accepted final-leave and Categories finish clarifications plus packet timing/round-count fixes; final packet re-review passed. No reviewer implemented the material they reviewed. Thirty concluded assignments; costs, tokens and isolated durations unavailable. No savings claim. All are specification/source evidence, not human or production execution.
+
+Task 31: local contract review — gpt-5.6-sol. Accepted after four corrected findings.
+
+Task 32: local development documentation — gpt-5.6-luna. Prepared the local runbook, runtime references, command assumptions, and evidence categories; lead reconciled it with the implemented local slice.
+
+Task 33: local runner implementation — gpt-5.6-sol. Implemented the generic runner contract; the lead wrote the provider and corrected earliest-overdue deadline ordering. Review passed after correction.
+
+Task 34: local UI implementation — gpt-5.6-terra. Implemented the bounded one-round UI path; lead integrated and corrected the entry button, grid, asynchronous result binding, pending state, and hidden-name interpolation. Review passed after correction.
+
+Task 35: independent local UX review — gpt-5.6-terra. Review found host interpolation/XSS, snapshot pending, duplicate avatar labels, and session-copy issues; lead corrected them and the focused review passed. No emulator evidence was supplied.
+
+Task 36: independent local logic review — gpt-5.6-sol. Review found earliest-alarm ordering and name-wordlist issues; lead corrected them and the focused review passed. No emulator evidence was supplied.
+
+Pilot checkpoint: 36 assignments have been recorded (the previous 30 plus tasks 31–36). Contract, runner, UI, UX, and logic review outcomes are now recorded as passed after corrections. No assignment has a time, token, or cost estimate; no savings or model-routing conclusion is supported. The local technical evidence is recorded in [local room review](../validation/local-room-review.md); bounded lead emulator evidence is recorded; human, physical-device, and public deployment evidence remain open.

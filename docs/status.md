@@ -1,4 +1,30 @@
-# Current state — 2026-09-09
+# Current state — 2026-09-10
+
+## Current P1 local slice
+
+The earlier end-of-day pause is lifted for the authorized technical foundation
+work. The direct Cloudflare Durable Object local slice now exists for one Blindstop
+round. It covers the generic room/runner path and a local Wrangler integration
+exercise; no later games have been ported, no public deployment exists, and no paid
+Cloudflare plan is authorized.
+
+Verified local evidence currently includes Node 24.14, npm 11.9, TypeScript 6.0.2,
+Vite 8.2.2, Vitest 5, Wrangler 4.130.0, and the `sharp` 0.35.4 override. The
+automated suite has 43 passing tests; typecheck, lint, build, and the surface
+detector pass. The real Wrangler local integration script passes HTTP and WebSocket create/join, origin and
+credential rejection, clock readiness, host authorization, countdown/alarm, privacy,
+connection generation, equal/conflicting retries, awards, and closed-summary
+scenarios. A real Wrangler process restart also passes: membership and the Start
+ack are retained, overdue phases advance, and the award is applied exactly once.
+The fixed development advisory is recorded as `npm audit` clean.
+
+Evidence is still incomplete. A bounded Android Emulator host flow passes (create, round, results, reload/resume, and close) with a protocol guest. Two real phones plus a laptop, including host-browser closure
+mid-round, remain unavailable, so the P1 physical acceptance gate is open. R1 human
+content/pacing, P2 device/accessibility, and later-game gates remain open as well.
+The contract review, generic runner review, UI review, independent Terra UX review,
+and independent Sol logic review passed after corrections; reviewers supplied no
+emulator evidence. See [local room review](validation/local-room-review.md) and [the
+local runbook](production/local-development.md).
 
 ## Scope
 

@@ -11,6 +11,8 @@ Live delivery: [Playai — Blindstop Prototype in Linear](https://linear.app/sel
 - [Shared game UI contract](design/shared-game-ui.md)
 - [Human playtest packet](validation/pre-production-playtest.md)
 - [Runner acceptance scenarios](production/runner-acceptance.md)
+- [Local P1 development runbook](production/local-development.md)
+- [Local room review evidence](validation/local-room-review.md)
 - [Product vision and scope](product/vision.md)
 - [Blindstop screen map](games/blindstop/screens.md)
 - [Blindstop rules](games/blindstop/rules.md)

@@ -1,5 +1,7 @@
 > Current production preparation: [readiness decisions](docs/decisions/production-readiness.md) and [execution gates](docs/planning/readiness-execution.md) supersede conflicting historical values below. The prototype remains local simulation; no production gate is passed.
 
+> Current status (2026-09-10): the authorized direct Durable Object local P1 slice supports one Blindstop round. Automated tests (43), typecheck, lint, build, detector, local Wrangler HTTP/WebSocket integration, and real process restart pass; a bounded Android Emulator host flow passes with a protocol guest. Real-device/laptop, human playtest, and public deployment evidence remain open. Contract, runner, UI, UX, and logic reviews passed after corrections. See the [local room review](docs/validation/local-room-review.md) and [local development runbook](docs/production/local-development.md).
+
 > [Project knowledge base / Obsidian vault](docs/index.md) - current scope, decisions and workflow.
 
 # Playai — build kit
@@ -61,9 +63,11 @@ Decide it before stage 3 paints that screen.
 
 ## Status
 
-Nothing is built yet. This is design and specification only. The mockup is HTML, not
-the app — do not use it as source. Use `docs/SCREENS.md` for content and
-`src/tokens.css` for styling.
+The repository now contains an early local P1 technical slice for one Blindstop
+round. The mockup remains HTML and is not the application source. Local checks are
+recorded in [the local room review](docs/validation/local-room-review.md); real-device,
+human playtest, and public deployment gates remain open. Use
+`docs/SCREENS.md` for content and `src/tokens.css` for styling.
 
 Two of the fourteen screens — the evening summary and the game picker — are specified
 but not drawn.

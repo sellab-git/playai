@@ -1,6 +1,6 @@
 # Runner acceptance contract
 
-Status: test design for the first production slice, not executed tests. Read [readiness decisions](../decisions/production-readiness.md) before implementing. Preserve the pure engine and room/game boundary. The current src/engine.ts remains a sketch until the generic contract amendment below is reviewed and implemented.
+Status: the generic contract is implemented and reviewed for the local P1 slice. Runner, pure-engine, client-clock/protocol and provider-boundary tests execute in `npm test`; real local HTTP/WebSocket and process-restart scenarios execute in `npm run test:adapter`. See [local execution evidence and limitations](../validation/local-room-review.md). This case list remains the acceptance specification; automated evidence does not pass the physical-device or human gates. Read [readiness decisions](../decisions/production-readiness.md) and [the implemented local contract](local-contract.md) for the current boundary and bounded one-round settings.
 
 ## Generic amendment required before a game implementation
 
